@@ -32,5 +32,8 @@ jobs:
       - name: Verify status report is current
         run: py tools\render_status_report.py --check
 
+      - name: Verify service exports are current
+        run: py tools\export_integration_status.py --check
+
       - name: Check editable install metadata
         run: py -m pip install -e . --dry-run --no-deps

@@ -5,7 +5,7 @@
     "status": "complete",
     "evidence": [
       "py -B -m unittest discover -s tests: pass",
-      "py -B -m compileall Aria tests: pass",
+      "py -B -m compileall Aria tests tools: pass",
       "py -m pip install -e . --dry-run --no-deps: Would install Aria-1.0.0"
     ]
   },
@@ -18,15 +18,18 @@
         "local commits exist",
         "no remote configured",
         "GitHub CLI gh not available in PATH",
-        ".github/workflows/ci.yml defines Windows CI for compile, unittest, and editable-install dry-run checks"
+        ".github/workflows/ci.yml defines Windows CI for compile, unittest, report freshness, export freshness, and editable-install dry-run checks"
       ],
       "next_verification": "Configure remote and confirm pushed commit plus CI status."
     },
     {
       "name": "airtable",
-      "status": "target_missing",
-      "evidence": [],
-      "next_verification": "Identify base/table and confirm one sync or record mapping."
+      "status": "local_export_ready",
+      "evidence": [
+        "exports/airtable_integration_status.csv contains one row per tracked integration",
+        "py tools/export_integration_status.py --check verifies the Airtable CSV is current"
+      ],
+      "next_verification": "Identify base/table and confirm one import or sync run."
     },
     {
       "name": "data-analytics",
@@ -40,8 +43,11 @@
     },
     {
       "name": "notion",
-      "status": "target_missing",
-      "evidence": [],
+      "status": "local_export_ready",
+      "evidence": [
+        "exports/notion_aria_pc_status.md is page-ready status documentation",
+        "py tools/export_integration_status.py --check verifies the Notion markdown is current"
+      ],
       "next_verification": "Identify Notion page/database and confirm documentation sync."
     },
     {
@@ -58,9 +64,12 @@
     },
     {
       "name": "slack",
-      "status": "target_missing",
-      "evidence": [],
-      "next_verification": "Identify workspace/channel and confirm posted or drafted update."
+      "status": "local_export_ready",
+      "evidence": [
+        "exports/slack_status_update.md contains a concise channel-ready update",
+        "py tools/export_integration_status.py --check verifies the Slack update draft is current"
+      ],
+      "next_verification": "Identify workspace/channel and confirm posted or approved drafted update."
     },
     {
       "name": "vercel",

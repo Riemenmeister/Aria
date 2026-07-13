@@ -1,3 +1,4 @@
+import csv
 import json
 import pathlib
 import tomllib
@@ -57,6 +58,17 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertIn("Integration Readiness", html)
       self.assertEqual(vercel["rewrites"][0]["source"], "/")
       self.assertEqual(vercel["rewrites"][0]["destination"], "/reports/aria_pc_status.html")
+
+   def test_external_service_exports_exist(self):
+      airtable = ROOT / "exports" / "airtable_integration_status.csv"
+      notion = ROOT / "exports" / "notion_aria_pc_status.md"
+      slack = ROOT / "exports" / "slack_status_update.md"
+
+      rows = list(csv.DictReader(airtable.read_text(encoding="utf-8").splitlines()))
+      self.assertEqual(len(rows), 8)
+      self.assertEqual(rows[0]["Project"], "Aria PC")
+      self.assertIn("# Aria PC Completion Status", notion.read_text(encoding="utf-8"))
+      self.assertIn("*Aria PC status update*", slack.read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

@@ -55,7 +55,7 @@
       .integration.local { border-top-color: var(--local); }
       .integration-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
       .pill { display: inline-flex; align-items: center; min-height: 28px; padding: 4px 9px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: .82rem; white-space: nowrap; }
-      .bar { display: grid; grid-template-columns: 0fr 3fr 5fr; height: 14px; overflow: hidden; border-radius: 999px; border: 1px solid var(--border); margin-top: 10px; }
+      .bar { display: grid; grid-template-columns: 0fr 6fr 2fr; height: 14px; overflow: hidden; border-radius: 999px; border: 1px solid var(--border); margin-top: 10px; }
       .bar span:nth-child(1) { background: var(--complete); }
       .bar span:nth-child(2) { background: var(--local); }
       .bar span:nth-child(3) { background: var(--missing); }
@@ -78,20 +78,20 @@
       <section class="summary" aria-label="Completion summary">
          <div class="metric"><strong>8</strong><span>tracked integrations</span></div>
          <div class="metric"><strong>0</strong><span>externally complete</span></div>
-         <div class="metric"><strong>3</strong><span>locally prepared</span></div>
-         <div class="metric"><strong>5</strong><span>targets still missing</span></div>
+         <div class="metric"><strong>6</strong><span>locally prepared</span></div>
+         <div class="metric"><strong>2</strong><span>targets still missing</span></div>
       </section>
 
       <section class="section">
          <h2>Executive Summary</h2>
          <p><strong>The local Aria PC package is ready for a GitHub push, but the full multi-service close is not proven yet.</strong> Git, CI, tests, packaging, and a status model are in place. External services still need concrete targets and connected-service evidence.</p>
-         <div class="bar" aria-label="Status mix: 0 complete, 3 local-ready, 5 target-missing"><span></span><span></span><span></span></div>
+         <div class="bar" aria-label="Status mix: 0 complete, 6 local-ready, 2 target-missing"><span></span><span></span><span></span></div>
       </section>
 
       <section class="section">
          <h2>Local Package Evidence</h2>
          <p>Status: <strong>Complete</strong></p>
-         <ul><li>py -B -m unittest discover -s tests: pass</li><li>py -B -m compileall Aria tests: pass</li><li>py -m pip install -e . --dry-run --no-deps: Would install Aria-1.0.0</li></ul>
+         <ul><li>py -B -m unittest discover -s tests: pass</li><li>py -B -m compileall Aria tests tools: pass</li><li>py -m pip install -e . --dry-run --no-deps: Would install Aria-1.0.0</li></ul>
       </section>
 
       <section class="section">
@@ -104,21 +104,21 @@
                <span class="pill">Local ready, remote missing</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>local git repository clean on master</li><li>local commits exist</li><li>no remote configured</li><li>GitHub CLI gh not available in PATH</li><li>.github/workflows/ci.yml defines Windows CI for compile, unittest, and editable-install dry-run checks</li></ul>
+            <ul><li>local git repository clean on master</li><li>local commits exist</li><li>no remote configured</li><li>GitHub CLI gh not available in PATH</li><li>.github/workflows/ci.yml defines Windows CI for compile, unittest, report freshness, export freshness, and editable-install dry-run checks</li></ul>
             <h4>Next verification</h4>
             <p>Configure remote and confirm pushed commit plus CI status.</p>
          </article>
          
 
-         <article class="integration missing">
+         <article class="integration local">
             <div class="integration-header">
                <h3>airtable</h3>
-               <span class="pill">Target missing</span>
+               <span class="pill">local_export_ready</span>
             </div>
             <h4>Evidence</h4>
-            <p class="muted">No current evidence recorded.</p>
+            <ul><li>exports/airtable_integration_status.csv contains one row per tracked integration</li><li>py tools/export_integration_status.py --check verifies the Airtable CSV is current</li></ul>
             <h4>Next verification</h4>
-            <p>Identify base/table and confirm one sync or record mapping.</p>
+            <p>Identify base/table and confirm one import or sync run.</p>
          </article>
          
 
@@ -134,13 +134,13 @@
          </article>
          
 
-         <article class="integration missing">
+         <article class="integration local">
             <div class="integration-header">
                <h3>notion</h3>
-               <span class="pill">Target missing</span>
+               <span class="pill">local_export_ready</span>
             </div>
             <h4>Evidence</h4>
-            <p class="muted">No current evidence recorded.</p>
+            <ul><li>exports/notion_aria_pc_status.md is page-ready status documentation</li><li>py tools/export_integration_status.py --check verifies the Notion markdown is current</li></ul>
             <h4>Next verification</h4>
             <p>Identify Notion page/database and confirm documentation sync.</p>
          </article>
@@ -170,15 +170,15 @@
          </article>
          
 
-         <article class="integration missing">
+         <article class="integration local">
             <div class="integration-header">
                <h3>slack</h3>
-               <span class="pill">Target missing</span>
+               <span class="pill">local_export_ready</span>
             </div>
             <h4>Evidence</h4>
-            <p class="muted">No current evidence recorded.</p>
+            <ul><li>exports/slack_status_update.md contains a concise channel-ready update</li><li>py tools/export_integration_status.py --check verifies the Slack update draft is current</li></ul>
             <h4>Next verification</h4>
-            <p>Identify workspace/channel and confirm posted or drafted update.</p>
+            <p>Identify workspace/channel and confirm posted or approved drafted update.</p>
          </article>
          
 

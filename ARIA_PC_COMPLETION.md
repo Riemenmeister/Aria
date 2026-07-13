@@ -26,7 +26,8 @@ Evidence:
 - Local baseline commit exists: `62357ba Prepare Aria PC package baseline`.
 - Local integration-status commit exists: `2dedf1b Document Aria PC integration status`.
 - Local CI/status commit exists: `dcd0e75 Add CI and integration status model`.
-- GitHub Actions workflow exists at `.github/workflows/ci.yml` and runs compile, unittest, status-report freshness, and editable-install dry-run checks on Windows.
+- Local report/Vercel candidate commit exists: `6907814 Add local status report and Vercel candidate`.
+- GitHub Actions workflow exists at `.github/workflows/ci.yml` and runs compile, unittest, status-report freshness, export freshness, and editable-install dry-run checks on Windows.
 - `git remote -v` returns no configured remote.
 - `gh` is not available in PATH on this PC, so GitHub CLI publishing cannot be verified locally yet.
 
@@ -36,16 +37,20 @@ Remaining external proof needed:
 - The local commits must be pushed to that remote.
 - Remote CI must run and pass after push.
 
-## Integration Status Model And Report
+## Integration Status Model, Report, And Exports
 
-Status: local data model and static report ready.
+Status: local data model, static report, and service handoff exports ready.
 
 Evidence:
 
 - `integrations/status.json` tracks all objective markers: Airtable, data analytics, GitHub, Notion, HeyGen, Circleback, Slack, and Vercel.
 - `tools/render_status_report.py` generates `reports/aria_pc_status.html` from the status model.
 - `py tools/render_status_report.py --check` verifies the report is current.
-- The smoke test suite validates that every marker is present, non-missing statuses include evidence, and the Vercel root route points to the report.
+- `tools/export_integration_status.py` generates external-service handoff files from the same status model.
+- `py tools/export_integration_status.py --check` verifies Airtable, Notion, and Slack exports are current.
+- `exports/airtable_integration_status.csv` is import-ready for Airtable.
+- `exports/notion_aria_pc_status.md` is page-ready for Notion.
+- `exports/slack_status_update.md` is channel-ready draft text for Slack.
 
 ## Vercel Readiness
 
@@ -65,12 +70,12 @@ Remaining external proof needed:
 
 These markers are not proven complete by local files alone and need connected-service evidence before the overall goal can be closed.
 
-- Airtable: no local base/table mapping or sync proof found yet.
+- Airtable: local CSV export exists; no base/table import or sync proof yet.
 - Data analytics: local status model and static report exist; no external dashboard/report publication proof yet.
-- Notion: no connected Notion page/database target found yet.
+- Notion: local Markdown export exists; no connected Notion page/database sync proof yet.
 - HeyGen: no avatar/video workflow proof found yet.
 - Circleback: no meeting/import workflow proof found yet.
-- Slack: no workspace/channel workflow proof found yet.
+- Slack: local update draft exists; no workspace/channel post proof yet.
 - Vercel: local static deployment candidate exists; no production deployment proof yet.
 
 ## Current Safe Next Steps
@@ -78,6 +83,8 @@ These markers are not proven complete by local files alone and need connected-se
 1. Choose the GitHub remote or create one.
 2. Install/authenticate GitHub CLI or add the remote manually and push with Git credentials.
 3. Configure Vercel and deploy the static status report.
-4. Decide whether `integrations/status.json` should sync to Airtable/Notion or feed another published dashboard.
-5. For each external service marker, define the target workspace/project and one verification artifact.
-6. Close the goal only after those service checks have current evidence.
+4. Import/sync `exports/airtable_integration_status.csv` into the selected Airtable base.
+5. Publish/sync `exports/notion_aria_pc_status.md` into the selected Notion page or database.
+6. Post or approve `exports/slack_status_update.md` in the selected Slack channel.
+7. Define HeyGen and Circleback targets with one verification artifact each.
+8. Close the goal only after those service checks have current evidence.
