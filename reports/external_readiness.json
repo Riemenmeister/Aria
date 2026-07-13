@@ -1,0 +1,35 @@
+{
+  "blockers": [
+    "git_remote",
+    "github_cli",
+    "vercel_cli"
+  ],
+  "checks": {
+    "git_remote": {
+      "detail": "no git remote configured",
+      "ok": false,
+      "remotes": []
+    },
+    "github_cli": {
+      "available": false,
+      "detail": "gh not found in PATH",
+      "ok": false,
+      "path": null
+    },
+    "vercel_cli": {
+      "available": false,
+      "detail": "vercel not found in PATH",
+      "ok": false,
+      "path": null
+    }
+  },
+  "generated_by": "tools/audit_external_readiness.py",
+  "next_actions": [
+    "Configure a GitHub remote and push local commits.",
+    "Install or authenticate GitHub CLI if connector-based publishing is not used.",
+    "Install or authenticate Vercel CLI, or deploy through a connected Vercel/Sites workflow.",
+    "Record external deployment/import/post/video/meeting evidence in integrations/status.json."
+  ],
+  "project": "Aria PC",
+  "status": "ready_for_external_configuration"
+}

@@ -74,6 +74,16 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertIn("# HeyGen Video Brief", heygen.read_text(encoding="utf-8"))
       self.assertIn("# Circleback Meeting Brief", circleback.read_text(encoding="utf-8"))
 
+   def test_external_readiness_report_tracks_blockers(self):
+      readiness = json.loads((ROOT / "reports" / "external_readiness.json").read_text(encoding="utf-8"))
+
+      self.assertEqual(readiness["project"], "Aria PC")
+      self.assertIn("git_remote", readiness["checks"])
+      self.assertIn("github_cli", readiness["checks"])
+      self.assertIn("vercel_cli", readiness["checks"])
+      self.assertIn("blockers", readiness)
+      self.assertIn(readiness["status"], {"ready_for_external_configuration", "external_cli_ready"})
+
 
 if __name__ == "__main__":
    unittest.main()

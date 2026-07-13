@@ -28,9 +28,9 @@ Evidence:
 - Local CI/status commit exists: `dcd0e75 Add CI and integration status model`.
 - Local report/Vercel candidate commit exists: `6907814 Add local status report and Vercel candidate`.
 - Local service-export commit exists: `be6eb3a Add service handoff exports`.
-- GitHub Actions workflow exists at `.github/workflows/ci.yml` and runs compile, unittest, status-report freshness, export freshness, and editable-install dry-run checks on Windows.
-- `git remote -v` returns no configured remote.
-- `gh` is not available in PATH on this PC, so GitHub CLI publishing cannot be verified locally yet.
+- Local HeyGen/Circleback handoff commit exists: `a75fe92 Add HeyGen and Circleback handoff briefs`.
+- GitHub Actions workflow exists at `.github/workflows/ci.yml` and runs compile, unittest, status-report freshness, export freshness, external-readiness freshness, and editable-install dry-run checks on Windows.
+- `reports/external_readiness.json` currently records `git_remote`, `github_cli`, and `vercel_cli` as blockers.
 
 Remaining external proof needed:
 
@@ -38,9 +38,9 @@ Remaining external proof needed:
 - The local commits must be pushed to that remote.
 - Remote CI must run and pass after push.
 
-## Integration Status Model, Report, And Exports
+## Integration Status Model, Report, Exports, And Audit
 
-Status: local data model, static report, and service handoff exports ready.
+Status: local data model, static report, service handoff exports, and external-readiness audit ready.
 
 Evidence:
 
@@ -49,6 +49,8 @@ Evidence:
 - `py tools/render_status_report.py --check` verifies the report is current.
 - `tools/export_integration_status.py` generates external-service handoff files from the same status model.
 - `py tools/export_integration_status.py --check` verifies Airtable, Notion, Slack, HeyGen, and Circleback exports are current.
+- `tools/audit_external_readiness.py` generates `reports/external_readiness.json` from the current local machine state.
+- `py tools/audit_external_readiness.py --check` verifies the external-readiness audit is current.
 - `exports/airtable_integration_status.csv` is import-ready for Airtable.
 - `exports/notion_aria_pc_status.md` is page-ready for Notion.
 - `exports/slack_status_update.md` is channel-ready draft text for Slack.
@@ -63,6 +65,7 @@ Evidence:
 
 - `vercel.json` rewrites `/` to `/reports/aria_pc_status.html`.
 - `reports/aria_pc_status.html` is self-contained and source-backed by `integrations/status.json`.
+- `reports/external_readiness.json` currently confirms that the Vercel CLI is not available in PATH.
 
 Remaining external proof needed:
 
@@ -74,7 +77,7 @@ Remaining external proof needed:
 These markers are not proven complete by local files alone and need connected-service evidence before the overall goal can be closed.
 
 - Airtable: local CSV export exists; no base/table import or sync proof yet.
-- Data analytics: local status model and static report exist; no external dashboard/report publication proof yet.
+- Data analytics: local status model, static report, exports, and readiness audit exist; no external dashboard/report publication proof yet.
 - Notion: local Markdown export exists; no connected Notion page/database sync proof yet.
 - HeyGen: local video brief/script exists; no generated video artifact proof yet.
 - Circleback: local meeting brief exists; no meeting/import/summary proof yet.

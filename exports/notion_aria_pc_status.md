@@ -23,9 +23,9 @@ Status: Local ready, remote missing
 Evidence:
 - local git repository clean on master
 - local commits exist
-- no remote configured
-- GitHub CLI gh not available in PATH
-- .github/workflows/ci.yml defines Windows CI for compile, unittest, report freshness, export freshness, and editable-install dry-run checks
+- reports/external_readiness.json confirms no git remote is configured
+- reports/external_readiness.json confirms GitHub CLI gh is not available in PATH
+- .github/workflows/ci.yml defines Windows CI for compile, unittest, report freshness, export freshness, readiness freshness, and editable-install dry-run checks
 
 Next verification: Configure remote and confirm pushed commit plus CI status.
 
@@ -47,6 +47,7 @@ Evidence:
 - integrations/status.json tracks service status and verification requirements
 - tools/render_status_report.py renders reports/aria_pc_status.html from the status model
 - py tools/render_status_report.py --check verifies the report is current
+- reports/external_readiness.json captures current external readiness blockers
 
 Next verification: Publish or sync the report/dashboard to the selected external surface.
 
@@ -97,5 +98,6 @@ Status: Local static report ready
 Evidence:
 - vercel.json rewrites / to reports/aria_pc_status.html
 - reports/aria_pc_status.html is self-contained and generated from integrations/status.json
+- reports/external_readiness.json confirms Vercel CLI is not available in PATH
 
 Next verification: Configure a Vercel project and confirm a production deployment URL.
