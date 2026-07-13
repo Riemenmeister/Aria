@@ -4,6 +4,7 @@
 
 !.gitignore
 !pyproject.toml
+!vercel.json
 !ARIA_PC_COMPLETION.md
 !Aria/
 !Aria/**
@@ -11,8 +12,12 @@
 !.github/**
 !integrations/
 !integrations/**
+!reports/
+!reports/**
 !tests/
 !tests/**
+!tools/
+!tools/**
 
 # Generated Python/build artifacts stay out of version control.
 __pycache__/

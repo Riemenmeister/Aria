@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="color-scheme" content="light dark">
+   <title>Aria PC Completion Status</title>
+   <style>
+      :root {
+         --bg: #f7f8f5;
+         --panel: #ffffff;
+         --text: #18201d;
+         --muted: #5e6963;
+         --border: #d9dfd7;
+         --complete: #207856;
+         --local: #2f6690;
+         --missing: #9a5b22;
+         --shadow: 0 1px 2px rgba(24, 32, 29, .08);
+      }
+      @media (prefers-color-scheme: dark) {
+         :root {
+            --bg: #151816;
+            --panel: #202521;
+            --text: #eef4ef;
+            --muted: #b7c1ba;
+            --border: #3a443d;
+            --shadow: none;
+         }
+      }
+      * { box-sizing: border-box; }
+      body {
+         margin: 0;
+         background: var(--bg);
+         color: var(--text);
+         font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 44px; }
+      header { margin-bottom: 24px; }
+      h1 { font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.05; margin: 0 0 12px; letter-spacing: 0; }
+      h2 { margin: 0 0 12px; font-size: 1.35rem; letter-spacing: 0; }
+      h3 { margin: 0; font-size: 1.05rem; letter-spacing: 0; text-transform: capitalize; }
+      h4 { margin: 18px 0 6px; font-size: .82rem; letter-spacing: 0; color: var(--muted); text-transform: uppercase; }
+      p { margin: 0 0 10px; }
+      ul { margin: 0; padding-left: 20px; }
+      li + li { margin-top: 4px; }
+      .muted { color: var(--muted); }
+      .summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 22px 0; }
+      .metric, .section, .integration { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow); }
+      .metric { padding: 16px; min-height: 112px; }
+      .metric strong { display: block; font-size: 2rem; line-height: 1; margin-bottom: 8px; }
+      .section { padding: 20px; margin: 16px 0; }
+      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+      .integration { padding: 18px; border-top: 5px solid var(--missing); }
+      .integration.complete { border-top-color: var(--complete); }
+      .integration.local { border-top-color: var(--local); }
+      .integration-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+      .pill { display: inline-flex; align-items: center; min-height: 28px; padding: 4px 9px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: .82rem; white-space: nowrap; }
+      .bar { display: grid; grid-template-columns: 0fr 3fr 5fr; height: 14px; overflow: hidden; border-radius: 999px; border: 1px solid var(--border); margin-top: 10px; }
+      .bar span:nth-child(1) { background: var(--complete); }
+      .bar span:nth-child(2) { background: var(--local); }
+      .bar span:nth-child(3) { background: var(--missing); }
+      footer { color: var(--muted); font-size: .9rem; margin-top: 24px; }
+      @media (max-width: 760px) {
+         main { width: min(100% - 20px, 1120px); padding-top: 22px; }
+         .summary, .grid { grid-template-columns: 1fr; }
+         .integration-header { flex-direction: column; }
+         .pill { white-space: normal; }
+      }
+   </style>
+</head>
+<body>
+   <main>
+      <header>
+         <h1>Aria PC Completion Status</h1>
+         <p class="muted">Evidence-backed local readiness snapshot updated 2026-07-13.</p>
+      </header>
+
+      <section class="summary" aria-label="Completion summary">
+         <div class="metric"><strong>8</strong><span>tracked integrations</span></div>
+         <div class="metric"><strong>0</strong><span>externally complete</span></div>
+         <div class="metric"><strong>3</strong><span>locally prepared</span></div>
+         <div class="metric"><strong>5</strong><span>targets still missing</span></div>
+      </section>
+
+      <section class="section">
+         <h2>Executive Summary</h2>
+         <p><strong>The local Aria PC package is ready for a GitHub push, but the full multi-service close is not proven yet.</strong> Git, CI, tests, packaging, and a status model are in place. External services still need concrete targets and connected-service evidence.</p>
+         <div class="bar" aria-label="Status mix: 0 complete, 3 local-ready, 5 target-missing"><span></span><span></span><span></span></div>
+      </section>
+
+      <section class="section">
+         <h2>Local Package Evidence</h2>
+         <p>Status: <strong>Complete</strong></p>
+         <ul><li>py -B -m unittest discover -s tests: pass</li><li>py -B -m compileall Aria tests: pass</li><li>py -m pip install -e . --dry-run --no-deps: Would install Aria-1.0.0</li></ul>
+      </section>
+
+      <section class="section">
+         <h2>Integration Readiness</h2>
+         <div class="grid">
+            
+         <article class="integration local">
+            <div class="integration-header">
+               <h3>github</h3>
+               <span class="pill">Local ready, remote missing</span>
+            </div>
+            <h4>Evidence</h4>
+            <ul><li>local git repository clean on master</li><li>local commits exist</li><li>no remote configured</li><li>GitHub CLI gh not available in PATH</li><li>.github/workflows/ci.yml defines Windows CI for compile, unittest, and editable-install dry-run checks</li></ul>
+            <h4>Next verification</h4>
+            <p>Configure remote and confirm pushed commit plus CI status.</p>
+         </article>
+         
+
+         <article class="integration missing">
+            <div class="integration-header">
+               <h3>airtable</h3>
+               <span class="pill">Target missing</span>
+            </div>
+            <h4>Evidence</h4>
+            <p class="muted">No current evidence recorded.</p>
+            <h4>Next verification</h4>
+            <p>Identify base/table and confirm one sync or record mapping.</p>
+         </article>
+         
+
+         <article class="integration local">
+            <div class="integration-header">
+               <h3>data-analytics</h3>
+               <span class="pill">Local report ready</span>
+            </div>
+            <h4>Evidence</h4>
+            <ul><li>integrations/status.json tracks service status and verification requirements</li><li>tools/render_status_report.py renders reports/aria_pc_status.html from the status model</li><li>py tools/render_status_report.py --check verifies the report is current</li></ul>
+            <h4>Next verification</h4>
+            <p>Publish or sync the report/dashboard to the selected external surface.</p>
+         </article>
+         
+
+         <article class="integration missing">
+            <div class="integration-header">
+               <h3>notion</h3>
+               <span class="pill">Target missing</span>
+            </div>
+            <h4>Evidence</h4>
+            <p class="muted">No current evidence recorded.</p>
+            <h4>Next verification</h4>
+            <p>Identify Notion page/database and confirm documentation sync.</p>
+         </article>
+         
+
+         <article class="integration missing">
+            <div class="integration-header">
+               <h3>heygen</h3>
+               <span class="pill">Target missing</span>
+            </div>
+            <h4>Evidence</h4>
+            <p class="muted">No current evidence recorded.</p>
+            <h4>Next verification</h4>
+            <p>Identify avatar/video workflow and confirm generated or linked artifact.</p>
+         </article>
+         
+
+         <article class="integration missing">
+            <div class="integration-header">
+               <h3>circleback</h3>
+               <span class="pill">Target missing</span>
+            </div>
+            <h4>Evidence</h4>
+            <p class="muted">No current evidence recorded.</p>
+            <h4>Next verification</h4>
+            <p>Identify meeting/workflow target and confirm import or summary artifact.</p>
+         </article>
+         
+
+         <article class="integration missing">
+            <div class="integration-header">
+               <h3>slack</h3>
+               <span class="pill">Target missing</span>
+            </div>
+            <h4>Evidence</h4>
+            <p class="muted">No current evidence recorded.</p>
+            <h4>Next verification</h4>
+            <p>Identify workspace/channel and confirm posted or drafted update.</p>
+         </article>
+         
+
+         <article class="integration local">
+            <div class="integration-header">
+               <h3>vercel</h3>
+               <span class="pill">Local static report ready</span>
+            </div>
+            <h4>Evidence</h4>
+            <ul><li>vercel.json rewrites / to reports/aria_pc_status.html</li><li>reports/aria_pc_status.html is self-contained and generated from integrations/status.json</li></ul>
+            <h4>Next verification</h4>
+            <p>Configure a Vercel project and confirm a production deployment URL.</p>
+         </article>
+         
+         </div>
+      </section>
+
+      <footer>
+         Source: integrations/status.json. Generated by tools/render_status_report.py.
+      </footer>
+   </main>
+</body>
+</html>

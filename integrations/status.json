@@ -17,7 +17,8 @@
         "local git repository clean on master",
         "local commits exist",
         "no remote configured",
-        "GitHub CLI gh not available in PATH"
+        "GitHub CLI gh not available in PATH",
+        ".github/workflows/ci.yml defines Windows CI for compile, unittest, and editable-install dry-run checks"
       ],
       "next_verification": "Configure remote and confirm pushed commit plus CI status."
     },
@@ -29,11 +30,13 @@
     },
     {
       "name": "data-analytics",
-      "status": "local_status_model_ready",
+      "status": "local_report_ready",
       "evidence": [
-        "integrations/status.json tracks service status and verification requirements"
+        "integrations/status.json tracks service status and verification requirements",
+        "tools/render_status_report.py renders reports/aria_pc_status.html from the status model",
+        "py tools/render_status_report.py --check verifies the report is current"
       ],
-      "next_verification": "Build or sync a report/dashboard from this status model."
+      "next_verification": "Publish or sync the report/dashboard to the selected external surface."
     },
     {
       "name": "notion",
@@ -61,9 +64,12 @@
     },
     {
       "name": "vercel",
-      "status": "target_missing",
-      "evidence": [],
-      "next_verification": "Identify deployment target or decide no web deployment is required for the Python package."
+      "status": "local_static_report_ready",
+      "evidence": [
+        "vercel.json rewrites / to reports/aria_pc_status.html",
+        "reports/aria_pc_status.html is self-contained and generated from integrations/status.json"
+      ],
+      "next_verification": "Configure a Vercel project and confirm a production deployment URL."
     }
   ]
 }

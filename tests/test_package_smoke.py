@@ -7,6 +7,9 @@ import Aria
 from Aria.Windows import FileSystem
 
 
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+
+
 class PackageSmokeTests(unittest.TestCase):
    def test_import_has_main_entrypoint(self):
       self.assertTrue(callable(Aria.Main))
@@ -17,16 +20,14 @@ class PackageSmokeTests(unittest.TestCase):
       self.assertTrue(FileSystem.Documents.endswith("\\"))
 
    def test_pyproject_declares_console_script(self):
-      pyproject = pathlib.Path(__file__).resolve().parents[1] / "pyproject.toml"
-      data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
+      data = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
       self.assertEqual(data["project"]["scripts"]["aria"], "Aria:Main")
       self.assertGreaterEqual(data["project"]["requires-python"], ">=3.9")
 
 
 class IntegrationStatusTests(unittest.TestCase):
    def test_goal_markers_are_tracked(self):
-      status_path = pathlib.Path(__file__).resolve().parents[1] / "integrations" / "status.json"
-      data = json.loads(status_path.read_text(encoding="utf-8"))
+      data = json.loads((ROOT / "integrations" / "status.json").read_text(encoding="utf-8"))
       markers = {item["name"]: item for item in data["integrations"]}
       expected = {
          "airtable",
@@ -46,6 +47,16 @@ class IntegrationStatusTests(unittest.TestCase):
          self.assertIn("next_verification", marker)
          if marker["status"] != "target_missing":
             self.assertGreater(len(marker["evidence"]), 0)
+
+   def test_status_report_and_vercel_route_exist(self):
+      report = ROOT / "reports" / "aria_pc_status.html"
+      vercel = json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))
+      html = report.read_text(encoding="utf-8")
+
+      self.assertIn("Aria PC Completion Status", html)
+      self.assertIn("Integration Readiness", html)
+      self.assertEqual(vercel["rewrites"][0]["source"], "/")
+      self.assertEqual(vercel["rewrites"][0]["destination"], "/reports/aria_pc_status.html")
 
 
 if __name__ == "__main__":
