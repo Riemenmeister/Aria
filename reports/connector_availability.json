@@ -1,0 +1,45 @@
+{
+  "project": "Aria PC",
+  "checked_at": "2026-07-13",
+  "generated_by": "Codex tool_search discovery in active thread",
+  "status": "partial_external_connectors_available",
+  "connectors": {
+    "airtable": {
+      "status": "available_and_synced",
+      "evidence": "Airtable tools were available; base apprXVtcJBWQJXl5n and table tbl16tPYsvz97KWlh contain 8 verified records."
+    },
+    "sites": {
+      "status": "available_and_deployed",
+      "evidence": "Sites tools were available; production deployment is recorded in reports/deployment_receipt.json."
+    },
+    "github": {
+      "status": "available_existing_repo_only",
+      "evidence": "GitHub tools for existing repositories are available, but this workspace has no configured git remote and no repository target was provided."
+    },
+    "notion": {
+      "status": "tool_unavailable_in_thread",
+      "evidence": "tool_search query 'notion' returned 0 tools."
+    },
+    "slack": {
+      "status": "tool_unavailable_in_thread",
+      "evidence": "tool_search query 'slack' returned 0 tools."
+    },
+    "heygen": {
+      "status": "tool_unavailable_in_thread",
+      "evidence": "tool_search query 'heygen' returned 0 tools."
+    },
+    "circleback": {
+      "status": "tool_unavailable_in_thread",
+      "evidence": "tool_search query for Circleback meeting summary/import returned no Circleback tools."
+    },
+    "vercel": {
+      "status": "cli_unavailable_sites_deployed",
+      "evidence": "reports/external_readiness.json records no vercel CLI; Sites deployment is live as the available deployment path."
+    }
+  },
+  "next_actions": [
+    "Configure a GitHub remote or provide an existing repository full name for connector-based GitHub verification.",
+    "Install or expose Notion, Slack, HeyGen, and Circleback connector tools if external sync/post/video/meeting proof is required from this thread.",
+    "Keep Airtable records updated when integrations/status.json changes."
+  ]
+}

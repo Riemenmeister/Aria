@@ -48,6 +48,7 @@ Evidence:
 - `py tools/audit_external_readiness.py --check` verifies the external-readiness audit is current.
 - `reports/deployment_receipt.json` records a successful production Sites deployment.
 - `reports/airtable_receipt.json` records the successful Airtable base/table sync and record read-back.
+- `reports/connector_availability.json` records which connected-service tools are available in this thread and which remain blocked.
 
 ## Deployment Readiness
 
@@ -72,11 +73,11 @@ Remaining external proof needed:
 These markers still need connected-service evidence before the overall goal can be closed.
 
 - Airtable: synced to base `apprXVtcJBWQJXl5n`, table `tbl16tPYsvz97KWlh`; `reports/airtable_receipt.json` records 8 created records and Airtable read-back verification.
-- Notion: local Markdown export exists; no connected Notion page/database sync proof yet.
-- HeyGen: local video brief/script exists; no generated video artifact proof yet.
-- Circleback: local meeting brief exists; no meeting/import/summary proof yet.
-- Slack: local update draft exists; no workspace/channel post proof yet.
-- GitHub: local Git history and CI config exist; no GitHub remote/push/remote CI proof yet.
+- Notion: local Markdown export exists; no connected Notion page/database sync proof yet; `reports/connector_availability.json` records no Notion tool available in this thread.
+- HeyGen: local video brief/script exists; no generated video artifact proof yet; `reports/connector_availability.json` records no HeyGen tool available in this thread.
+- Circleback: local meeting brief exists; no meeting/import/summary proof yet; `reports/connector_availability.json` records no Circleback tool available in this thread.
+- Slack: local update draft exists; no workspace/channel post proof yet; `reports/connector_availability.json` records no Slack tool available in this thread.
+- GitHub: local Git history and CI config exist; no GitHub remote/push/remote CI proof yet; connector tools require an existing repository target.
 
 ## Current Safe Next Steps
 

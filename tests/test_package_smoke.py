@@ -112,6 +112,17 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(receipt["base_id"], "apprXVtcJBWQJXl5n")
       self.assertEqual(receipt["table_id"], "tbl16tPYsvz97KWlh")
       self.assertEqual(receipt["record_count"], 8)
+   def test_connector_availability_report_records_remaining_blockers(self):
+      report = json.loads((ROOT / "reports" / "connector_availability.json").read_text(encoding="utf-8"))
+      connectors = report["connectors"]
+
+      self.assertEqual(report["status"], "partial_external_connectors_available")
+      self.assertEqual(connectors["airtable"]["status"], "available_and_synced")
+      self.assertEqual(connectors["github"]["status"], "available_existing_repo_only")
+      self.assertEqual(connectors["notion"]["status"], "tool_unavailable_in_thread")
+      self.assertEqual(connectors["slack"]["status"], "tool_unavailable_in_thread")
+      self.assertEqual(connectors["heygen"]["status"], "tool_unavailable_in_thread")
+      self.assertEqual(connectors["circleback"]["status"], "tool_unavailable_in_thread")
 
 
 if __name__ == "__main__":
