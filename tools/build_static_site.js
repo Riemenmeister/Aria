@@ -14,36 +14,23 @@ const targetOpenAiDir = join(dist, ".openai");
 const targetReadiness = join(targetReportsDir, "external_readiness.json");
 const targetServer = join(targetServerDir, "index.js");
 
-const serverSource = String.raw`import html from "../index.html";
-import readiness from "../reports/external_readiness.json";
-
-export default {
-  async fetch(request) {
-    const url = new URL(request.url);
-    if (url.pathname === "/reports/external_readiness.json") {
-      return Response.json(readiness);
-    }
-    return new Response(html, {
-      headers: {
-        "content-type": "text/html; charset=utf-8",
-        "cache-control": "public, max-age=60"
-      }
-    });
-  }
-};
-`;
+function serverSource(html, readiness) {
+  return `const html = ${JSON.stringify(html)};\nconst readiness = ${JSON.stringify(JSON.parse(readiness), null, 2)};\n\nexport default {\n  async fetch(request) {\n    const url = new URL(request.url);\n    if (url.pathname === "/reports/external_readiness.json") {\n      return Response.json(readiness);\n    }\n    return new Response(html, {\n      headers: {\n        "content-type": "text/html; charset=utf-8",\n        "cache-control": "public, max-age=60"\n      }\n    });\n  }\n};\n`;
+}
 
 function build() {
   rmSync(dist, { recursive: true, force: true });
   mkdirSync(targetReportsDir, { recursive: true });
   mkdirSync(targetServerDir, { recursive: true });
   mkdirSync(targetOpenAiDir, { recursive: true });
-  copyFileSync(sourceReport, targetIndex);
+  const html = readFileSync(sourceReport, "utf8");
+  const readiness = readFileSync(sourceReadiness, "utf8");
+  writeFileSync(targetIndex, html, "utf8");
   copyFileSync(sourceReport, join(targetReportsDir, "aria_pc_status.html"));
   copyFileSync(sourceReadiness, targetReadiness);
   const hosting = JSON.parse(readFileSync(sourceHosting, "utf8"));
   writeFileSync(join(targetOpenAiDir, "hosting.json"), JSON.stringify({ project_id: hosting.project_id }, null, 2) + "\n", "utf8");
-  writeFileSync(targetServer, serverSource, "utf8");
+  writeFileSync(targetServer, serverSource(html, readiness), "utf8");
 }
 
 function check() {
@@ -64,5 +51,3 @@ if (process.argv.includes("--check")) {
   build();
   console.log("built dist");
 }
-
-
