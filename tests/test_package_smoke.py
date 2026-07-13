@@ -105,7 +105,15 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(receipt["status"], "succeeded")
       self.assertTrue(receipt["url"].startswith("https://aria-pc-status-20260713"))
       self.assertEqual(receipt["version_number"], 5)
+   def test_airtable_receipt_records_success(self):
+      receipt = json.loads((ROOT / "reports" / "airtable_receipt.json").read_text(encoding="utf-8"))
+
+      self.assertEqual(receipt["status"], "succeeded")
+      self.assertEqual(receipt["base_id"], "apprXVtcJBWQJXl5n")
+      self.assertEqual(receipt["table_id"], "tbl16tPYsvz97KWlh")
+      self.assertEqual(receipt["record_count"], 8)
 
 
 if __name__ == "__main__":
    unittest.main()
+

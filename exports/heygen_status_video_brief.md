@@ -17,7 +17,7 @@ Create a short presenter video that explains the current Aria PC completion stat
 
 Aria PC now has a tested local Python package baseline, a clean local Git history, a GitHub Actions workflow, a machine-readable integration status model, and a static status report ready for deployment.
 
-The locally prepared integrations are: github, airtable, data-analytics, notion, heygen, circleback, slack.
+The locally prepared integrations are: github, data-analytics, notion, heygen, circleback, slack.
 
 The remaining targets still needing connected-service evidence are: none.
 

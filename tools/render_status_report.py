@@ -14,6 +14,7 @@ STATUS_LABELS = {
    "local_report_ready": "Local report ready",
    "local_static_report_ready": "Local static report ready",
    "production_deployed_sites": "Production deployed via Sites",
+   "external_synced_airtable": "Synced to Airtable",
    "target_missing": "Target missing",
 }
 

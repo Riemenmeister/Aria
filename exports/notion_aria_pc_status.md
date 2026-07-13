@@ -31,13 +31,15 @@ Next verification: Configure remote and confirm pushed commit plus CI status.
 
 ### airtable
 
-Status: Local export ready
+Status: Synced to Airtable
 
 Evidence:
-- exports/airtable_integration_status.csv contains one row per tracked integration
-- py tools/export_integration_status.py --check verifies the Airtable CSV is current
+- Airtable base created: Aria PC Completion (apprXVtcJBWQJXl5n)
+- Airtable table created: Integration Status (tbl16tPYsvz97KWlh)
+- 8 integration status records created and read back from Airtable
+- reports/airtable_receipt.json records Airtable base/table/record evidence
 
-Next verification: Identify base/table and confirm one import or sync run.
+Next verification: Keep Airtable records updated when integrations/status.json changes.
 
 ### data-analytics
 

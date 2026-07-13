@@ -23,7 +23,7 @@ Evidence:
 
 - Git repository initialized in this workspace.
 - Root `.gitignore` ignores the private NAS contents by default.
-- Local commits exist through `a4ffd0c Embed static report in Sites server`.
+- Local commits exist through `7bfffdd Record successful Sites deployment`.
 - GitHub Actions workflow exists at `.github/workflows/ci.yml` and runs compile, unittest, status-report freshness, export freshness, static-site build, and editable-install dry-run checks on Windows.
 - `reports/external_readiness.json` currently records `git_remote`, `github_cli`, `vercel_cli`, `node`, and `npm` as local blockers.
 
@@ -47,6 +47,7 @@ Evidence:
 - `tools/audit_external_readiness.py` generates `reports/external_readiness.json` from the current local machine state.
 - `py tools/audit_external_readiness.py --check` verifies the external-readiness audit is current.
 - `reports/deployment_receipt.json` records a successful production Sites deployment.
+- `reports/airtable_receipt.json` records the successful Airtable base/table sync and record read-back.
 
 ## Deployment Readiness
 
@@ -70,7 +71,7 @@ Remaining external proof needed:
 
 These markers still need connected-service evidence before the overall goal can be closed.
 
-- Airtable: local CSV export exists; no base/table import or sync proof yet.
+- Airtable: synced to base `apprXVtcJBWQJXl5n`, table `tbl16tPYsvz97KWlh`; `reports/airtable_receipt.json` records 8 created records and Airtable read-back verification.
 - Notion: local Markdown export exists; no connected Notion page/database sync proof yet.
 - HeyGen: local video brief/script exists; no generated video artifact proof yet.
 - Circleback: local meeting brief exists; no meeting/import/summary proof yet.
@@ -81,9 +82,10 @@ These markers still need connected-service evidence before the overall goal can 
 
 1. Choose the GitHub remote or create one.
 2. Push local commits and confirm remote CI.
-3. Import/sync `exports/airtable_integration_status.csv` into the selected Airtable base.
+3. Keep the Airtable base in sync when `integrations/status.json` changes.
 4. Publish/sync `exports/notion_aria_pc_status.md` into the selected Notion page or database.
 5. Post or approve `exports/slack_status_update.md` in the selected Slack channel.
 6. Generate or link a HeyGen video from `exports/heygen_status_video_brief.md`.
 7. Run/import a Circleback meeting workflow using `exports/circleback_meeting_brief.md`.
 8. Close the goal only after those service checks have current evidence.
+
