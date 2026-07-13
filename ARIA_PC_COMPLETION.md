@@ -29,8 +29,8 @@ Evidence:
 - Local report/Vercel candidate commit exists: `6907814 Add local status report and Vercel candidate`.
 - Local service-export commit exists: `be6eb3a Add service handoff exports`.
 - Local HeyGen/Circleback handoff commit exists: `a75fe92 Add HeyGen and Circleback handoff briefs`.
-- GitHub Actions workflow exists at `.github/workflows/ci.yml` and runs compile, unittest, status-report freshness, export freshness, external-readiness freshness, and editable-install dry-run checks on Windows.
-- `reports/external_readiness.json` currently records `git_remote`, `github_cli`, and `vercel_cli` as blockers.
+- GitHub Actions workflow exists at `.github/workflows/ci.yml` and runs compile, unittest, status-report freshness, export freshness, static-site build, and editable-install dry-run checks on Windows.
+- `reports/external_readiness.json` currently records `git_remote`, `github_cli`, `vercel_cli`, `node`, and `npm` as local blockers.
 
 Remaining external proof needed:
 
@@ -59,13 +59,13 @@ Evidence:
 
 ## Vercel Readiness
 
-Status: local static deployment candidate ready, production deployment not verified.
+Status: local static deployment candidate ready, Sites project created, production deployment not yet verified.
 
 Evidence:
 
-- `vercel.json` rewrites `/` to `/reports/aria_pc_status.html`.
+- Sites project created: `appgprj_6a54ea3f8c588191b0e2ddd481a713e9` (`aria-pc-status-20260713`).`n- First Sites deployment attempt for version 1 failed with `missing package.json`; this is now addressed by `package.json` and `tools/build_static_site.js`.`n- `vercel.json` rewrites `/` to the static build index and uses `dist` as output directory.
 - `reports/aria_pc_status.html` is self-contained and source-backed by `integrations/status.json`.
-- `reports/external_readiness.json` currently confirms that the Vercel CLI is not available in PATH.
+- `reports/external_readiness.json` currently confirms that Vercel CLI and local node/npm are not available in PATH.
 
 Remaining external proof needed:
 
@@ -88,10 +88,11 @@ These markers are not proven complete by local files alone and need connected-se
 
 1. Choose the GitHub remote or create one.
 2. Install/authenticate GitHub CLI or add the remote manually and push with Git credentials.
-3. Configure Vercel and deploy the static status report.
+3. Push the new static-build source state to Sites and deploy a new saved version.
 4. Import/sync `exports/airtable_integration_status.csv` into the selected Airtable base.
 5. Publish/sync `exports/notion_aria_pc_status.md` into the selected Notion page or database.
 6. Post or approve `exports/slack_status_update.md` in the selected Slack channel.
 7. Generate or link a HeyGen video from `exports/heygen_status_video_brief.md`.
 8. Run/import a Circleback meeting workflow using `exports/circleback_meeting_brief.md`.
 9. Close the goal only after those service checks have current evidence.
+

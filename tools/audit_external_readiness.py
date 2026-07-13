@@ -55,6 +55,8 @@ def build_report():
       "git_remote": git_remote_status(),
       "github_cli": command_status("gh", ["--version"]),
       "vercel_cli": command_status("vercel", ["--version"]),
+      "node": command_status("node", ["--version"]),
+      "npm": command_status("npm", ["--version"]),
    }
    blockers = [name for name, check in checks.items() if not check["ok"]]
    return {
@@ -67,6 +69,7 @@ def build_report():
          "Configure a GitHub remote and push local commits.",
          "Install or authenticate GitHub CLI if connector-based publishing is not used.",
          "Install or authenticate Vercel CLI, or deploy through a connected Vercel/Sites workflow.",
+         "Install Node.js/npm locally if local static-site build verification is required.",
          "Record external deployment/import/post/video/meeting evidence in integrations/status.json.",
       ],
    }

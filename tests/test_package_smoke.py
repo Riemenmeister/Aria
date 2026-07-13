@@ -57,7 +57,17 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertIn("Aria PC Completion Status", html)
       self.assertIn("Integration Readiness", html)
       self.assertEqual(vercel["rewrites"][0]["source"], "/")
-      self.assertEqual(vercel["rewrites"][0]["destination"], "/reports/aria_pc_status.html")
+      self.assertEqual(vercel["rewrites"][0]["destination"], "/index.html")
+
+   def test_static_site_build_configuration_exists(self):
+      package = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))
+      vercel = json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))
+      build_tool = ROOT / "tools" / "build_static_site.js"
+
+      self.assertEqual(package["scripts"]["build"], "node tools/build_static_site.js")
+      self.assertEqual(package["scripts"]["check"], "node tools/build_static_site.js --check")
+      self.assertEqual(vercel["outputDirectory"], "dist")
+      self.assertTrue(build_tool.exists())
 
    def test_external_service_exports_exist(self):
       airtable = ROOT / "exports" / "airtable_integration_status.csv"
@@ -81,6 +91,8 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertIn("git_remote", readiness["checks"])
       self.assertIn("github_cli", readiness["checks"])
       self.assertIn("vercel_cli", readiness["checks"])
+      self.assertIn("node", readiness["checks"])
+      self.assertIn("npm", readiness["checks"])
       self.assertIn("blockers", readiness)
       self.assertIn(readiness["status"], {"ready_for_external_configuration", "external_cli_ready"})
 

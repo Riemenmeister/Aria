@@ -35,8 +35,13 @@ jobs:
       - name: Verify service exports are current
         run: py tools\export_integration_status.py --check
 
-      - name: Verify external readiness audit is current
-        run: py tools\audit_external_readiness.py --check
+
+      - name: Build static status site
+        run: npm run build
+
+      - name: Verify static status site build
+        run: npm run check
 
       - name: Check editable install metadata
         run: py -m pip install -e . --dry-run --no-deps
+

@@ -4,6 +4,7 @@
 
 !.gitignore
 !pyproject.toml
+!package.json
 !vercel.json
 !ARIA_PC_COMPLETION.md
 !.openai/
@@ -31,4 +32,5 @@ build/
 dist/
 .venv/
 .env
+
 

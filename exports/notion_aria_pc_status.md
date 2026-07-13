@@ -25,7 +25,7 @@ Evidence:
 - local commits exist
 - reports/external_readiness.json confirms no git remote is configured
 - reports/external_readiness.json confirms GitHub CLI gh is not available in PATH
-- .github/workflows/ci.yml defines Windows CI for compile, unittest, report freshness, export freshness, readiness freshness, and editable-install dry-run checks
+- .github/workflows/ci.yml defines Windows CI for compile, unittest, report freshness, export freshness, static-site build, and editable-install dry-run checks
 
 Next verification: Configure remote and confirm pushed commit plus CI status.
 
@@ -96,8 +96,10 @@ Next verification: Identify workspace/channel and confirm posted or approved dra
 Status: Local static report ready
 
 Evidence:
-- vercel.json rewrites / to reports/aria_pc_status.html
+- vercel.json rewrites / to the static build index
 - reports/aria_pc_status.html is self-contained and generated from integrations/status.json
+- package.json and tools/build_static_site.js build the deployable dist/ site without external npm dependencies
 - reports/external_readiness.json confirms Vercel CLI is not available in PATH
+- reports/external_readiness.json confirms local node/npm are not available in PATH
 
 Next verification: Configure a Vercel project and confirm a production deployment URL.

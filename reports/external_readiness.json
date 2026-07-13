@@ -2,7 +2,9 @@
   "blockers": [
     "git_remote",
     "github_cli",
-    "vercel_cli"
+    "vercel_cli",
+    "node",
+    "npm"
   ],
   "checks": {
     "git_remote": {
@@ -13,6 +15,18 @@
     "github_cli": {
       "available": false,
       "detail": "gh not found in PATH",
+      "ok": false,
+      "path": null
+    },
+    "node": {
+      "available": false,
+      "detail": "node not found in PATH",
+      "ok": false,
+      "path": null
+    },
+    "npm": {
+      "available": false,
+      "detail": "npm not found in PATH",
       "ok": false,
       "path": null
     },
@@ -28,6 +42,7 @@
     "Configure a GitHub remote and push local commits.",
     "Install or authenticate GitHub CLI if connector-based publishing is not used.",
     "Install or authenticate Vercel CLI, or deploy through a connected Vercel/Sites workflow.",
+    "Install Node.js/npm locally if local static-site build verification is required.",
     "Record external deployment/import/post/video/meeting evidence in integrations/status.json."
   ],
   "project": "Aria PC",
