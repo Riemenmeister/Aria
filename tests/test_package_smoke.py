@@ -58,6 +58,16 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertIn("Integration Readiness", html)
       self.assertEqual(vercel["rewrites"][0]["source"], "/")
       self.assertEqual(vercel["rewrites"][0]["destination"], "/index.html")
+   def test_status_model_counts_external_proof(self):
+      data = json.loads((ROOT / "integrations" / "status.json").read_text(encoding="utf-8"))
+      markers = {item["name"]: item for item in data["integrations"]}
+      report = (ROOT / "reports" / "aria_pc_status.html").read_text(encoding="utf-8")
+
+      self.assertEqual(markers["airtable"]["status"], "external_synced_airtable")
+      self.assertEqual(markers["data-analytics"]["status"], "production_report_published")
+      self.assertEqual(markers["vercel"]["status"], "production_deployed_sites")
+      self.assertIn("<strong>3</strong><span>externally complete</span>", report)
+      self.assertIn("Production report published", report)
 
    def test_static_site_build_configuration_exists(self):
       package = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))

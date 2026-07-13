@@ -14,6 +14,7 @@ STATUS_LABELS = {
    "local_report_ready": "Local report ready",
    "local_static_report_ready": "Local static report ready",
    "production_deployed_sites": "Production deployed via Sites",
+   "production_report_published": "Production report published",
    "external_synced_airtable": "Synced to Airtable",
    "target_missing": "Target missing",
 }
@@ -23,8 +24,12 @@ def esc(value):
    return html.escape(str(value), quote=True)
 
 
+def is_externally_complete(status):
+   return status == "complete" or status.startswith("external_") or status.startswith("production_")
+
+
 def status_class(status):
-   if status == "complete":
+   if is_externally_complete(status):
       return "complete"
    if status.startswith("local_"):
       return "local"
@@ -41,9 +46,10 @@ def render_list(items):
 def render_report(data):
    integrations = data["integrations"]
    total = len(integrations)
-   complete = sum(1 for item in integrations if item["status"] == "complete")
+   complete = sum(1 for item in integrations if is_externally_complete(item["status"]))
    local_ready = sum(1 for item in integrations if item["status"].startswith("local_"))
-   missing = sum(1 for item in integrations if item["status"] == "target_missing")
+   pending_proof = total - complete
+   missing = total - complete - local_ready
 
    cards = []
    for item in integrations:
@@ -146,12 +152,12 @@ def render_report(data):
          <div class="metric"><strong>{total}</strong><span>tracked integrations</span></div>
          <div class="metric"><strong>{complete}</strong><span>externally complete</span></div>
          <div class="metric"><strong>{local_ready}</strong><span>locally prepared</span></div>
-         <div class="metric"><strong>{missing}</strong><span>targets still missing</span></div>
+         <div class="metric"><strong>{pending_proof}</strong><span>pending external proof</span></div>
       </section>
 
       <section class="section">
          <h2>Executive Summary</h2>
-         <p><strong>The local Aria PC package is ready for a GitHub push, but the full multi-service close is not proven yet.</strong> Git, CI, tests, packaging, and a status model are in place. External services still need concrete targets and connected-service evidence.</p>
+         <p><strong>The local Aria PC package is ready for a GitHub push, and some external proof is now recorded.</strong> Git, CI, tests, packaging, Airtable sync, a production-published report, and a status model are in place. Remaining services still need concrete targets and connected-service evidence.</p>
          <div class="bar" aria-label="Status mix: {complete} complete, {local_ready} local-ready, {missing} target-missing"><span></span><span></span><span></span></div>
       </section>
 

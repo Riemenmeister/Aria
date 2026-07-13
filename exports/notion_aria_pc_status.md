@@ -4,7 +4,7 @@ Updated: 2026-07-13
 
 ## Summary
 
-The local Aria PC package is prepared, tested, and documented. External service completion still requires connected-service targets and verification evidence.
+The local Aria PC package is prepared, tested, documented, and partially externally verified. Remaining service completion still requires connected-service targets and verification evidence.
 
 ## Local Package Evidence
 
@@ -43,15 +43,16 @@ Next verification: Keep Airtable records updated when integrations/status.json c
 
 ### data-analytics
 
-Status: Local report ready
+Status: Production report published
 
 Evidence:
 - integrations/status.json tracks service status and verification requirements
 - tools/render_status_report.py renders reports/aria_pc_status.html from the status model
 - py tools/render_status_report.py --check verifies the report is current
 - reports/external_readiness.json captures current external readiness blockers
+- reports/deployment_receipt.json records the production Sites URL for the generated status report
 
-Next verification: Publish or sync the report/dashboard to the selected external surface.
+Next verification: Keep the published status report current when integration evidence changes.
 
 ### notion
 

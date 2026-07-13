@@ -2,7 +2,8 @@
 
 Local package baseline is ready: tests pass, package metadata dry-run succeeds, and the status report is generated from `integrations/status.json`.
 
-*Locally prepared:* github, data-analytics, notion, heygen, circleback, slack
-*Targets still needed:* none
+*Externally verified:* airtable, data-analytics, vercel
+*Locally prepared but not externally verified:* github, notion, heygen, circleback, slack
+*Still pending external proof:* github, notion, heygen, circleback, slack
 
-Next: choose a GitHub remote, push the local commits, configure Vercel for the static report, then connect Airtable/Notion/Slack/HeyGen/Circleback targets with one verification artifact each.
+Next: configure a GitHub remote or provide an existing repository target, then expose or connect Notion/Slack/HeyGen/Circleback tools so their prepared exports can become verified external artifacts.

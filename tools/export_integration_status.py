@@ -20,6 +20,7 @@ STATUS_LABELS = {
    "local_report_ready": "Local report ready",
    "local_static_report_ready": "Local static report ready",
    "production_deployed_sites": "Production deployed via Sites",
+   "production_report_published": "Production report published",
    "external_synced_airtable": "Synced to Airtable",
    "target_missing": "Target missing",
 }
@@ -33,8 +34,20 @@ def integrations_by_status(data, status):
    return [item["name"] for item in data["integrations"] if item["status"] == status]
 
 
+def is_externally_complete(status):
+   return status == "complete" or status.startswith("external_") or status.startswith("production_")
+
+
+def completed_integrations(data):
+   return [item["name"] for item in data["integrations"] if is_externally_complete(item["status"])]
+
+
 def local_ready_integrations(data):
    return [item["name"] for item in data["integrations"] if item["status"].startswith("local_")]
+
+
+def pending_integrations(data):
+   return [item["name"] for item in data["integrations"] if not is_externally_complete(item["status"])]
 
 
 def render_airtable_csv(data):
@@ -73,7 +86,7 @@ def render_notion_markdown(data):
       "",
       "## Summary",
       "",
-      "The local Aria PC package is prepared, tested, and documented. External service completion still requires connected-service targets and verification evidence.",
+      "The local Aria PC package is prepared, tested, documented, and partially externally verified. Remaining service completion still requires connected-service targets and verification evidence.",
       "",
       "## Local Package Evidence",
       "",
@@ -100,22 +113,25 @@ def render_notion_markdown(data):
 
 
 def render_slack_update(data):
-   missing = integrations_by_status(data, "target_missing")
+   completed = completed_integrations(data)
    local_ready = local_ready_integrations(data)
+   pending = pending_integrations(data)
    return f"""*{data['project']} status update* ({data['updated']})
 
 Local package baseline is ready: tests pass, package metadata dry-run succeeds, and the status report is generated from `integrations/status.json`.
 
-*Locally prepared:* {', '.join(local_ready) if local_ready else 'none'}
-*Targets still needed:* {', '.join(missing) if missing else 'none'}
+*Externally verified:* {', '.join(completed) if completed else 'none'}
+*Locally prepared but not externally verified:* {', '.join(local_ready) if local_ready else 'none'}
+*Still pending external proof:* {', '.join(pending) if pending else 'none'}
 
-Next: choose a GitHub remote, push the local commits, configure Vercel for the static report, then connect Airtable/Notion/Slack/HeyGen/Circleback targets with one verification artifact each.
+Next: configure a GitHub remote or provide an existing repository target, then expose or connect Notion/Slack/HeyGen/Circleback tools so their prepared exports can become verified external artifacts.
 """
 
 
 def render_heygen_brief(data):
+   completed = completed_integrations(data)
    local_ready = local_ready_integrations(data)
-   missing = integrations_by_status(data, "target_missing")
+   pending = pending_integrations(data)
    return f"""# HeyGen Video Brief: {data['project']} Status
 
 Updated: {data['updated']}
@@ -133,13 +149,15 @@ Create a short presenter video that explains the current Aria PC completion stat
 
 ## Script
 
-Aria PC now has a tested local Python package baseline, a clean local Git history, a GitHub Actions workflow, a machine-readable integration status model, and a static status report ready for deployment.
+Aria PC now has a tested local Python package baseline, a clean local Git history, a GitHub Actions workflow, a machine-readable integration status model, and a production-published status report.
 
-The locally prepared integrations are: {', '.join(local_ready) if local_ready else 'none'}.
+The externally verified integrations are: {', '.join(completed) if completed else 'none'}.
 
-The remaining targets still needing connected-service evidence are: {', '.join(missing) if missing else 'none'}.
+The locally prepared integrations awaiting external proof are: {', '.join(local_ready) if local_ready else 'none'}.
 
-Next, the project needs a GitHub remote and push, a Vercel production deployment, and confirmed Airtable, Notion, Slack, HeyGen, and Circleback artifacts before the full close can be claimed.
+The remaining integrations still needing stronger external evidence are: {', '.join(pending) if pending else 'none'}.
+
+Next, the project needs a GitHub remote and push plus confirmed Notion, Slack, HeyGen, and Circleback artifacts before the full close can be claimed.
 
 ## Required Verification After Generation
 
@@ -150,7 +168,7 @@ Next, the project needs a GitHub remote and push, a Vercel production deployment
 
 
 def render_circleback_brief(data):
-   missing = integrations_by_status(data, "target_missing")
+   pending = pending_integrations(data)
    return f"""# Circleback Meeting Brief: {data['project']} Completion Closeout
 
 Updated: {data['updated']}
@@ -161,21 +179,20 @@ Review the current Aria PC completion evidence, assign owners for remaining exte
 
 ## Agenda
 
-1. Confirm local package, test, Git, CI, status report, and export evidence.
+1. Confirm local package, test, Git, CI, status report, Airtable sync, and production Sites evidence.
 2. Choose or confirm the GitHub remote and push owner.
-3. Choose or confirm the Vercel project and deployment owner.
-4. Confirm Airtable base/table, Notion page/database, and Slack channel targets.
-5. Define HeyGen video artifact requirements.
-6. Decide what Circleback artifact should count as completion evidence for this meeting/workflow.
+3. Confirm Notion page/database and Slack channel targets.
+4. Define HeyGen video artifact requirements.
+5. Decide what Circleback artifact should count as completion evidence for this meeting/workflow.
 
-## Open Targets
+## Open External Proof
 
-{bullet_list(missing, empty='No target-missing integrations remain.')}
+{bullet_list(pending, empty='No pending integrations remain.')}
 ## Capture Checklist
 
 - Meeting summary saved or exported
 - Decisions and owners captured
-- Follow-up tasks created for every target-missing integration
+- Follow-up tasks created for every pending integration
 - Link or file path to Circleback summary added to `integrations/status.json`
 
 ## Completion Evidence Needed
@@ -221,4 +238,3 @@ def main():
 
 if __name__ == "__main__":
    main()
-

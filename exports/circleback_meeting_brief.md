@@ -8,22 +8,25 @@ Review the current Aria PC completion evidence, assign owners for remaining exte
 
 ## Agenda
 
-1. Confirm local package, test, Git, CI, status report, and export evidence.
+1. Confirm local package, test, Git, CI, status report, Airtable sync, and production Sites evidence.
 2. Choose or confirm the GitHub remote and push owner.
-3. Choose or confirm the Vercel project and deployment owner.
-4. Confirm Airtable base/table, Notion page/database, and Slack channel targets.
-5. Define HeyGen video artifact requirements.
-6. Decide what Circleback artifact should count as completion evidence for this meeting/workflow.
+3. Confirm Notion page/database and Slack channel targets.
+4. Define HeyGen video artifact requirements.
+5. Decide what Circleback artifact should count as completion evidence for this meeting/workflow.
 
-## Open Targets
+## Open External Proof
 
-- No target-missing integrations remain.
+- github
+- notion
+- heygen
+- circleback
+- slack
 
 ## Capture Checklist
 
 - Meeting summary saved or exported
 - Decisions and owners captured
-- Follow-up tasks created for every target-missing integration
+- Follow-up tasks created for every pending integration
 - Link or file path to Circleback summary added to `integrations/status.json`
 
 ## Completion Evidence Needed

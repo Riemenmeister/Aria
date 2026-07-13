@@ -35,14 +35,15 @@
     },
     {
       "name": "data-analytics",
-      "status": "local_report_ready",
+      "status": "production_report_published",
       "evidence": [
         "integrations/status.json tracks service status and verification requirements",
         "tools/render_status_report.py renders reports/aria_pc_status.html from the status model",
         "py tools/render_status_report.py --check verifies the report is current",
-        "reports/external_readiness.json captures current external readiness blockers"
+        "reports/external_readiness.json captures current external readiness blockers",
+        "reports/deployment_receipt.json records the production Sites URL for the generated status report"
       ],
-      "next_verification": "Publish or sync the report/dashboard to the selected external surface."
+      "next_verification": "Keep the published status report current when integration evidence changes."
     },
     {
       "name": "notion",
@@ -96,4 +97,3 @@
     }
   ]
 }
-

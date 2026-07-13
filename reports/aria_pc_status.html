@@ -55,7 +55,7 @@
       .integration.local { border-top-color: var(--local); }
       .integration-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
       .pill { display: inline-flex; align-items: center; min-height: 28px; padding: 4px 9px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: .82rem; white-space: nowrap; }
-      .bar { display: grid; grid-template-columns: 0fr 6fr 0fr; height: 14px; overflow: hidden; border-radius: 999px; border: 1px solid var(--border); margin-top: 10px; }
+      .bar { display: grid; grid-template-columns: 3fr 5fr 0fr; height: 14px; overflow: hidden; border-radius: 999px; border: 1px solid var(--border); margin-top: 10px; }
       .bar span:nth-child(1) { background: var(--complete); }
       .bar span:nth-child(2) { background: var(--local); }
       .bar span:nth-child(3) { background: var(--missing); }
@@ -77,15 +77,15 @@
 
       <section class="summary" aria-label="Completion summary">
          <div class="metric"><strong>8</strong><span>tracked integrations</span></div>
-         <div class="metric"><strong>0</strong><span>externally complete</span></div>
-         <div class="metric"><strong>6</strong><span>locally prepared</span></div>
-         <div class="metric"><strong>0</strong><span>targets still missing</span></div>
+         <div class="metric"><strong>3</strong><span>externally complete</span></div>
+         <div class="metric"><strong>5</strong><span>locally prepared</span></div>
+         <div class="metric"><strong>5</strong><span>pending external proof</span></div>
       </section>
 
       <section class="section">
          <h2>Executive Summary</h2>
-         <p><strong>The local Aria PC package is ready for a GitHub push, but the full multi-service close is not proven yet.</strong> Git, CI, tests, packaging, and a status model are in place. External services still need concrete targets and connected-service evidence.</p>
-         <div class="bar" aria-label="Status mix: 0 complete, 6 local-ready, 0 target-missing"><span></span><span></span><span></span></div>
+         <p><strong>The local Aria PC package is ready for a GitHub push, and some external proof is now recorded.</strong> Git, CI, tests, packaging, Airtable sync, a production-published report, and a status model are in place. Remaining services still need concrete targets and connected-service evidence.</p>
+         <div class="bar" aria-label="Status mix: 3 complete, 5 local-ready, 0 target-missing"><span></span><span></span><span></span></div>
       </section>
 
       <section class="section">
@@ -110,7 +110,7 @@
          </article>
          
 
-         <article class="integration missing">
+         <article class="integration complete">
             <div class="integration-header">
                <h3>airtable</h3>
                <span class="pill">Synced to Airtable</span>
@@ -122,15 +122,15 @@
          </article>
          
 
-         <article class="integration local">
+         <article class="integration complete">
             <div class="integration-header">
                <h3>data-analytics</h3>
-               <span class="pill">Local report ready</span>
+               <span class="pill">Production report published</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>integrations/status.json tracks service status and verification requirements</li><li>tools/render_status_report.py renders reports/aria_pc_status.html from the status model</li><li>py tools/render_status_report.py --check verifies the report is current</li><li>reports/external_readiness.json captures current external readiness blockers</li></ul>
+            <ul><li>integrations/status.json tracks service status and verification requirements</li><li>tools/render_status_report.py renders reports/aria_pc_status.html from the status model</li><li>py tools/render_status_report.py --check verifies the report is current</li><li>reports/external_readiness.json captures current external readiness blockers</li><li>reports/deployment_receipt.json records the production Sites URL for the generated status report</li></ul>
             <h4>Next verification</h4>
-            <p>Publish or sync the report/dashboard to the selected external surface.</p>
+            <p>Keep the published status report current when integration evidence changes.</p>
          </article>
          
 
@@ -182,7 +182,7 @@
          </article>
          
 
-         <article class="integration missing">
+         <article class="integration complete">
             <div class="integration-header">
                <h3>vercel</h3>
                <span class="pill">Production deployed via Sites</span>

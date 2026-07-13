@@ -23,7 +23,7 @@ Evidence:
 
 - Git repository initialized in this workspace.
 - Root `.gitignore` ignores the private NAS contents by default.
-- Local commits exist through `7bfffdd Record successful Sites deployment`.
+- Local commits are tracked on `master` through the latest local checkpoint.
 - GitHub Actions workflow exists at `.github/workflows/ci.yml` and runs compile, unittest, status-report freshness, export freshness, static-site build, and editable-install dry-run checks on Windows.
 - `reports/external_readiness.json` currently records `git_remote`, `github_cli`, `vercel_cli`, `node`, and `npm` as local blockers.
 
@@ -35,7 +35,7 @@ Remaining external proof needed:
 
 ## Integration Status Model, Report, Exports, And Audit
 
-Status: local data model, static report, service handoff exports, external-readiness audit, and production Sites deployment ready.
+Status: local data model, service handoff exports, external-readiness audit, and production-published status report ready.
 
 Evidence:
 
@@ -46,7 +46,7 @@ Evidence:
 - `py tools/export_integration_status.py --check` verifies Airtable, Notion, Slack, HeyGen, and Circleback exports are current.
 - `tools/audit_external_readiness.py` generates `reports/external_readiness.json` from the current local machine state.
 - `py tools/audit_external_readiness.py --check` verifies the external-readiness audit is current.
-- `reports/deployment_receipt.json` records a successful production Sites deployment.
+- `reports/deployment_receipt.json` records a successful production Sites deployment for the generated status report.
 - `reports/airtable_receipt.json` records the successful Airtable base/table sync and record read-back.
 - `reports/connector_availability.json` records which connected-service tools are available in this thread and which remain blocked.
 
