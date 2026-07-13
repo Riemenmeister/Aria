@@ -1,0 +1,13 @@
+{
+  "project": "Aria PC Status",
+  "project_id": "appgprj_6a54ea3f8c588191b0e2ddd481a713e9",
+  "version_id": "appgprj_6a54ea3f8c588191b0e2ddd481a713e9~appgver_74ced354154c819181684a99f64b413b",
+  "version_number": 5,
+  "deployment_id": "appgdep_6a54ef1b348081918a554f7c94211e26",
+  "commit_sha": "a4ffd0c5aa8f9c35e208d74f6f37cb114aff37f4",
+  "status": "succeeded",
+  "url": "https://aria-pc-status-20260713.soleyus80.chatgpt.site",
+  "provider_deployment_id": "soleyus80--aria-pc-status-20260713",
+  "deployed_at": "2026-07-13T13:59:14.457010+00:00",
+  "notes": "Production deployment completed through Sites for the static Aria PC status report. Vercel CLI remains unavailable locally."
+}

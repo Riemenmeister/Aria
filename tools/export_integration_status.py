@@ -19,6 +19,7 @@ STATUS_LABELS = {
    "local_ready_remote_missing": "Local ready, remote missing",
    "local_report_ready": "Local report ready",
    "local_static_report_ready": "Local static report ready",
+   "production_deployed_sites": "Production deployed via Sites",
    "target_missing": "Target missing",
 }
 
@@ -219,3 +220,4 @@ def main():
 
 if __name__ == "__main__":
    main()
+

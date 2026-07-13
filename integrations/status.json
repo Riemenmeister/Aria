@@ -80,15 +80,18 @@
     },
     {
       "name": "vercel",
-      "status": "local_static_report_ready",
+      "status": "production_deployed_sites",
       "evidence": [
         "vercel.json rewrites / to the static build index",
         "reports/aria_pc_status.html is self-contained and generated from integrations/status.json",
         "package.json and tools/build_static_site.js build the deployable dist/ site without external npm dependencies",
         "reports/external_readiness.json confirms Vercel CLI is not available in PATH",
-        "reports/external_readiness.json confirms local node/npm are not available in PATH"
+        "reports/external_readiness.json confirms local node/npm are not available in PATH",
+        "reports/deployment_receipt.json records successful production deployment",
+        "Production URL: https://aria-pc-status-20260713.soleyus80.chatgpt.site"
       ],
-      "next_verification": "Configure a Vercel project and confirm a production deployment URL."
+      "next_verification": "If Vercel specifically is required, configure Vercel separately; otherwise keep the Sites production URL as deployment evidence."
     }
   ]
 }
+

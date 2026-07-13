@@ -23,12 +23,7 @@ Evidence:
 
 - Git repository initialized in this workspace.
 - Root `.gitignore` ignores the private NAS contents by default.
-- Local baseline commit exists: `62357ba Prepare Aria PC package baseline`.
-- Local integration-status commit exists: `2dedf1b Document Aria PC integration status`.
-- Local CI/status commit exists: `dcd0e75 Add CI and integration status model`.
-- Local report/Vercel candidate commit exists: `6907814 Add local status report and Vercel candidate`.
-- Local service-export commit exists: `be6eb3a Add service handoff exports`.
-- Local HeyGen/Circleback handoff commit exists: `a75fe92 Add HeyGen and Circleback handoff briefs`.
+- Local commits exist through `a4ffd0c Embed static report in Sites server`.
 - GitHub Actions workflow exists at `.github/workflows/ci.yml` and runs compile, unittest, status-report freshness, export freshness, static-site build, and editable-install dry-run checks on Windows.
 - `reports/external_readiness.json` currently records `git_remote`, `github_cli`, `vercel_cli`, `node`, and `npm` as local blockers.
 
@@ -40,59 +35,55 @@ Remaining external proof needed:
 
 ## Integration Status Model, Report, Exports, And Audit
 
-Status: local data model, static report, service handoff exports, and external-readiness audit ready.
+Status: local data model, static report, service handoff exports, external-readiness audit, and production Sites deployment ready.
 
 Evidence:
 
-- `integrations/status.json` tracks all objective markers: Airtable, data analytics, GitHub, Notion, HeyGen, Circleback, Slack, and Vercel.
+- `integrations/status.json` tracks all objective markers: Airtable, data analytics, GitHub, Notion, HeyGen, Circleback, Slack, and Vercel/deployment.
 - `tools/render_status_report.py` generates `reports/aria_pc_status.html` from the status model.
 - `py tools/render_status_report.py --check` verifies the report is current.
 - `tools/export_integration_status.py` generates external-service handoff files from the same status model.
 - `py tools/export_integration_status.py --check` verifies Airtable, Notion, Slack, HeyGen, and Circleback exports are current.
 - `tools/audit_external_readiness.py` generates `reports/external_readiness.json` from the current local machine state.
 - `py tools/audit_external_readiness.py --check` verifies the external-readiness audit is current.
-- `exports/airtable_integration_status.csv` is import-ready for Airtable.
-- `exports/notion_aria_pc_status.md` is page-ready for Notion.
-- `exports/slack_status_update.md` is channel-ready draft text for Slack.
-- `exports/heygen_status_video_brief.md` is a presenter-video brief and script for HeyGen.
-- `exports/circleback_meeting_brief.md` is a closeout agenda and capture checklist for Circleback.
+- `reports/deployment_receipt.json` records a successful production Sites deployment.
 
-## Vercel Readiness
+## Deployment Readiness
 
-Status: local static deployment candidate ready, Sites project created, production deployment not yet verified.
+Status: production Sites deployment complete; Vercel CLI deployment not verified locally.
 
 Evidence:
 
-- Sites project created: `appgprj_6a54ea3f8c588191b0e2ddd481a713e9` (`aria-pc-status-20260713`).`n- First Sites deployment attempt for version 1 failed with `missing package.json`; this is now addressed by `package.json` and `tools/build_static_site.js`.`n- `vercel.json` rewrites `/` to the static build index and uses `dist` as output directory.
-- `reports/aria_pc_status.html` is self-contained and source-backed by `integrations/status.json`.
-- `reports/external_readiness.json` currently confirms that Vercel CLI and local node/npm are not available in PATH.
+- Sites project: `appgprj_6a54ea3f8c588191b0e2ddd481a713e9` (`aria-pc-status-20260713`).
+- Production URL: `https://aria-pc-status-20260713.soleyus80.chatgpt.site`.
+- Successful deployment: `appgdep_6a54ef1b348081918a554f7c94211e26` for version 5.
+- Source commit deployed: `a4ffd0c5aa8f9c35e208d74f6f37cb114aff37f4`.
+- `vercel.json` rewrites `/` to the static build index and uses `dist` as output directory.
+- `package.json` and `tools/build_static_site.js` produce the deployable Sites build.
+- `reports/external_readiness.json` still confirms that Vercel CLI and local node/npm are not available in PATH.
 
 Remaining external proof needed:
 
-- A Vercel project must be configured.
-- A production deployment URL must be produced and inspected.
+- If Vercel specifically is mandatory beyond Sites, configure a Vercel project and deploy there too.
 
 ## External Integrations
 
-These markers are not proven complete by local files alone and need connected-service evidence before the overall goal can be closed.
+These markers still need connected-service evidence before the overall goal can be closed.
 
 - Airtable: local CSV export exists; no base/table import or sync proof yet.
-- Data analytics: local status model, static report, exports, and readiness audit exist; no external dashboard/report publication proof yet.
 - Notion: local Markdown export exists; no connected Notion page/database sync proof yet.
 - HeyGen: local video brief/script exists; no generated video artifact proof yet.
 - Circleback: local meeting brief exists; no meeting/import/summary proof yet.
 - Slack: local update draft exists; no workspace/channel post proof yet.
-- Vercel: local static deployment candidate exists; no production deployment proof yet.
+- GitHub: local Git history and CI config exist; no GitHub remote/push/remote CI proof yet.
 
 ## Current Safe Next Steps
 
 1. Choose the GitHub remote or create one.
-2. Install/authenticate GitHub CLI or add the remote manually and push with Git credentials.
-3. Push the new static-build source state to Sites and deploy a new saved version.
-4. Import/sync `exports/airtable_integration_status.csv` into the selected Airtable base.
-5. Publish/sync `exports/notion_aria_pc_status.md` into the selected Notion page or database.
-6. Post or approve `exports/slack_status_update.md` in the selected Slack channel.
-7. Generate or link a HeyGen video from `exports/heygen_status_video_brief.md`.
-8. Run/import a Circleback meeting workflow using `exports/circleback_meeting_brief.md`.
-9. Close the goal only after those service checks have current evidence.
-
+2. Push local commits and confirm remote CI.
+3. Import/sync `exports/airtable_integration_status.csv` into the selected Airtable base.
+4. Publish/sync `exports/notion_aria_pc_status.md` into the selected Notion page or database.
+5. Post or approve `exports/slack_status_update.md` in the selected Slack channel.
+6. Generate or link a HeyGen video from `exports/heygen_status_video_brief.md`.
+7. Run/import a Circleback meeting workflow using `exports/circleback_meeting_brief.md`.
+8. Close the goal only after those service checks have current evidence.

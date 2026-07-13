@@ -99,6 +99,13 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertIn("blockers", readiness)
       self.assertIn(readiness["status"], {"ready_for_external_configuration", "external_cli_ready"})
 
+   def test_deployment_receipt_records_success(self):
+      receipt = json.loads((ROOT / "reports" / "deployment_receipt.json").read_text(encoding="utf-8"))
+
+      self.assertEqual(receipt["status"], "succeeded")
+      self.assertTrue(receipt["url"].startswith("https://aria-pc-status-20260713"))
+      self.assertEqual(receipt["version_number"], 5)
+
 
 if __name__ == "__main__":
    unittest.main()

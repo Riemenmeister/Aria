@@ -93,7 +93,7 @@ Next verification: Identify workspace/channel and confirm posted or approved dra
 
 ### vercel
 
-Status: Local static report ready
+Status: Production deployed via Sites
 
 Evidence:
 - vercel.json rewrites / to the static build index
@@ -101,5 +101,7 @@ Evidence:
 - package.json and tools/build_static_site.js build the deployable dist/ site without external npm dependencies
 - reports/external_readiness.json confirms Vercel CLI is not available in PATH
 - reports/external_readiness.json confirms local node/npm are not available in PATH
+- reports/deployment_receipt.json records successful production deployment
+- Production URL: https://aria-pc-status-20260713.soleyus80.chatgpt.site
 
-Next verification: Configure a Vercel project and confirm a production deployment URL.
+Next verification: If Vercel specifically is required, configure Vercel separately; otherwise keep the Sites production URL as deployment evidence.
