@@ -6,6 +6,8 @@
 !pyproject.toml
 !vercel.json
 !ARIA_PC_COMPLETION.md
+!.openai/
+!.openai/**
 !Aria/
 !Aria/**
 !.github/
@@ -29,3 +31,4 @@ build/
 dist/
 .venv/
 .env
+
