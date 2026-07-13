@@ -63,10 +63,13 @@ class IntegrationStatusTests(unittest.TestCase):
       package = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))
       vercel = json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))
       build_tool = ROOT / "tools" / "build_static_site.js"
+      build_source = build_tool.read_text(encoding="utf-8")
 
       self.assertEqual(package["scripts"]["build"], "node tools/build_static_site.js")
       self.assertEqual(package["scripts"]["check"], "node tools/build_static_site.js --check")
       self.assertEqual(vercel["outputDirectory"], "dist")
+      self.assertIn("server", build_source)
+      self.assertIn("hosting.json", build_source)
       self.assertTrue(build_tool.exists())
 
    def test_external_service_exports_exist(self):
