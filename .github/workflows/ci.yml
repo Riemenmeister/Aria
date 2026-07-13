@@ -1,0 +1,33 @@
+name: Aria PC CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  test:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.11", "3.12"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Compile package and tests
+        run: py -B -m compileall Aria tests
+
+      - name: Run smoke tests
+        run: py -B -m unittest discover -s tests
+
+      - name: Check editable install metadata
+        run: py -m pip install -e . --dry-run --no-deps

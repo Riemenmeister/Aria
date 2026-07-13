@@ -7,6 +7,10 @@
 !ARIA_PC_COMPLETION.md
 !Aria/
 !Aria/**
+!.github/
+!.github/**
+!integrations/
+!integrations/**
 !tests/
 !tests/**
 

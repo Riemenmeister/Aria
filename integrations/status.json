@@ -1,0 +1,69 @@
+{
+  "updated": "2026-07-13",
+  "project": "Aria PC",
+  "local_package": {
+    "status": "complete",
+    "evidence": [
+      "py -B -m unittest discover -s tests: pass",
+      "py -B -m compileall Aria tests: pass",
+      "py -m pip install -e . --dry-run --no-deps: Would install Aria-1.0.0"
+    ]
+  },
+  "integrations": [
+    {
+      "name": "github",
+      "status": "local_ready_remote_missing",
+      "evidence": [
+        "local git repository clean on master",
+        "local commits exist",
+        "no remote configured",
+        "GitHub CLI gh not available in PATH"
+      ],
+      "next_verification": "Configure remote and confirm pushed commit plus CI status."
+    },
+    {
+      "name": "airtable",
+      "status": "target_missing",
+      "evidence": [],
+      "next_verification": "Identify base/table and confirm one sync or record mapping."
+    },
+    {
+      "name": "data-analytics",
+      "status": "local_status_model_ready",
+      "evidence": [
+        "integrations/status.json tracks service status and verification requirements"
+      ],
+      "next_verification": "Build or sync a report/dashboard from this status model."
+    },
+    {
+      "name": "notion",
+      "status": "target_missing",
+      "evidence": [],
+      "next_verification": "Identify Notion page/database and confirm documentation sync."
+    },
+    {
+      "name": "heygen",
+      "status": "target_missing",
+      "evidence": [],
+      "next_verification": "Identify avatar/video workflow and confirm generated or linked artifact."
+    },
+    {
+      "name": "circleback",
+      "status": "target_missing",
+      "evidence": [],
+      "next_verification": "Identify meeting/workflow target and confirm import or summary artifact."
+    },
+    {
+      "name": "slack",
+      "status": "target_missing",
+      "evidence": [],
+      "next_verification": "Identify workspace/channel and confirm posted or drafted update."
+    },
+    {
+      "name": "vercel",
+      "status": "target_missing",
+      "evidence": [],
+      "next_verification": "Identify deployment target or decide no web deployment is required for the Python package."
+    }
+  ]
+}
