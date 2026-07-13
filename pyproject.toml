@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Aria"
+version = "1.0.0"
+description = "Cross-platform Aria launcher generated from PyBridge."
+readme = "Aria/README.md"
+requires-python = ">=3.9"
+authors = [
+  { name = "Andreas Paulus" }
+]
+
+[project.scripts]
+aria = "Aria:Main"
+
+[tool.setuptools]
+packages = ["Aria", "Aria.ErrorReport", "Aria.Linux", "Aria.Mac", "Aria.Windows"]

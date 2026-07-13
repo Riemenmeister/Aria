@@ -1,0 +1,20 @@
+# Keep this NAS workspace safe for GitHub publishing.
+# By default, ignore the large/private workspace contents and explicitly allow the Aria PC package.
+*
+
+!.gitignore
+!pyproject.toml
+!ARIA_PC_COMPLETION.md
+!Aria/
+!Aria/**
+!tests/
+!tests/**
+
+# Generated Python/build artifacts stay out of version control.
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.env
