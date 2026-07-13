@@ -122,6 +122,9 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(receipt["base_id"], "apprXVtcJBWQJXl5n")
       self.assertEqual(receipt["table_id"], "tbl16tPYsvz97KWlh")
       self.assertEqual(receipt["record_count"], 8)
+      self.assertEqual(receipt["last_sync"]["operation"], "update_records_for_table")
+      self.assertEqual(receipt["last_sync"]["updated_record_count"], 8)
+      self.assertIn("Production report published", receipt["last_sync"]["verification"])
    def test_connector_availability_report_records_remaining_blockers(self):
       report = json.loads((ROOT / "reports" / "connector_availability.json").read_text(encoding="utf-8"))
       connectors = report["connectors"]

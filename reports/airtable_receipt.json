@@ -9,7 +9,7 @@
   "table_id": "tbl16tPYsvz97KWlh",
   "table_name": "Integration Status",
   "record_count": 8,
-  "created_at": "2026-07-13T14:07:24.000Z",
+  "created_at": "2026-07-13T14:07:24Z",
   "record_ids": [
     "recToIGYn5R1tZp8U",
     "recY5Dw1OppSJ52LP",
@@ -20,5 +20,23 @@
     "recXXS8051IEdWaC1",
     "recEBmYwixPnbkFVY"
   ],
-  "verification": "Airtable list_records_for_table returned totalRecordCount 8 for the Integration Status table."
+  "verification": "Airtable list_records_for_table returned totalRecordCount 8 for the Integration Status table.",
+  "last_sync": {
+    "synced_at": "2026-07-13",
+    "operation": "update_records_for_table",
+    "updated_record_count": 8,
+    "verified_record_count": 8,
+    "verification": "Airtable list_records_for_table returned totalRecordCount 8 after updating the existing records; data-analytics read back with Status Production report published.",
+    "changed_record_ids": [
+      "recToIGYn5R1tZp8U",
+      "recY5Dw1OppSJ52LP",
+      "recvDRho3FTjtvIEL",
+      "recBiwBtawdP2X6Uo",
+      "recQlsy7j57NcijYe",
+      "recx8CGzdyfjEcGpH",
+      "recXXS8051IEdWaC1",
+      "recEBmYwixPnbkFVY"
+    ]
+  }
 }
+
