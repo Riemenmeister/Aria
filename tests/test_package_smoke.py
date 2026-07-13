@@ -63,12 +63,16 @@ class IntegrationStatusTests(unittest.TestCase):
       airtable = ROOT / "exports" / "airtable_integration_status.csv"
       notion = ROOT / "exports" / "notion_aria_pc_status.md"
       slack = ROOT / "exports" / "slack_status_update.md"
+      heygen = ROOT / "exports" / "heygen_status_video_brief.md"
+      circleback = ROOT / "exports" / "circleback_meeting_brief.md"
 
       rows = list(csv.DictReader(airtable.read_text(encoding="utf-8").splitlines()))
       self.assertEqual(len(rows), 8)
       self.assertEqual(rows[0]["Project"], "Aria PC")
       self.assertIn("# Aria PC Completion Status", notion.read_text(encoding="utf-8"))
       self.assertIn("*Aria PC status update*", slack.read_text(encoding="utf-8"))
+      self.assertIn("# HeyGen Video Brief", heygen.read_text(encoding="utf-8"))
+      self.assertIn("# Circleback Meeting Brief", circleback.read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

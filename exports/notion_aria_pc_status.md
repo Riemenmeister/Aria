@@ -62,21 +62,23 @@ Next verification: Identify Notion page/database and confirm documentation sync.
 
 ### heygen
 
-Status: Target missing
+Status: Local export ready
 
 Evidence:
-- No current evidence recorded.
+- exports/heygen_status_video_brief.md contains a presenter-video brief and script
+- py tools/export_integration_status.py --check verifies the HeyGen brief is current
 
-Next verification: Identify avatar/video workflow and confirm generated or linked artifact.
+Next verification: Generate or link the HeyGen video and record the artifact evidence.
 
 ### circleback
 
-Status: Target missing
+Status: Local export ready
 
 Evidence:
-- No current evidence recorded.
+- exports/circleback_meeting_brief.md contains a closeout meeting agenda and capture checklist
+- py tools/export_integration_status.py --check verifies the Circleback brief is current
 
-Next verification: Identify meeting/workflow target and confirm import or summary artifact.
+Next verification: Run/import the meeting workflow and record a Circleback summary artifact.
 
 ### slack
 

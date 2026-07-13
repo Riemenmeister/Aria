@@ -55,7 +55,7 @@
       .integration.local { border-top-color: var(--local); }
       .integration-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
       .pill { display: inline-flex; align-items: center; min-height: 28px; padding: 4px 9px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: .82rem; white-space: nowrap; }
-      .bar { display: grid; grid-template-columns: 0fr 6fr 2fr; height: 14px; overflow: hidden; border-radius: 999px; border: 1px solid var(--border); margin-top: 10px; }
+      .bar { display: grid; grid-template-columns: 0fr 8fr 0fr; height: 14px; overflow: hidden; border-radius: 999px; border: 1px solid var(--border); margin-top: 10px; }
       .bar span:nth-child(1) { background: var(--complete); }
       .bar span:nth-child(2) { background: var(--local); }
       .bar span:nth-child(3) { background: var(--missing); }
@@ -78,14 +78,14 @@
       <section class="summary" aria-label="Completion summary">
          <div class="metric"><strong>8</strong><span>tracked integrations</span></div>
          <div class="metric"><strong>0</strong><span>externally complete</span></div>
-         <div class="metric"><strong>6</strong><span>locally prepared</span></div>
-         <div class="metric"><strong>2</strong><span>targets still missing</span></div>
+         <div class="metric"><strong>8</strong><span>locally prepared</span></div>
+         <div class="metric"><strong>0</strong><span>targets still missing</span></div>
       </section>
 
       <section class="section">
          <h2>Executive Summary</h2>
          <p><strong>The local Aria PC package is ready for a GitHub push, but the full multi-service close is not proven yet.</strong> Git, CI, tests, packaging, and a status model are in place. External services still need concrete targets and connected-service evidence.</p>
-         <div class="bar" aria-label="Status mix: 0 complete, 6 local-ready, 2 target-missing"><span></span><span></span><span></span></div>
+         <div class="bar" aria-label="Status mix: 0 complete, 8 local-ready, 0 target-missing"><span></span><span></span><span></span></div>
       </section>
 
       <section class="section">
@@ -146,27 +146,27 @@
          </article>
          
 
-         <article class="integration missing">
+         <article class="integration local">
             <div class="integration-header">
                <h3>heygen</h3>
-               <span class="pill">Target missing</span>
+               <span class="pill">local_export_ready</span>
             </div>
             <h4>Evidence</h4>
-            <p class="muted">No current evidence recorded.</p>
+            <ul><li>exports/heygen_status_video_brief.md contains a presenter-video brief and script</li><li>py tools/export_integration_status.py --check verifies the HeyGen brief is current</li></ul>
             <h4>Next verification</h4>
-            <p>Identify avatar/video workflow and confirm generated or linked artifact.</p>
+            <p>Generate or link the HeyGen video and record the artifact evidence.</p>
          </article>
          
 
-         <article class="integration missing">
+         <article class="integration local">
             <div class="integration-header">
                <h3>circleback</h3>
-               <span class="pill">Target missing</span>
+               <span class="pill">local_export_ready</span>
             </div>
             <h4>Evidence</h4>
-            <p class="muted">No current evidence recorded.</p>
+            <ul><li>exports/circleback_meeting_brief.md contains a closeout meeting agenda and capture checklist</li><li>py tools/export_integration_status.py --check verifies the Circleback brief is current</li></ul>
             <h4>Next verification</h4>
-            <p>Identify meeting/workflow target and confirm import or summary artifact.</p>
+            <p>Run/import the meeting workflow and record a Circleback summary artifact.</p>
          </article>
          
 

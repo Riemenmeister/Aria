@@ -27,6 +27,7 @@ Evidence:
 - Local integration-status commit exists: `2dedf1b Document Aria PC integration status`.
 - Local CI/status commit exists: `dcd0e75 Add CI and integration status model`.
 - Local report/Vercel candidate commit exists: `6907814 Add local status report and Vercel candidate`.
+- Local service-export commit exists: `be6eb3a Add service handoff exports`.
 - GitHub Actions workflow exists at `.github/workflows/ci.yml` and runs compile, unittest, status-report freshness, export freshness, and editable-install dry-run checks on Windows.
 - `git remote -v` returns no configured remote.
 - `gh` is not available in PATH on this PC, so GitHub CLI publishing cannot be verified locally yet.
@@ -47,10 +48,12 @@ Evidence:
 - `tools/render_status_report.py` generates `reports/aria_pc_status.html` from the status model.
 - `py tools/render_status_report.py --check` verifies the report is current.
 - `tools/export_integration_status.py` generates external-service handoff files from the same status model.
-- `py tools/export_integration_status.py --check` verifies Airtable, Notion, and Slack exports are current.
+- `py tools/export_integration_status.py --check` verifies Airtable, Notion, Slack, HeyGen, and Circleback exports are current.
 - `exports/airtable_integration_status.csv` is import-ready for Airtable.
 - `exports/notion_aria_pc_status.md` is page-ready for Notion.
 - `exports/slack_status_update.md` is channel-ready draft text for Slack.
+- `exports/heygen_status_video_brief.md` is a presenter-video brief and script for HeyGen.
+- `exports/circleback_meeting_brief.md` is a closeout agenda and capture checklist for Circleback.
 
 ## Vercel Readiness
 
@@ -73,8 +76,8 @@ These markers are not proven complete by local files alone and need connected-se
 - Airtable: local CSV export exists; no base/table import or sync proof yet.
 - Data analytics: local status model and static report exist; no external dashboard/report publication proof yet.
 - Notion: local Markdown export exists; no connected Notion page/database sync proof yet.
-- HeyGen: no avatar/video workflow proof found yet.
-- Circleback: no meeting/import workflow proof found yet.
+- HeyGen: local video brief/script exists; no generated video artifact proof yet.
+- Circleback: local meeting brief exists; no meeting/import/summary proof yet.
 - Slack: local update draft exists; no workspace/channel post proof yet.
 - Vercel: local static deployment candidate exists; no production deployment proof yet.
 
@@ -86,5 +89,6 @@ These markers are not proven complete by local files alone and need connected-se
 4. Import/sync `exports/airtable_integration_status.csv` into the selected Airtable base.
 5. Publish/sync `exports/notion_aria_pc_status.md` into the selected Notion page or database.
 6. Post or approve `exports/slack_status_update.md` in the selected Slack channel.
-7. Define HeyGen and Circleback targets with one verification artifact each.
-8. Close the goal only after those service checks have current evidence.
+7. Generate or link a HeyGen video from `exports/heygen_status_video_brief.md`.
+8. Run/import a Circleback meeting workflow using `exports/circleback_meeting_brief.md`.
+9. Close the goal only after those service checks have current evidence.

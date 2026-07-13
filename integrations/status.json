@@ -52,15 +52,21 @@
     },
     {
       "name": "heygen",
-      "status": "target_missing",
-      "evidence": [],
-      "next_verification": "Identify avatar/video workflow and confirm generated or linked artifact."
+      "status": "local_export_ready",
+      "evidence": [
+        "exports/heygen_status_video_brief.md contains a presenter-video brief and script",
+        "py tools/export_integration_status.py --check verifies the HeyGen brief is current"
+      ],
+      "next_verification": "Generate or link the HeyGen video and record the artifact evidence."
     },
     {
       "name": "circleback",
-      "status": "target_missing",
-      "evidence": [],
-      "next_verification": "Identify meeting/workflow target and confirm import or summary artifact."
+      "status": "local_export_ready",
+      "evidence": [
+        "exports/circleback_meeting_brief.md contains a closeout meeting agenda and capture checklist",
+        "py tools/export_integration_status.py --check verifies the Circleback brief is current"
+      ],
+      "next_verification": "Run/import the meeting workflow and record a Circleback summary artifact."
     },
     {
       "name": "slack",

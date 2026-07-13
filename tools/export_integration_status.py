@@ -10,6 +10,8 @@ EXPORT_DIR = ROOT / "exports"
 AIRTABLE_PATH = EXPORT_DIR / "airtable_integration_status.csv"
 NOTION_PATH = EXPORT_DIR / "notion_aria_pc_status.md"
 SLACK_PATH = EXPORT_DIR / "slack_status_update.md"
+HEYGEN_PATH = EXPORT_DIR / "heygen_status_video_brief.md"
+CIRCLEBACK_PATH = EXPORT_DIR / "circleback_meeting_brief.md"
 
 STATUS_LABELS = {
    "complete": "Complete",
@@ -23,6 +25,14 @@ STATUS_LABELS = {
 
 def load_status():
    return json.loads(STATUS_PATH.read_text(encoding="utf-8"))
+
+
+def integrations_by_status(data, status):
+   return [item["name"] for item in data["integrations"] if item["status"] == status]
+
+
+def local_ready_integrations(data):
+   return [item["name"] for item in data["integrations"] if item["status"].startswith("local_")]
 
 
 def render_airtable_csv(data):
@@ -88,9 +98,8 @@ def render_notion_markdown(data):
 
 
 def render_slack_update(data):
-   integrations = data["integrations"]
-   missing = [item["name"] for item in integrations if item["status"] == "target_missing"]
-   local_ready = [item["name"] for item in integrations if item["status"].startswith("local_")]
+   missing = integrations_by_status(data, "target_missing")
+   local_ready = local_ready_integrations(data)
    return f"""*{data['project']} status update* ({data['updated']})
 
 Local package baseline is ready: tests pass, package metadata dry-run succeeds, and the status report is generated from `integrations/status.json`.
@@ -102,11 +111,84 @@ Next: choose a GitHub remote, push the local commits, configure Vercel for the s
 """
 
 
+def render_heygen_brief(data):
+   local_ready = local_ready_integrations(data)
+   missing = integrations_by_status(data, "target_missing")
+   return f"""# HeyGen Video Brief: {data['project']} Status
+
+Updated: {data['updated']}
+
+## Goal
+
+Create a short presenter video that explains the current Aria PC completion state and the remaining external-service proof needed before the goal can be closed.
+
+## Suggested Format
+
+- Length: 45-60 seconds
+- Tone: calm, factual, progress-oriented
+- Presenter: neutral product/update narrator
+- Visual support: show `reports/aria_pc_status.html` or the generated status summary as background/context
+
+## Script
+
+Aria PC now has a tested local Python package baseline, a clean local Git history, a GitHub Actions workflow, a machine-readable integration status model, and a static status report ready for deployment.
+
+The locally prepared integrations are: {', '.join(local_ready) if local_ready else 'none'}.
+
+The remaining targets still needing connected-service evidence are: {', '.join(missing) if missing else 'none'}.
+
+Next, the project needs a GitHub remote and push, a Vercel production deployment, and confirmed Airtable, Notion, Slack, HeyGen, and Circleback artifacts before the full close can be claimed.
+
+## Required Verification After Generation
+
+- Link or file path to the generated HeyGen video
+- Confirmation that the video uses this status script or a reviewed equivalent
+- Status update in `integrations/status.json` with the generated artifact evidence
+"""
+
+
+def render_circleback_brief(data):
+   missing = integrations_by_status(data, "target_missing")
+   return f"""# Circleback Meeting Brief: {data['project']} Completion Closeout
+
+Updated: {data['updated']}
+
+## Meeting Purpose
+
+Review the current Aria PC completion evidence, assign owners for remaining external service targets, and capture the decisions required to close the goal safely.
+
+## Agenda
+
+1. Confirm local package, test, Git, CI, status report, and export evidence.
+2. Choose or confirm the GitHub remote and push owner.
+3. Choose or confirm the Vercel project and deployment owner.
+4. Confirm Airtable base/table, Notion page/database, and Slack channel targets.
+5. Define HeyGen video artifact requirements.
+6. Decide what Circleback artifact should count as completion evidence for this meeting/workflow.
+
+## Open Targets
+
+{bullet_list(missing, empty='No target-missing integrations remain.')}
+## Capture Checklist
+
+- Meeting summary saved or exported
+- Decisions and owners captured
+- Follow-up tasks created for every target-missing integration
+- Link or file path to Circleback summary added to `integrations/status.json`
+
+## Completion Evidence Needed
+
+Circleback is complete only after a real meeting/import/summary artifact exists and is referenced in the status model.
+"""
+
+
 def expected_outputs(data):
    return {
       AIRTABLE_PATH: render_airtable_csv(data),
       NOTION_PATH: render_notion_markdown(data),
       SLACK_PATH: render_slack_update(data),
+      HEYGEN_PATH: render_heygen_brief(data),
+      CIRCLEBACK_PATH: render_circleback_brief(data),
    }
 
 
