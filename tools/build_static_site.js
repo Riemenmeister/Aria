@@ -41,7 +41,8 @@ function build() {
   copyFileSync(sourceReport, targetIndex);
   copyFileSync(sourceReport, join(targetReportsDir, "aria_pc_status.html"));
   copyFileSync(sourceReadiness, targetReadiness);
-  copyFileSync(sourceHosting, join(targetOpenAiDir, "hosting.json"));
+  const hosting = JSON.parse(readFileSync(sourceHosting, "utf8"));
+  writeFileSync(join(targetOpenAiDir, "hosting.json"), JSON.stringify({ project_id: hosting.project_id }, null, 2) + "\n", "utf8");
   writeFileSync(targetServer, serverSource, "utf8");
 }
 
@@ -63,3 +64,5 @@ if (process.argv.includes("--check")) {
   build();
   console.log("built dist");
 }
+
+
