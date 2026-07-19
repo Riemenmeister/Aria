@@ -136,6 +136,13 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(connectors["slack"]["status"], "tool_unavailable_in_thread")
       self.assertEqual(connectors["heygen"]["status"], "tool_unavailable_in_thread")
       self.assertEqual(connectors["circleback"]["status"], "tool_unavailable_in_thread")
+   def test_git_repair_receipt_records_clean_status(self):
+      receipt = json.loads((ROOT / "reports" / "git_repair_receipt.json").read_text(encoding="utf-8"))
+
+      self.assertEqual(receipt["status"], "repaired")
+      self.assertEqual(len(receipt["repaired_objects"]), 2)
+      self.assertIn("git status --short --branch: ## master", receipt["verification"])
+      self.assertTrue(any("git fsck --full" in item for item in receipt["verification"]))
 
 
 if __name__ == "__main__":

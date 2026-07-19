@@ -22,6 +22,7 @@ Status: local Git and CI baseline complete, remote publishing not verified.
 Evidence:
 
 - Git repository initialized in this workspace.
+- `reports/git_repair_receipt.json` records the 2026-07-19 repair of two corrupt loose blob objects and the post-repair `git fsck --full` result.
 - Root `.gitignore` ignores the private NAS contents by default.
 - Local commits are tracked on `master` through the latest local checkpoint.
 - GitHub Actions workflow exists at `.github/workflows/ci.yml` and runs compile, unittest, status-report freshness, export freshness, static-site build, and editable-install dry-run checks on Windows.

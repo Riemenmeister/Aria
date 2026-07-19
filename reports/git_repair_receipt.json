@@ -1,0 +1,24 @@
+{
+  "project": "Aria PC",
+  "checked_at": "2026-07-19",
+  "service": "git",
+  "status": "repaired",
+  "issue": "Two current HEAD loose blob objects were corrupt on disk, causing git status to fail.",
+  "repaired_objects": [
+    {
+      "object_id": "5d28c0c6c6908c07ea0611337d7fec00ea25410a",
+      "path": "exports/circleback_meeting_brief.md",
+      "repair": "Working-tree file hash matched expected object id; corrupt loose object was backed up and rewritten with git hash-object -w."
+    },
+    {
+      "object_id": "cdff84e275218d00e5f348fcb014a9da3996e310",
+      "path": "reports/airtable_receipt.json",
+      "repair": "Working-tree file hash matched expected object id; corrupt loose object was backed up and rewritten with git hash-object -w."
+    }
+  ],
+  "backup_location": ".git/repair-backups/20260719-corrupt-loose-objects",
+  "verification": [
+    "git status --short --branch: ## master",
+    "git fsck --full: only dangling tree 3b0a200de33b7de452917ccdde4af5c92b603dbe remains"
+  ]
+}
