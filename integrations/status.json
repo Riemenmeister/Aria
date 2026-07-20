@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-13",
+  "updated": "2026-07-20",
   "project": "Aria PC",
   "local_package": {
     "status": "complete",
@@ -28,7 +28,7 @@
       "evidence": [
         "Airtable base created: Aria PC Completion (apprXVtcJBWQJXl5n)",
         "Airtable table created: Integration Status (tbl16tPYsvz97KWlh)",
-        "8 integration status records created and read back from Airtable",
+        "10 integration status records created or updated and read back from Airtable",
         "reports/airtable_receipt.json records Airtable base/table/record evidence"
       ],
       "next_verification": "Keep Airtable records updated when integrations/status.json changes."
@@ -47,39 +47,49 @@
     },
     {
       "name": "notion",
-      "status": "local_export_ready",
+      "status": "external_synced_notion",
       "evidence": [
-        "exports/notion_aria_pc_status.md is page-ready status documentation",
-        "py tools/export_integration_status.py --check verifies the Notion markdown is current"
+        "Notion page created: Aria PC Completion Status",
+        "Notion page URL: https://app.notion.com/p/3a233b66295a8102936ff866e9e0d96f",
+        "Notion fetch verified the page content on 2026-07-19",
+        "exports/notion_aria_pc_status.md remains the source handoff export"
       ],
-      "next_verification": "Identify Notion page/database and confirm documentation sync."
+      "next_verification": "Keep the Notion page current when integration evidence changes."
     },
     {
       "name": "heygen",
-      "status": "local_export_ready",
+      "status": "external_generated_heygen",
       "evidence": [
-        "exports/heygen_status_video_brief.md contains a presenter-video brief and script",
-        "py tools/export_integration_status.py --check verifies the HeyGen brief is current"
+        "HeyGen Video Agent session created: b3523132028c4ba7a4154127a5cfb3b9",
+        "HeyGen video completed: 8e1fec9f71d04826b2f7b4cafe39d570",
+        "Video page URL: https://app.heygen.com/videos/8e1fec9f71d04826b2f7b4cafe39d570",
+        "Generated video URL recorded in reports/heygen_receipt.json",
+        "exports/heygen_status_video_brief.md remains the source handoff script"
       ],
-      "next_verification": "Generate or link the HeyGen video and record the artifact evidence."
+      "next_verification": "Refresh expiring HeyGen file URLs if the video needs long-term archival outside HeyGen."
     },
     {
       "name": "circleback",
-      "status": "local_export_ready",
+      "status": "connector_available_no_event",
       "evidence": [
-        "exports/circleback_meeting_brief.md contains a closeout meeting agenda and capture checklist",
-        "py tools/export_integration_status.py --check verifies the Circleback brief is current"
+        "Circleback connector tools became available in this thread",
+        "Circleback action-item search failed with a Prisma query-engine error for Aria PC Completion",
+        "Circleback calendar search for 2026-07-19 to 2026-07-20 returned no Aria PC Completion events",
+        "reports/circleback_receipt.json records the connector result and remaining artifact gap"
       ],
-      "next_verification": "Run/import the meeting workflow and record a Circleback summary artifact."
+      "next_verification": "Create or capture a real Circleback meeting/summary artifact, then link its meeting ID or summary URL."
     },
     {
       "name": "slack",
-      "status": "local_export_ready",
+      "status": "external_drafted_slack",
       "evidence": [
-        "exports/slack_status_update.md contains a concise channel-ready update",
-        "py tools/export_integration_status.py --check verifies the Slack update draft is current"
+        "Slack workspace available: Guts & Gigaflopps (T0BB0MPJE3T)",
+        "Slack draft created in channel alle-in-guts-amp-gigaflopps (C0BAYSFPX98)",
+        "Slack draft id: Dr0BJC668XFU",
+        "Slack channel link: https://gutsgigaflopps.slack.com/archives/C0BAYSFPX98",
+        "reports/slack_receipt.json records the draft evidence"
       ],
-      "next_verification": "Identify workspace/channel and confirm posted or approved drafted update."
+      "next_verification": "Review and send the Slack draft if a public channel post is required beyond draft proof."
     },
     {
       "name": "vercel",
@@ -94,6 +104,27 @@
         "Production URL: https://aria-pc-status-20260713.soleyus80.chatgpt.site"
       ],
       "next_verification": "If Vercel specifically is required, configure Vercel separately; otherwise keep the Sites production URL as deployment evidence."
+    },
+    {
+      "name": "actively",
+      "status": "connector_not_connected",
+      "evidence": [
+        "Actively tools are available in this thread",
+        "Actively account lookup for Aria PC returned USER_NOT_LOGGED_IN for asdk_app_6a15fca0d57c8191a204ffdd12fbbef2",
+        "reports/actively_receipt.json records the connection blocker"
+      ],
+      "next_verification": "Connect Actively and resolve or create the relevant account target, then record account decisioning evidence."
+    },
+    {
+      "name": "close",
+      "status": "connector_schema_error",
+      "evidence": [
+        "Close tools are available and authentication was requested and accepted in this thread",
+        "Close search for Aria PC returned an output validation schema error after authentication",
+        "Close active opportunity lookup returned the same output validation schema error",
+        "reports/close_receipt.json records the connector failure"
+      ],
+      "next_verification": "Retry Close search after connector schema output is fixed, then create or link the Aria PC lead/task if required."
     }
   ]
 }

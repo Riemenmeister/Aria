@@ -1,0 +1,14 @@
+{
+  "project": "Aria PC",
+  "service": "heygen",
+  "status": "completed",
+  "checked_at": "2026-07-19",
+  "session_id": "b3523132028c4ba7a4154127a5cfb3b9",
+  "session_url": "https://app.heygen.com/video-agent/b3523132028c4ba7a4154127a5cfb3b9",
+  "video_id": "8e1fec9f71d04826b2f7b4cafe39d570",
+  "video_title": "Aria PC Project Status Update",
+  "video_status": "completed",
+  "video_page_url": "https://app.heygen.com/videos/8e1fec9f71d04826b2f7b4cafe39d570",
+  "duration_seconds": 37.5641,
+  "verification": "list_video_agent_session_videos returned one completed video for the stored session."
+}

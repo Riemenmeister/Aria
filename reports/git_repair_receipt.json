@@ -1,24 +1,27 @@
 {
   "project": "Aria PC",
-  "checked_at": "2026-07-19",
+  "checked_at": "2026-07-20",
   "service": "git",
   "status": "repaired",
-  "issue": "Two current HEAD loose blob objects were corrupt on disk, causing git status to fail.",
+  "issue": "Loose blob objects on the NAS-backed .git directory were corrupt on disk, causing git status or git fsck to fail until the objects were restored.",
   "repaired_objects": [
     {
       "object_id": "5d28c0c6c6908c07ea0611337d7fec00ea25410a",
       "path": "exports/circleback_meeting_brief.md",
-      "repair": "Working-tree file hash matched expected object id; corrupt loose object was backed up and rewritten with git hash-object -w."
+      "repair": "2026-07-19: working-tree file hash matched expected object id and was rewritten. 2026-07-20: the committed old blob was reconstructed from the committed status/export generator output and rewritten with git hash-object -w --stdin."
     },
     {
       "object_id": "cdff84e275218d00e5f348fcb014a9da3996e310",
       "path": "reports/airtable_receipt.json",
-      "repair": "Working-tree file hash matched expected object id; corrupt loose object was backed up and rewritten with git hash-object -w."
+      "repair": "2026-07-19 and 2026-07-20: corrupt loose object was backed up and rewritten from the intact receipt content with git hash-object -w."
     }
   ],
-  "backup_location": ".git/repair-backups/20260719-corrupt-loose-objects",
+  "backup_locations": [
+    ".git/repair-backups/20260719-corrupt-loose-objects",
+    ".git/repair-backups/20260720-corrupt-loose-objects"
+  ],
   "verification": [
-    "git status --short --branch: ## master",
-    "git fsck --full: only dangling tree 3b0a200de33b7de452917ccdde4af5c92b603dbe remains"
+    "git status --short --branch: ## master with tracked modifications visible after object restoration",
+    "git fsck --full: only dangling tree/blob objects remain; no missing or corrupt referenced objects"
   ]
 }

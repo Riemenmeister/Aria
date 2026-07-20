@@ -1,42 +1,27 @@
 {
-  "service": "airtable",
   "project": "Aria PC",
+  "service": "airtable",
   "status": "succeeded",
-  "workspace_id": "wspiGxHonRe3qLq6C",
-  "workspace_name": "My First Workspace",
   "base_id": "apprXVtcJBWQJXl5n",
-  "base_name": "Aria PC Completion",
   "table_id": "tbl16tPYsvz97KWlh",
-  "table_name": "Integration Status",
-  "record_count": 8,
-  "created_at": "2026-07-13T14:07:24Z",
-  "record_ids": [
-    "recToIGYn5R1tZp8U",
-    "recY5Dw1OppSJ52LP",
-    "recvDRho3FTjtvIEL",
-    "recBiwBtawdP2X6Uo",
-    "recQlsy7j57NcijYe",
-    "recx8CGzdyfjEcGpH",
-    "recXXS8051IEdWaC1",
-    "recEBmYwixPnbkFVY"
-  ],
-  "verification": "Airtable list_records_for_table returned totalRecordCount 8 for the Integration Status table.",
+  "record_count": 10,
+  "records": {
+    "github": "recToIGYn5R1tZp8U",
+    "airtable": "recY5Dw1OppSJ52LP",
+    "data-analytics": "recvDRho3FTjtvIEL",
+    "notion": "recBiwBtawdP2X6Uo",
+    "heygen": "recQlsy7j57NcijYe",
+    "circleback": "recx8CGzdyfjEcGpH",
+    "slack": "recXXS8051IEdWaC1",
+    "vercel": "recEBmYwixPnbkFVY",
+    "actively": "recP1zquezdPyefMk",
+    "close": "recKH2GvuG06Jd9wo"
+  },
   "last_sync": {
-    "synced_at": "2026-07-13",
-    "operation": "update_records_for_table",
-    "updated_record_count": 8,
-    "verified_record_count": 8,
-    "verification": "Airtable list_records_for_table returned totalRecordCount 8 after updating the existing records; data-analytics read back with Status Production report published.",
-    "changed_record_ids": [
-      "recToIGYn5R1tZp8U",
-      "recY5Dw1OppSJ52LP",
-      "recvDRho3FTjtvIEL",
-      "recBiwBtawdP2X6Uo",
-      "recQlsy7j57NcijYe",
-      "recx8CGzdyfjEcGpH",
-      "recXXS8051IEdWaC1",
-      "recEBmYwixPnbkFVY"
-    ]
+    "operation": "upsert_records_for_table",
+    "checked_at": "2026-07-20",
+    "updated_record_count": 10,
+    "merge_field_id": "fldetJqAQzRPOlek1",
+    "verification": "Airtable returned 10 records after upsert, including Generated in HeyGen, Connector not connected, and Connector schema error statuses."
   }
 }
-

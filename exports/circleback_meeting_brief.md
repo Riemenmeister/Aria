@@ -1,6 +1,6 @@
 # Circleback Meeting Brief: Aria PC Completion Closeout
 
-Updated: 2026-07-13
+Updated: 2026-07-20
 
 ## Meeting Purpose
 
@@ -17,10 +17,9 @@ Review the current Aria PC completion evidence, assign owners for remaining exte
 ## Open External Proof
 
 - github
-- notion
-- heygen
 - circleback
-- slack
+- actively
+- close
 
 ## Capture Checklist
 

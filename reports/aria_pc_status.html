@@ -55,7 +55,7 @@
       .integration.local { border-top-color: var(--local); }
       .integration-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
       .pill { display: inline-flex; align-items: center; min-height: 28px; padding: 4px 9px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: .82rem; white-space: nowrap; }
-      .bar { display: grid; grid-template-columns: 3fr 5fr 0fr; height: 14px; overflow: hidden; border-radius: 999px; border: 1px solid var(--border); margin-top: 10px; }
+      .bar { display: grid; grid-template-columns: 6fr 1fr 3fr; height: 14px; overflow: hidden; border-radius: 999px; border: 1px solid var(--border); margin-top: 10px; }
       .bar span:nth-child(1) { background: var(--complete); }
       .bar span:nth-child(2) { background: var(--local); }
       .bar span:nth-child(3) { background: var(--missing); }
@@ -72,20 +72,20 @@
    <main>
       <header>
          <h1>Aria PC Completion Status</h1>
-         <p class="muted">Evidence-backed local readiness snapshot updated 2026-07-13.</p>
+         <p class="muted">Evidence-backed local readiness snapshot updated 2026-07-20.</p>
       </header>
 
       <section class="summary" aria-label="Completion summary">
-         <div class="metric"><strong>8</strong><span>tracked integrations</span></div>
-         <div class="metric"><strong>3</strong><span>externally complete</span></div>
-         <div class="metric"><strong>5</strong><span>locally prepared</span></div>
-         <div class="metric"><strong>5</strong><span>pending external proof</span></div>
+         <div class="metric"><strong>10</strong><span>tracked integrations</span></div>
+         <div class="metric"><strong>6</strong><span>externally complete</span></div>
+         <div class="metric"><strong>1</strong><span>locally prepared</span></div>
+         <div class="metric"><strong>4</strong><span>pending external proof</span></div>
       </section>
 
       <section class="section">
          <h2>Executive Summary</h2>
          <p><strong>The local Aria PC package is ready for a GitHub push, and some external proof is now recorded.</strong> Git, CI, tests, packaging, Airtable sync, a production-published report, and a status model are in place. Remaining services still need concrete targets and connected-service evidence.</p>
-         <div class="bar" aria-label="Status mix: 3 complete, 5 local-ready, 0 target-missing"><span></span><span></span><span></span></div>
+         <div class="bar" aria-label="Status mix: 6 complete, 1 local-ready, 3 target-missing"><span></span><span></span><span></span></div>
       </section>
 
       <section class="section">
@@ -116,7 +116,7 @@
                <span class="pill">Synced to Airtable</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>Airtable base created: Aria PC Completion (apprXVtcJBWQJXl5n)</li><li>Airtable table created: Integration Status (tbl16tPYsvz97KWlh)</li><li>8 integration status records created and read back from Airtable</li><li>reports/airtable_receipt.json records Airtable base/table/record evidence</li></ul>
+            <ul><li>Airtable base created: Aria PC Completion (apprXVtcJBWQJXl5n)</li><li>Airtable table created: Integration Status (tbl16tPYsvz97KWlh)</li><li>10 integration status records created or updated and read back from Airtable</li><li>reports/airtable_receipt.json records Airtable base/table/record evidence</li></ul>
             <h4>Next verification</h4>
             <p>Keep Airtable records updated when integrations/status.json changes.</p>
          </article>
@@ -134,51 +134,51 @@
          </article>
          
 
-         <article class="integration local">
+         <article class="integration complete">
             <div class="integration-header">
                <h3>notion</h3>
-               <span class="pill">local_export_ready</span>
+               <span class="pill">Synced to Notion</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>exports/notion_aria_pc_status.md is page-ready status documentation</li><li>py tools/export_integration_status.py --check verifies the Notion markdown is current</li></ul>
+            <ul><li>Notion page created: Aria PC Completion Status</li><li>Notion page URL: https://app.notion.com/p/3a233b66295a8102936ff866e9e0d96f</li><li>Notion fetch verified the page content on 2026-07-19</li><li>exports/notion_aria_pc_status.md remains the source handoff export</li></ul>
             <h4>Next verification</h4>
-            <p>Identify Notion page/database and confirm documentation sync.</p>
+            <p>Keep the Notion page current when integration evidence changes.</p>
          </article>
          
 
-         <article class="integration local">
+         <article class="integration complete">
             <div class="integration-header">
                <h3>heygen</h3>
-               <span class="pill">local_export_ready</span>
+               <span class="pill">Generated in HeyGen</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>exports/heygen_status_video_brief.md contains a presenter-video brief and script</li><li>py tools/export_integration_status.py --check verifies the HeyGen brief is current</li></ul>
+            <ul><li>HeyGen Video Agent session created: b3523132028c4ba7a4154127a5cfb3b9</li><li>HeyGen video completed: 8e1fec9f71d04826b2f7b4cafe39d570</li><li>Video page URL: https://app.heygen.com/videos/8e1fec9f71d04826b2f7b4cafe39d570</li><li>Generated video URL recorded in reports/heygen_receipt.json</li><li>exports/heygen_status_video_brief.md remains the source handoff script</li></ul>
             <h4>Next verification</h4>
-            <p>Generate or link the HeyGen video and record the artifact evidence.</p>
+            <p>Refresh expiring HeyGen file URLs if the video needs long-term archival outside HeyGen.</p>
          </article>
          
 
-         <article class="integration local">
+         <article class="integration missing">
             <div class="integration-header">
                <h3>circleback</h3>
-               <span class="pill">local_export_ready</span>
+               <span class="pill">Connector available, no event</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>exports/circleback_meeting_brief.md contains a closeout meeting agenda and capture checklist</li><li>py tools/export_integration_status.py --check verifies the Circleback brief is current</li></ul>
+            <ul><li>Circleback connector tools became available in this thread</li><li>Circleback action-item search failed with a Prisma query-engine error for Aria PC Completion</li><li>Circleback calendar search for 2026-07-19 to 2026-07-20 returned no Aria PC Completion events</li><li>reports/circleback_receipt.json records the connector result and remaining artifact gap</li></ul>
             <h4>Next verification</h4>
-            <p>Run/import the meeting workflow and record a Circleback summary artifact.</p>
+            <p>Create or capture a real Circleback meeting/summary artifact, then link its meeting ID or summary URL.</p>
          </article>
          
 
-         <article class="integration local">
+         <article class="integration complete">
             <div class="integration-header">
                <h3>slack</h3>
-               <span class="pill">local_export_ready</span>
+               <span class="pill">Drafted in Slack</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>exports/slack_status_update.md contains a concise channel-ready update</li><li>py tools/export_integration_status.py --check verifies the Slack update draft is current</li></ul>
+            <ul><li>Slack workspace available: Guts &amp; Gigaflopps (T0BB0MPJE3T)</li><li>Slack draft created in channel alle-in-guts-amp-gigaflopps (C0BAYSFPX98)</li><li>Slack draft id: Dr0BJC668XFU</li><li>Slack channel link: https://gutsgigaflopps.slack.com/archives/C0BAYSFPX98</li><li>reports/slack_receipt.json records the draft evidence</li></ul>
             <h4>Next verification</h4>
-            <p>Identify workspace/channel and confirm posted or approved drafted update.</p>
+            <p>Review and send the Slack draft if a public channel post is required beyond draft proof.</p>
          </article>
          
 
@@ -191,6 +191,30 @@
             <ul><li>vercel.json rewrites / to the static build index</li><li>reports/aria_pc_status.html is self-contained and generated from integrations/status.json</li><li>package.json and tools/build_static_site.js build the deployable dist/ site without external npm dependencies</li><li>reports/external_readiness.json confirms Vercel CLI is not available in PATH</li><li>reports/external_readiness.json confirms local node/npm are not available in PATH</li><li>reports/deployment_receipt.json records successful production deployment</li><li>Production URL: https://aria-pc-status-20260713.soleyus80.chatgpt.site</li></ul>
             <h4>Next verification</h4>
             <p>If Vercel specifically is required, configure Vercel separately; otherwise keep the Sites production URL as deployment evidence.</p>
+         </article>
+         
+
+         <article class="integration missing">
+            <div class="integration-header">
+               <h3>actively</h3>
+               <span class="pill">Connector not connected</span>
+            </div>
+            <h4>Evidence</h4>
+            <ul><li>Actively tools are available in this thread</li><li>Actively account lookup for Aria PC returned USER_NOT_LOGGED_IN for asdk_app_6a15fca0d57c8191a204ffdd12fbbef2</li><li>reports/actively_receipt.json records the connection blocker</li></ul>
+            <h4>Next verification</h4>
+            <p>Connect Actively and resolve or create the relevant account target, then record account decisioning evidence.</p>
+         </article>
+         
+
+         <article class="integration missing">
+            <div class="integration-header">
+               <h3>close</h3>
+               <span class="pill">Connector schema error</span>
+            </div>
+            <h4>Evidence</h4>
+            <ul><li>Close tools are available and authentication was requested and accepted in this thread</li><li>Close search for Aria PC returned an output validation schema error after authentication</li><li>Close active opportunity lookup returned the same output validation schema error</li><li>reports/close_receipt.json records the connector failure</li></ul>
+            <h4>Next verification</h4>
+            <p>Retry Close search after connector schema output is fixed, then create or link the Aria PC lead/task if required.</p>
          </article>
          
          </div>

@@ -1,0 +1,11 @@
+{
+  "project": "Aria PC",
+  "service": "close",
+  "status": "connector_schema_error",
+  "checked_at": "2026-07-19",
+  "search_query": "Aria PC",
+  "search_error": "Output validation error: outputSchema defined but no structured output returned",
+  "opportunity_query": "active opportunities",
+  "opportunity_error": "Output validation error: outputSchema defined but no structured output returned",
+  "verification": "Close authenticated, but read tools returned connector output validation errors."
+}

@@ -39,6 +39,8 @@ class IntegrationStatusTests(unittest.TestCase):
          "circleback",
          "slack",
          "vercel",
+         "actively",
+         "close",
       }
 
       self.assertEqual(set(markers), expected)
@@ -58,6 +60,7 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertIn("Integration Readiness", html)
       self.assertEqual(vercel["rewrites"][0]["source"], "/")
       self.assertEqual(vercel["rewrites"][0]["destination"], "/index.html")
+
    def test_status_model_counts_external_proof(self):
       data = json.loads((ROOT / "integrations" / "status.json").read_text(encoding="utf-8"))
       markers = {item["name"]: item for item in data["integrations"]}
@@ -66,7 +69,10 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(markers["airtable"]["status"], "external_synced_airtable")
       self.assertEqual(markers["data-analytics"]["status"], "production_report_published")
       self.assertEqual(markers["vercel"]["status"], "production_deployed_sites")
-      self.assertIn("<strong>3</strong><span>externally complete</span>", report)
+      self.assertEqual(markers["notion"]["status"], "external_synced_notion")
+      self.assertEqual(markers["heygen"]["status"], "external_generated_heygen")
+      self.assertEqual(markers["slack"]["status"], "external_drafted_slack")
+      self.assertIn("<strong>6</strong><span>externally complete</span>", report)
       self.assertIn("Production report published", report)
 
    def test_static_site_build_configuration_exists(self):
@@ -90,7 +96,7 @@ class IntegrationStatusTests(unittest.TestCase):
       circleback = ROOT / "exports" / "circleback_meeting_brief.md"
 
       rows = list(csv.DictReader(airtable.read_text(encoding="utf-8").splitlines()))
-      self.assertEqual(len(rows), 8)
+      self.assertEqual(len(rows), 10)
       self.assertEqual(rows[0]["Project"], "Aria PC")
       self.assertIn("# Aria PC Completion Status", notion.read_text(encoding="utf-8"))
       self.assertIn("*Aria PC status update*", slack.read_text(encoding="utf-8"))
@@ -115,16 +121,18 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(receipt["status"], "succeeded")
       self.assertTrue(receipt["url"].startswith("https://aria-pc-status-20260713"))
       self.assertEqual(receipt["version_number"], 5)
+
    def test_airtable_receipt_records_success(self):
       receipt = json.loads((ROOT / "reports" / "airtable_receipt.json").read_text(encoding="utf-8"))
 
       self.assertEqual(receipt["status"], "succeeded")
       self.assertEqual(receipt["base_id"], "apprXVtcJBWQJXl5n")
       self.assertEqual(receipt["table_id"], "tbl16tPYsvz97KWlh")
-      self.assertEqual(receipt["record_count"], 8)
-      self.assertEqual(receipt["last_sync"]["operation"], "update_records_for_table")
-      self.assertEqual(receipt["last_sync"]["updated_record_count"], 8)
-      self.assertIn("Production report published", receipt["last_sync"]["verification"])
+      self.assertEqual(receipt["record_count"], 10)
+      self.assertEqual(receipt["last_sync"]["operation"], "upsert_records_for_table")
+      self.assertEqual(receipt["last_sync"]["updated_record_count"], 10)
+      self.assertIn("Generated in HeyGen", receipt["last_sync"]["verification"])
+
    def test_connector_availability_report_records_remaining_blockers(self):
       report = json.loads((ROOT / "reports" / "connector_availability.json").read_text(encoding="utf-8"))
       connectors = report["connectors"]
@@ -132,19 +140,41 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(report["status"], "partial_external_connectors_available")
       self.assertEqual(connectors["airtable"]["status"], "available_and_synced")
       self.assertEqual(connectors["github"]["status"], "available_existing_repo_only")
-      self.assertEqual(connectors["notion"]["status"], "tool_unavailable_in_thread")
-      self.assertEqual(connectors["slack"]["status"], "tool_unavailable_in_thread")
-      self.assertEqual(connectors["heygen"]["status"], "tool_unavailable_in_thread")
-      self.assertEqual(connectors["circleback"]["status"], "tool_unavailable_in_thread")
+      self.assertEqual(connectors["notion"]["status"], "available_and_synced")
+      self.assertEqual(connectors["slack"]["status"], "available_and_drafted")
+      self.assertEqual(connectors["heygen"]["status"], "available_and_generated")
+      self.assertEqual(connectors["circleback"]["status"], "available_no_artifact_found")
+      self.assertEqual(connectors["actively"]["status"], "connector_not_connected")
+      self.assertEqual(connectors["close"]["status"], "connector_schema_error")
+
+   def test_new_connector_receipts_record_current_evidence(self):
+      notion = json.loads((ROOT / "reports" / "notion_receipt.json").read_text(encoding="utf-8"))
+      slack = json.loads((ROOT / "reports" / "slack_receipt.json").read_text(encoding="utf-8"))
+      heygen = json.loads((ROOT / "reports" / "heygen_receipt.json").read_text(encoding="utf-8"))
+      circleback = json.loads((ROOT / "reports" / "circleback_receipt.json").read_text(encoding="utf-8"))
+      actively = json.loads((ROOT / "reports" / "actively_receipt.json").read_text(encoding="utf-8"))
+      close = json.loads((ROOT / "reports" / "close_receipt.json").read_text(encoding="utf-8"))
+
+      self.assertEqual(notion["status"], "succeeded")
+      self.assertTrue(notion["page_url"].startswith("https://app.notion.com/"))
+      self.assertEqual(slack["status"], "draft_created")
+      self.assertEqual(slack["draft_id"], "Dr0BJC668XFU")
+      self.assertEqual(heygen["status"], "completed")
+      self.assertEqual(heygen["video_id"], "8e1fec9f71d04826b2f7b4cafe39d570")
+      self.assertEqual(circleback["status"], "connector_available_no_event")
+      self.assertEqual(actively["error_code"], "USER_NOT_LOGGED_IN")
+      self.assertEqual(close["status"], "connector_schema_error")
+
    def test_git_repair_receipt_records_clean_status(self):
       receipt = json.loads((ROOT / "reports" / "git_repair_receipt.json").read_text(encoding="utf-8"))
 
       self.assertEqual(receipt["status"], "repaired")
-      self.assertEqual(len(receipt["repaired_objects"]), 2)
-      self.assertIn("git status --short --branch: ## master", receipt["verification"])
+      self.assertGreaterEqual(len(receipt["repaired_objects"]), 2)
+      self.assertTrue(any("git status --short --branch: ## master" in item for item in receipt["verification"]))
       self.assertTrue(any("git fsck --full" in item for item in receipt["verification"]))
 
 
 if __name__ == "__main__":
    unittest.main()
+
 

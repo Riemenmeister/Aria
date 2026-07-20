@@ -1,0 +1,11 @@
+{
+  "project": "Aria PC",
+  "service": "circleback",
+  "status": "connector_available_no_event",
+  "checked_at": "2026-07-19",
+  "action_item_query": "Aria PC Completion, 2026-07-19 to 2026-07-20",
+  "action_item_result": "Connector returned a Prisma query-engine error before structured action-item results could be read.",
+  "calendar_query": "2026-07-19 to 2026-07-20",
+  "calendar_result": "[]",
+  "verification": "Circleback is available, but no closeout meeting artifact was found in the checked date window."
+}

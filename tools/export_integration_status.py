@@ -22,6 +22,12 @@ STATUS_LABELS = {
    "production_deployed_sites": "Production deployed via Sites",
    "production_report_published": "Production report published",
    "external_synced_airtable": "Synced to Airtable",
+   "external_synced_notion": "Synced to Notion",
+   "external_drafted_slack": "Drafted in Slack",
+   "external_generated_heygen": "Generated in HeyGen",
+   "connector_available_no_event": "Connector available, no event",
+   "connector_not_connected": "Connector not connected",
+   "connector_schema_error": "Connector schema error",
    "target_missing": "Target missing",
 }
 
@@ -238,3 +244,5 @@ def main():
 
 if __name__ == "__main__":
    main()
+
+

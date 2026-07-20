@@ -1,0 +1,14 @@
+{
+  "project": "Aria PC",
+  "service": "slack",
+  "status": "draft_created",
+  "workspace_id": "T0BB0MPJE3T",
+  "workspace_name": "Guts & Gigaflopps",
+  "channel_id": "C0BAYSFPX98",
+  "channel_name": "alle-in-guts-amp-gigaflopps",
+  "channel_link": "https://gutsgigaflopps.slack.com/archives/C0BAYSFPX98",
+  "draft_id": "Dr0BJC668XFU",
+  "widget_id": "4e0c5fa9-07b2-4ecc-9a89-5123487269a0",
+  "created_at": "2026-07-19",
+  "verification": "Slack send_message_draft returned draft_id Dr0BJC668XFU and channel_link for C0BAYSFPX98. The message was created as a draft, not sent."
+}

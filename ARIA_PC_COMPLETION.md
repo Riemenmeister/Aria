@@ -1,6 +1,6 @@
 # Aria PC Completion Status
 
-Updated: 2026-07-13
+Updated: 2026-07-20
 
 ## Local PC Package
 
@@ -40,7 +40,7 @@ Status: local data model, service handoff exports, external-readiness audit, and
 
 Evidence:
 
-- `integrations/status.json` tracks all objective markers: Airtable, data analytics, GitHub, Notion, HeyGen, Circleback, Slack, and Vercel/deployment.
+- `integrations/status.json` tracks all objective markers: Airtable, data analytics, GitHub, Notion, HeyGen, Circleback, Slack, Vercel/deployment, Actively, and Close.
 - `tools/render_status_report.py` generates `reports/aria_pc_status.html` from the status model.
 - `py tools/render_status_report.py --check` verifies the report is current.
 - `tools/export_integration_status.py` generates external-service handoff files from the same status model.
@@ -48,8 +48,10 @@ Evidence:
 - `tools/audit_external_readiness.py` generates `reports/external_readiness.json` from the current local machine state.
 - `py tools/audit_external_readiness.py --check` verifies the external-readiness audit is current.
 - `reports/deployment_receipt.json` records a successful production Sites deployment for the generated status report.
-- `reports/airtable_receipt.json` records the successful Airtable base/table sync, record read-back, and latest update of all 8 records after the reporting correction.
+- `reports/airtable_receipt.json` records the successful Airtable base/table sync, record read-back, and latest update of all 10 records after the connector-scope correction.
 - `reports/connector_availability.json` records which connected-service tools are available in this thread and which remain blocked.
+- `reports/notion_receipt.json` records the created Notion page and fetch verification.
+- `reports/slack_receipt.json` records the created Slack draft in the workspace general channel.`r`n- `reports/heygen_receipt.json` records the completed HeyGen video.`r`n- `reports/circleback_receipt.json` records Circleback connector availability and the missing meeting artifact.`r`n- `reports/actively_receipt.json` records the Actively login blocker.`r`n- `reports/close_receipt.json` records the Close connector schema error.
 
 ## Deployment Readiness
 
@@ -73,12 +75,12 @@ Remaining external proof needed:
 
 These markers still need connected-service evidence before the overall goal can be closed.
 
-- Airtable: synced to base `apprXVtcJBWQJXl5n`, table `tbl16tPYsvz97KWlh`; `reports/airtable_receipt.json` records 8 created records, the latest 8-record update, and Airtable read-back verification.
-- Notion: local Markdown export exists; no connected Notion page/database sync proof yet; `reports/connector_availability.json` records no Notion tool available in this thread.
-- HeyGen: local video brief/script exists; no generated video artifact proof yet; `reports/connector_availability.json` records no HeyGen tool available in this thread.
-- Circleback: local meeting brief exists; no meeting/import/summary proof yet; `reports/connector_availability.json` records no Circleback tool available in this thread.
-- Slack: local update draft exists; no workspace/channel post proof yet; `reports/connector_availability.json` records no Slack tool available in this thread.
-- GitHub: local Git history and CI config exist; no GitHub remote/push/remote CI proof yet; connector tools require an existing repository target.
+- Airtable: synced to base `apprXVtcJBWQJXl5n`, table `tbl16tPYsvz97KWlh`; `reports/airtable_receipt.json` records 10 integration rows and Airtable read-back verification.
+- Notion: synced to page `3a233b66-295a-8102-936f-f866e9e0d96f`; `reports/notion_receipt.json` records the created page and fetch verification.
+- HeyGen: completed video `8e1fec9f71d04826b2f7b4cafe39d570`; `reports/heygen_receipt.json` records the session and video page evidence.
+- Circleback: connector is available, but no Aria PC closeout event was found for 2026-07-19 to 2026-07-20 and action-item search hit a connector-side Prisma error; no meeting summary artifact exists yet.
+- Slack: draft created in `alle-in-guts-amp-gigaflopps` (`C0BAYSFPX98`); `reports/slack_receipt.json` records draft ID `Dr0BJC668XFU`.
+- GitHub: local Git history and CI config exist; no GitHub remote/push/remote CI proof yet; connector tools require an existing repository target.`r`n- Actively: tools are available, but the app is not connected; `reports/actively_receipt.json` records `USER_NOT_LOGGED_IN`.`r`n- Close: tools are available and authentication was accepted, but read tools return connector output validation errors; `reports/close_receipt.json` records the failure.
 
 ## Current Safe Next Steps
 
@@ -90,4 +92,6 @@ These markers still need connected-service evidence before the overall goal can 
 6. Generate or link a HeyGen video from `exports/heygen_status_video_brief.md`.
 7. Run/import a Circleback meeting workflow using `exports/circleback_meeting_brief.md`.
 8. Close the goal only after those service checks have current evidence.
+
+
 

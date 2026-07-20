@@ -1,0 +1,14 @@
+{
+  "project": "Aria PC",
+  "service": "notion",
+  "status": "succeeded",
+  "workspace_id": "2d433b66-295a-8170-830d-0003414f729a",
+  "workspace_name": "Workspace von Andreas P",
+  "user": "Andreas P (soleyus80@gmail.com)",
+  "page_id": "3a233b66-295a-8102-936f-f866e9e0d96f",
+  "page_title": "Aria PC Completion Status",
+  "page_url": "https://app.notion.com/p/3a233b66295a8102936ff866e9e0d96f",
+  "created_at": "2026-07-19",
+  "verification": "Notion fetch returned the updated page with 2026-07-20 status, 10 Airtable records, completed HeyGen video evidence, Slack draft evidence, and the remaining GitHub/Circleback/Actively/Close blockers.",
+  "updated_at": "2026-07-20"
+}
