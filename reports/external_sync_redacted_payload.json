@@ -1,0 +1,58 @@
+{
+  "project": "Aria PC",
+  "generated_at": "2026-08-01",
+  "redaction_policy": "Keep integration names and completion class; omit internal service IDs, URLs, auth details, exact connector error payloads, and record IDs.",
+  "airtable": [
+    {
+      "integration": "github",
+      "status": "local ready; external publishing pending",
+      "next": "Authenticate GitHub or provide repository target."
+    },
+    {
+      "integration": "airtable",
+      "status": "previously synced; current resync pending approval",
+      "next": "Approve full or redacted resync."
+    },
+    {
+      "integration": "data-analytics",
+      "status": "published report available",
+      "next": "Keep report current."
+    },
+    {
+      "integration": "notion",
+      "status": "previously synced; current resync pending approval",
+      "next": "Approve full or redacted resync."
+    },
+    {
+      "integration": "heygen",
+      "status": "video generated",
+      "next": "Archive video if long-term file access is required."
+    },
+    {
+      "integration": "circleback",
+      "status": "connector available; no meeting artifact yet",
+      "next": "Create or provide closeout meeting artifact."
+    },
+    {
+      "integration": "slack",
+      "status": "draft created",
+      "next": "Review/send if channel post proof is required."
+    },
+    {
+      "integration": "vercel",
+      "status": "production site deployed through available hosting path",
+      "next": "Use Vercel CLI/project only if specifically required."
+    },
+    {
+      "integration": "actively",
+      "status": "connection required",
+      "next": "Connect Actively and retry lookup."
+    },
+    {
+      "integration": "close",
+      "status": "target or connector fix required",
+      "next": "Provide exact CRM target or retry after connector fix."
+    }
+  ],
+  "notion": "Aria PC is locally ready and partially externally verified. Current external writes to Airtable and Notion require explicit approval. GitHub requires authentication or a repository target. Actively, Close, and Circleback still require connection, target, or artifact evidence."
+}

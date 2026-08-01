@@ -40,6 +40,7 @@ Evidence:
 - Last successful Airtable upsert returned 10 integration records on 2026-07-20
 - 2026-08-01 Airtable resync was not performed because the connector rejected the payload as requiring explicit user approval
 - reports/airtable_receipt.json records the successful sync and the blocked resync attempt
+- reports/external_sync_approval_request.json records the full-vs-redacted resync approval options
 
 Next verification: Explicitly approve the 2026-08-01 Airtable resync payload, then upsert the 10 current records and read them back.
 
@@ -66,6 +67,7 @@ Evidence:
 - Notion fetch verified the updated 2026-07-20 page content
 - 2026-08-01 Notion resync was not performed because the connector rejected the payload as requiring explicit user approval
 - exports/notion_aria_pc_status.md remains the source handoff export
+- reports/external_sync_approval_request.json records the full-vs-redacted resync approval options
 
 Next verification: Explicitly approve the 2026-08-01 Notion resync payload or provide a redacted update policy, then update and fetch the page again.
 

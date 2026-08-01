@@ -168,6 +168,17 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(actively["error_code"], "USER_NOT_LOGGED_IN")
       self.assertEqual(close["status"], "connector_invalid_argument")
 
+
+   def test_external_sync_approval_request_records_options(self):
+      approval = json.loads((ROOT / "reports" / "external_sync_approval_request.json").read_text(encoding="utf-8"))
+      redacted = json.loads((ROOT / "reports" / "external_sync_redacted_payload.json").read_text(encoding="utf-8"))
+      approval_doc = (ROOT / "docs" / "external_sync_approval.md").read_text(encoding="utf-8")
+
+      services = {item["service"] for item in approval["external_writes_requiring_explicit_approval"]}
+      self.assertEqual(services, {"airtable", "notion"})
+      self.assertTrue(any("Approve full Airtable resync" in option for option in approval["approval_options"]))
+      self.assertEqual(redacted["redaction_policy"].startswith("Keep integration names"), True)
+      self.assertIn("Writes Awaiting Approval", approval_doc)
    def test_git_repair_receipt_records_clean_status(self):
       receipt = json.loads((ROOT / "reports" / "git_repair_receipt.json").read_text(encoding="utf-8"))
 
@@ -179,6 +190,8 @@ class IntegrationStatusTests(unittest.TestCase):
 
 if __name__ == "__main__":
    unittest.main()
+
+
 
 
 

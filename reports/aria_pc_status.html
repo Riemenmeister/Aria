@@ -116,7 +116,7 @@
                <span class="pill">Synced to Airtable; resync pending</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>Airtable base created: Aria PC Completion (apprXVtcJBWQJXl5n)</li><li>Airtable table created: Integration Status (tbl16tPYsvz97KWlh)</li><li>Last successful Airtable upsert returned 10 integration records on 2026-07-20</li><li>2026-08-01 Airtable resync was not performed because the connector rejected the payload as requiring explicit user approval</li><li>reports/airtable_receipt.json records the successful sync and the blocked resync attempt</li></ul>
+            <ul><li>Airtable base created: Aria PC Completion (apprXVtcJBWQJXl5n)</li><li>Airtable table created: Integration Status (tbl16tPYsvz97KWlh)</li><li>Last successful Airtable upsert returned 10 integration records on 2026-07-20</li><li>2026-08-01 Airtable resync was not performed because the connector rejected the payload as requiring explicit user approval</li><li>reports/airtable_receipt.json records the successful sync and the blocked resync attempt</li><li>reports/external_sync_approval_request.json records the full-vs-redacted resync approval options</li></ul>
             <h4>Next verification</h4>
             <p>Explicitly approve the 2026-08-01 Airtable resync payload, then upsert the 10 current records and read them back.</p>
          </article>
@@ -140,7 +140,7 @@
                <span class="pill">Synced to Notion; resync pending</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>Notion page created: Aria PC Completion Status</li><li>Notion page URL: https://app.notion.com/p/3a233b66295a8102936ff866e9e0d96f</li><li>Notion fetch verified the updated 2026-07-20 page content</li><li>2026-08-01 Notion resync was not performed because the connector rejected the payload as requiring explicit user approval</li><li>exports/notion_aria_pc_status.md remains the source handoff export</li></ul>
+            <ul><li>Notion page created: Aria PC Completion Status</li><li>Notion page URL: https://app.notion.com/p/3a233b66295a8102936ff866e9e0d96f</li><li>Notion fetch verified the updated 2026-07-20 page content</li><li>2026-08-01 Notion resync was not performed because the connector rejected the payload as requiring explicit user approval</li><li>exports/notion_aria_pc_status.md remains the source handoff export</li><li>reports/external_sync_approval_request.json records the full-vs-redacted resync approval options</li></ul>
             <h4>Next verification</h4>
             <p>Explicitly approve the 2026-08-01 Notion resync payload or provide a redacted update policy, then update and fetch the page again.</p>
          </article>

@@ -1,0 +1,54 @@
+{
+  "project": "Aria PC",
+  "generated_at": "2026-08-01",
+  "purpose": "Approval package for completing external connector resyncs and remaining proof steps.",
+  "external_writes_requiring_explicit_approval": [
+    {
+      "service": "airtable",
+      "destination": "Airtable base apprXVtcJBWQJXl5n, table tbl16tPYsvz97KWlh",
+      "requested_action": "Upsert the 10 current integration status records and read them back.",
+      "risk_summary": "Payload includes internal project status, service identifiers, URLs, and authentication/connectivity blocker details.",
+      "full_payload_source": "exports/airtable_integration_status.csv",
+      "safer_redacted_payload": "reports/external_sync_redacted_payload.json:airtable",
+      "current_status": "not performed on 2026-08-01; connector rejected full payload pending explicit user approval"
+    },
+    {
+      "service": "notion",
+      "destination": "Notion page 3a233b66-295a-8102-936f-f866e9e0d96f",
+      "requested_action": "Replace/update the page with the current 2026-08-01 Aria PC status.",
+      "risk_summary": "Payload includes internal project status, service identifiers, URLs, and authentication/connectivity blocker details.",
+      "full_payload_source": "exports/notion_aria_pc_status.md",
+      "safer_redacted_payload": "reports/external_sync_redacted_payload.json:notion",
+      "current_status": "not performed on 2026-08-01; connector rejected full payload pending explicit user approval"
+    }
+  ],
+  "non_write_blockers": [
+    {
+      "service": "github",
+      "blocker": "gh is installed but unauthenticated, and no git remote/repository target is configured",
+      "needed_user_action": "Run gh auth login or provide an existing repository full name/remote URL."
+    },
+    {
+      "service": "actively",
+      "blocker": "Actively lookup returns USER_NOT_LOGGED_IN",
+      "needed_user_action": "Connect Actively, then retry account lookup for Aria PC."
+    },
+    {
+      "service": "close",
+      "blocker": "Close search for Aria PC returns INVALID_ARGUMENT",
+      "needed_user_action": "Provide exact Close lead/contact/opportunity target or retry after connector argument handling is fixed."
+    },
+    {
+      "service": "circleback",
+      "blocker": "No Aria PC event found through 2026-08-15; action-item search returns INVALID_ARGUMENT",
+      "needed_user_action": "Create/capture a Circleback closeout meeting artifact or provide meeting ID."
+    }
+  ],
+  "approval_options": [
+    "Approve full Airtable resync using exports/airtable_integration_status.csv.",
+    "Approve redacted Airtable resync using reports/external_sync_redacted_payload.json.",
+    "Approve full Notion resync using exports/notion_aria_pc_status.md.",
+    "Approve redacted Notion resync using reports/external_sync_redacted_payload.json.",
+    "Do not sync externally; keep local evidence only."
+  ]
+}
