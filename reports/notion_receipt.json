@@ -10,5 +10,11 @@
   "page_url": "https://app.notion.com/p/3a233b66295a8102936ff866e9e0d96f",
   "created_at": "2026-07-19",
   "verification": "Notion fetch returned the updated page with 2026-07-20 status, 10 Airtable records, completed HeyGen video evidence, Slack draft evidence, and the remaining GitHub/Circleback/Actively/Close blockers.",
-  "updated_at": "2026-07-20"
+  "updated_at": "2026-07-20",
+  "last_attempt": {
+    "operation": "replace_content",
+    "checked_at": "2026-08-01",
+    "status": "rejected_by_connector_risk_policy",
+    "verification": "Notion rejected the 2026-08-01 page replacement because it would export internal project status, service identifiers, URLs, and connectivity details without explicit approval."
+  }
 }

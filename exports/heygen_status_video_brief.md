@@ -1,6 +1,6 @@
 # HeyGen Video Brief: Aria PC Status
 
-Updated: 2026-07-20
+Updated: 2026-08-01
 
 ## Goal
 

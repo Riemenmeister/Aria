@@ -1,12 +1,12 @@
 {
   "project": "Aria PC",
-  "checked_at": "2026-07-20",
+  "checked_at": "2026-08-01",
   "generated_by": "Codex connector discovery and verification in active thread",
   "status": "partial_external_connectors_available",
   "connectors": {
     "airtable": {
-      "status": "available_and_synced",
-      "evidence": "Airtable tools were available; base apprXVtcJBWQJXl5n and table tbl16tPYsvz97KWlh are being maintained from integrations/status.json."
+      "status": "available_resync_requires_approval",
+      "evidence": "Airtable tools are available and were successfully synced on 2026-07-20; the 2026-08-01 resync was rejected by connector risk policy pending explicit user approval."
     },
     "sites": {
       "status": "available_and_deployed",
@@ -14,11 +14,11 @@
     },
     "github": {
       "status": "available_existing_repo_only",
-      "evidence": "GitHub tools for existing repositories are available, but this workspace has no configured git remote and no repository target was provided."
+      "evidence": "GitHub tools for existing repositories are available; local gh is installed but unauthenticated, and this workspace has no configured git remote or repository target."
     },
     "notion": {
-      "status": "available_and_synced",
-      "evidence": "Notion page 3a233b66-295a-8102-936f-f866e9e0d96f was created and fetched back successfully."
+      "status": "available_resync_requires_approval",
+      "evidence": "Notion page was created and verified on 2026-07-20; the 2026-08-01 resync was rejected by connector risk policy pending explicit user approval."
     },
     "slack": {
       "status": "available_and_drafted",
@@ -30,7 +30,7 @@
     },
     "circleback": {
       "status": "available_no_artifact_found",
-      "evidence": "Circleback calendar search returned no Aria PC Completion event for 2026-07-19 to 2026-07-20; action-item search hit a connector-side Prisma error."
+      "evidence": "Circleback calendar search returned no Aria PC Completion event for 2026-08-01 to 2026-08-15; action-item search returned INVALID_ARGUMENT."
     },
     "vercel": {
       "status": "cli_unavailable_sites_deployed",
@@ -38,18 +38,19 @@
     },
     "actively": {
       "status": "connector_not_connected",
-      "evidence": "Actively lookup_accounts for Aria PC returned USER_NOT_LOGGED_IN."
+      "evidence": "Actively lookup_accounts for Aria PC returned USER_NOT_LOGGED_IN on 2026-08-01."
     },
     "close": {
-      "status": "connector_schema_error",
-      "evidence": "Close authenticated but search and opportunity reads returned output validation schema errors."
+      "status": "connector_invalid_argument",
+      "evidence": "Close search for Aria PC returned INVALID_ARGUMENT on 2026-08-01."
     }
   },
   "next_actions": [
     "Configure a GitHub remote or provide an existing repository full name for connector-based GitHub verification.",
+    "Authenticate GitHub CLI if local push/CI verification is required.",
     "Keep Airtable records updated when integrations/status.json changes.",
     "Connect Actively and retry account lookup for the Aria PC target.",
-    "Retry Close after connector output validation is fixed or provide the exact lead/contact target.",
+    "Retry Close after connector argument handling is fixed or provide the exact lead/contact target.",
     "Create or capture a Circleback closeout meeting summary if Circleback proof is required beyond connector availability."
   ]
 }

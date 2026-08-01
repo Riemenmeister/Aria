@@ -2,9 +2,9 @@
   "project": "Aria PC",
   "service": "actively",
   "status": "connector_not_connected",
-  "checked_at": "2026-07-19",
+  "checked_at": "2026-08-01",
   "query": "Aria PC",
   "error_code": "USER_NOT_LOGGED_IN",
   "connector_id": "asdk_app_6a15fca0d57c8191a204ffdd12fbbef2",
-  "verification": "Actively lookup_accounts is available but returned USER_NOT_LOGGED_IN."
+  "verification": "Actively lookup_accounts is available but returned USER_NOT_LOGGED_IN on 2026-08-01."
 }

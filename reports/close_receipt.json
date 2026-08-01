@@ -1,11 +1,9 @@
 {
   "project": "Aria PC",
   "service": "close",
-  "status": "connector_schema_error",
-  "checked_at": "2026-07-19",
+  "status": "connector_invalid_argument",
+  "checked_at": "2026-08-01",
   "search_query": "Aria PC",
-  "search_error": "Output validation error: outputSchema defined but no structured output returned",
-  "opportunity_query": "active opportunities",
-  "opportunity_error": "Output validation error: outputSchema defined but no structured output returned",
-  "verification": "Close authenticated, but read tools returned connector output validation errors."
+  "search_error_code": "INVALID_ARGUMENT",
+  "verification": "Close search tool is available but returned INVALID_ARGUMENT for Aria PC on 2026-08-01."
 }

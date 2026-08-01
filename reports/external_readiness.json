@@ -1,7 +1,7 @@
 {
   "blockers": [
     "git_remote",
-    "github_cli",
+    "github_auth",
     "vercel_cli",
     "node",
     "npm"
@@ -12,11 +12,16 @@
       "ok": false,
       "remotes": []
     },
+    "github_auth": {
+      "available": true,
+      "detail": "You are not logged into any GitHub hosts. To log in, run: gh auth login",
+      "ok": false
+    },
     "github_cli": {
-      "available": false,
-      "detail": "gh not found in PATH",
-      "ok": false,
-      "path": null
+      "available": true,
+      "detail": "gh version 2.96.0 (2026-07-02)",
+      "ok": true,
+      "path": "C:\\Program Files\\GitHub CLI\\gh.EXE"
     },
     "node": {
       "available": false,
@@ -40,7 +45,7 @@
   "generated_by": "tools/audit_external_readiness.py",
   "next_actions": [
     "Configure a GitHub remote and push local commits.",
-    "Install or authenticate GitHub CLI if connector-based publishing is not used.",
+    "Authenticate GitHub CLI or provide an existing repository target for connector-based publishing.",
     "Install or authenticate Vercel CLI, or deploy through a connected Vercel/Sites workflow.",
     "Install Node.js/npm locally if local static-site build verification is required.",
     "Record external deployment/import/post/video/meeting evidence in integrations/status.json."

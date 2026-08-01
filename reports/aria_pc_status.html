@@ -72,7 +72,7 @@
    <main>
       <header>
          <h1>Aria PC Completion Status</h1>
-         <p class="muted">Evidence-backed local readiness snapshot updated 2026-07-20.</p>
+         <p class="muted">Evidence-backed local readiness snapshot updated 2026-08-01.</p>
       </header>
 
       <section class="summary" aria-label="Completion summary">
@@ -104,21 +104,21 @@
                <span class="pill">Local ready, remote missing</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>local git repository clean on master</li><li>local commits exist</li><li>reports/external_readiness.json confirms no git remote is configured</li><li>reports/external_readiness.json confirms GitHub CLI gh is not available in PATH</li><li>.github/workflows/ci.yml defines Windows CI for compile, unittest, report freshness, export freshness, static-site build, and editable-install dry-run checks</li></ul>
+            <ul><li>local git repository clean on master</li><li>local commits exist</li><li>reports/external_readiness.json confirms no git remote is configured</li><li>reports/external_readiness.json confirms GitHub CLI gh is installed: gh version 2.96.0 (2026-07-02)</li><li>reports/external_readiness.json confirms GitHub CLI is not authenticated: gh auth status reports no logged-in hosts</li><li>.github/workflows/ci.yml defines Windows CI for compile, unittest, report freshness, export freshness, static-site build, and editable-install dry-run checks</li></ul>
             <h4>Next verification</h4>
-            <p>Configure remote and confirm pushed commit plus CI status.</p>
+            <p>Authenticate GitHub CLI or provide an existing repository target, then configure a remote, push commits, and confirm remote CI status.</p>
          </article>
          
 
          <article class="integration complete">
             <div class="integration-header">
                <h3>airtable</h3>
-               <span class="pill">Synced to Airtable</span>
+               <span class="pill">Synced to Airtable; resync pending</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>Airtable base created: Aria PC Completion (apprXVtcJBWQJXl5n)</li><li>Airtable table created: Integration Status (tbl16tPYsvz97KWlh)</li><li>10 integration status records created or updated and read back from Airtable</li><li>reports/airtable_receipt.json records Airtable base/table/record evidence</li></ul>
+            <ul><li>Airtable base created: Aria PC Completion (apprXVtcJBWQJXl5n)</li><li>Airtable table created: Integration Status (tbl16tPYsvz97KWlh)</li><li>Last successful Airtable upsert returned 10 integration records on 2026-07-20</li><li>2026-08-01 Airtable resync was not performed because the connector rejected the payload as requiring explicit user approval</li><li>reports/airtable_receipt.json records the successful sync and the blocked resync attempt</li></ul>
             <h4>Next verification</h4>
-            <p>Keep Airtable records updated when integrations/status.json changes.</p>
+            <p>Explicitly approve the 2026-08-01 Airtable resync payload, then upsert the 10 current records and read them back.</p>
          </article>
          
 
@@ -137,12 +137,12 @@
          <article class="integration complete">
             <div class="integration-header">
                <h3>notion</h3>
-               <span class="pill">Synced to Notion</span>
+               <span class="pill">Synced to Notion; resync pending</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>Notion page created: Aria PC Completion Status</li><li>Notion page URL: https://app.notion.com/p/3a233b66295a8102936ff866e9e0d96f</li><li>Notion fetch verified the page content on 2026-07-19</li><li>exports/notion_aria_pc_status.md remains the source handoff export</li></ul>
+            <ul><li>Notion page created: Aria PC Completion Status</li><li>Notion page URL: https://app.notion.com/p/3a233b66295a8102936ff866e9e0d96f</li><li>Notion fetch verified the updated 2026-07-20 page content</li><li>2026-08-01 Notion resync was not performed because the connector rejected the payload as requiring explicit user approval</li><li>exports/notion_aria_pc_status.md remains the source handoff export</li></ul>
             <h4>Next verification</h4>
-            <p>Keep the Notion page current when integration evidence changes.</p>
+            <p>Explicitly approve the 2026-08-01 Notion resync payload or provide a redacted update policy, then update and fetch the page again.</p>
          </article>
          
 
@@ -164,7 +164,7 @@
                <span class="pill">Connector available, no event</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>Circleback connector tools became available in this thread</li><li>Circleback action-item search failed with a Prisma query-engine error for Aria PC Completion</li><li>Circleback calendar search for 2026-07-19 to 2026-07-20 returned no Aria PC Completion events</li><li>reports/circleback_receipt.json records the connector result and remaining artifact gap</li></ul>
+            <ul><li>Circleback connector tools are available in this thread</li><li>Circleback calendar search for 2026-08-01 to 2026-08-15 returned no Aria PC Completion events</li><li>Circleback action-item search for Aria PC returned INVALID_ARGUMENT</li><li>reports/circleback_receipt.json records the current connector result and remaining artifact gap</li></ul>
             <h4>Next verification</h4>
             <p>Create or capture a real Circleback meeting/summary artifact, then link its meeting ID or summary URL.</p>
          </article>
@@ -200,7 +200,7 @@
                <span class="pill">Connector not connected</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>Actively tools are available in this thread</li><li>Actively account lookup for Aria PC returned USER_NOT_LOGGED_IN for asdk_app_6a15fca0d57c8191a204ffdd12fbbef2</li><li>reports/actively_receipt.json records the connection blocker</li></ul>
+            <ul><li>Actively tools are available in this thread</li><li>Actively account lookup for Aria PC returned USER_NOT_LOGGED_IN for asdk_app_6a15fca0d57c8191a204ffdd12fbbef2 on 2026-08-01</li><li>reports/actively_receipt.json records the connection blocker</li></ul>
             <h4>Next verification</h4>
             <p>Connect Actively and resolve or create the relevant account target, then record account decisioning evidence.</p>
          </article>
@@ -209,12 +209,12 @@
          <article class="integration missing">
             <div class="integration-header">
                <h3>close</h3>
-               <span class="pill">Connector schema error</span>
+               <span class="pill">Connector invalid argument</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>Close tools are available and authentication was requested and accepted in this thread</li><li>Close search for Aria PC returned an output validation schema error after authentication</li><li>Close active opportunity lookup returned the same output validation schema error</li><li>reports/close_receipt.json records the connector failure</li></ul>
+            <ul><li>Close tools are available in this thread</li><li>Close search for Aria PC returned INVALID_ARGUMENT on 2026-08-01</li><li>reports/close_receipt.json records the connector failure</li></ul>
             <h4>Next verification</h4>
-            <p>Retry Close search after connector schema output is fixed, then create or link the Aria PC lead/task if required.</p>
+            <p>Retry Close search after connector argument handling is fixed, or provide an exact Close lead/contact/opportunity target.</p>
          </article>
          
          </div>

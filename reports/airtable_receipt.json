@@ -23,5 +23,11 @@
     "updated_record_count": 10,
     "merge_field_id": "fldetJqAQzRPOlek1",
     "verification": "Airtable returned 10 records after upsert, including Generated in HeyGen, Connector not connected, and Connector schema error statuses."
+  },
+  "last_attempt": {
+    "operation": "upsert_records_for_table",
+    "checked_at": "2026-08-01",
+    "status": "rejected_by_connector_risk_policy",
+    "verification": "Airtable rejected the 2026-08-01 10-record resync because the payload contains internal project status, service identifiers, URLs, and authentication/connectivity details and needs explicit user approval."
   }
 }

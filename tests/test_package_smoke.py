@@ -66,10 +66,10 @@ class IntegrationStatusTests(unittest.TestCase):
       markers = {item["name"]: item for item in data["integrations"]}
       report = (ROOT / "reports" / "aria_pc_status.html").read_text(encoding="utf-8")
 
-      self.assertEqual(markers["airtable"]["status"], "external_synced_airtable")
+      self.assertEqual(markers["airtable"]["status"], "external_synced_airtable_resync_pending")
       self.assertEqual(markers["data-analytics"]["status"], "production_report_published")
       self.assertEqual(markers["vercel"]["status"], "production_deployed_sites")
-      self.assertEqual(markers["notion"]["status"], "external_synced_notion")
+      self.assertEqual(markers["notion"]["status"], "external_synced_notion_resync_pending")
       self.assertEqual(markers["heygen"]["status"], "external_generated_heygen")
       self.assertEqual(markers["slack"]["status"], "external_drafted_slack")
       self.assertIn("<strong>6</strong><span>externally complete</span>", report)
@@ -109,6 +109,7 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(readiness["project"], "Aria PC")
       self.assertIn("git_remote", readiness["checks"])
       self.assertIn("github_cli", readiness["checks"])
+      self.assertIn("github_auth", readiness["checks"])
       self.assertIn("vercel_cli", readiness["checks"])
       self.assertIn("node", readiness["checks"])
       self.assertIn("npm", readiness["checks"])
@@ -132,20 +133,21 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(receipt["last_sync"]["operation"], "upsert_records_for_table")
       self.assertEqual(receipt["last_sync"]["updated_record_count"], 10)
       self.assertIn("Generated in HeyGen", receipt["last_sync"]["verification"])
+      self.assertEqual(receipt["last_attempt"]["status"], "rejected_by_connector_risk_policy")
 
    def test_connector_availability_report_records_remaining_blockers(self):
       report = json.loads((ROOT / "reports" / "connector_availability.json").read_text(encoding="utf-8"))
       connectors = report["connectors"]
 
       self.assertEqual(report["status"], "partial_external_connectors_available")
-      self.assertEqual(connectors["airtable"]["status"], "available_and_synced")
+      self.assertEqual(connectors["airtable"]["status"], "available_resync_requires_approval")
       self.assertEqual(connectors["github"]["status"], "available_existing_repo_only")
-      self.assertEqual(connectors["notion"]["status"], "available_and_synced")
+      self.assertEqual(connectors["notion"]["status"], "available_resync_requires_approval")
       self.assertEqual(connectors["slack"]["status"], "available_and_drafted")
       self.assertEqual(connectors["heygen"]["status"], "available_and_generated")
       self.assertEqual(connectors["circleback"]["status"], "available_no_artifact_found")
       self.assertEqual(connectors["actively"]["status"], "connector_not_connected")
-      self.assertEqual(connectors["close"]["status"], "connector_schema_error")
+      self.assertEqual(connectors["close"]["status"], "connector_invalid_argument")
 
    def test_new_connector_receipts_record_current_evidence(self):
       notion = json.loads((ROOT / "reports" / "notion_receipt.json").read_text(encoding="utf-8"))
@@ -157,13 +159,14 @@ class IntegrationStatusTests(unittest.TestCase):
 
       self.assertEqual(notion["status"], "succeeded")
       self.assertTrue(notion["page_url"].startswith("https://app.notion.com/"))
+      self.assertEqual(notion["last_attempt"]["status"], "rejected_by_connector_risk_policy")
       self.assertEqual(slack["status"], "draft_created")
       self.assertEqual(slack["draft_id"], "Dr0BJC668XFU")
       self.assertEqual(heygen["status"], "completed")
       self.assertEqual(heygen["video_id"], "8e1fec9f71d04826b2f7b4cafe39d570")
       self.assertEqual(circleback["status"], "connector_available_no_event")
       self.assertEqual(actively["error_code"], "USER_NOT_LOGGED_IN")
-      self.assertEqual(close["status"], "connector_schema_error")
+      self.assertEqual(close["status"], "connector_invalid_argument")
 
    def test_git_repair_receipt_records_clean_status(self):
       receipt = json.loads((ROOT / "reports" / "git_repair_receipt.json").read_text(encoding="utf-8"))
@@ -176,5 +179,8 @@ class IntegrationStatusTests(unittest.TestCase):
 
 if __name__ == "__main__":
    unittest.main()
+
+
+
 
 

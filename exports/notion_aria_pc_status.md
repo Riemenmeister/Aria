@@ -1,6 +1,6 @@
 # Aria PC Completion Status
 
-Updated: 2026-07-20
+Updated: 2026-08-01
 
 ## Summary
 
@@ -24,22 +24,24 @@ Evidence:
 - local git repository clean on master
 - local commits exist
 - reports/external_readiness.json confirms no git remote is configured
-- reports/external_readiness.json confirms GitHub CLI gh is not available in PATH
+- reports/external_readiness.json confirms GitHub CLI gh is installed: gh version 2.96.0 (2026-07-02)
+- reports/external_readiness.json confirms GitHub CLI is not authenticated: gh auth status reports no logged-in hosts
 - .github/workflows/ci.yml defines Windows CI for compile, unittest, report freshness, export freshness, static-site build, and editable-install dry-run checks
 
-Next verification: Configure remote and confirm pushed commit plus CI status.
+Next verification: Authenticate GitHub CLI or provide an existing repository target, then configure a remote, push commits, and confirm remote CI status.
 
 ### airtable
 
-Status: Synced to Airtable
+Status: Synced to Airtable; resync pending
 
 Evidence:
 - Airtable base created: Aria PC Completion (apprXVtcJBWQJXl5n)
 - Airtable table created: Integration Status (tbl16tPYsvz97KWlh)
-- 10 integration status records created or updated and read back from Airtable
-- reports/airtable_receipt.json records Airtable base/table/record evidence
+- Last successful Airtable upsert returned 10 integration records on 2026-07-20
+- 2026-08-01 Airtable resync was not performed because the connector rejected the payload as requiring explicit user approval
+- reports/airtable_receipt.json records the successful sync and the blocked resync attempt
 
-Next verification: Keep Airtable records updated when integrations/status.json changes.
+Next verification: Explicitly approve the 2026-08-01 Airtable resync payload, then upsert the 10 current records and read them back.
 
 ### data-analytics
 
@@ -56,15 +58,16 @@ Next verification: Keep the published status report current when integration evi
 
 ### notion
 
-Status: Synced to Notion
+Status: Synced to Notion; resync pending
 
 Evidence:
 - Notion page created: Aria PC Completion Status
 - Notion page URL: https://app.notion.com/p/3a233b66295a8102936ff866e9e0d96f
-- Notion fetch verified the page content on 2026-07-19
+- Notion fetch verified the updated 2026-07-20 page content
+- 2026-08-01 Notion resync was not performed because the connector rejected the payload as requiring explicit user approval
 - exports/notion_aria_pc_status.md remains the source handoff export
 
-Next verification: Keep the Notion page current when integration evidence changes.
+Next verification: Explicitly approve the 2026-08-01 Notion resync payload or provide a redacted update policy, then update and fetch the page again.
 
 ### heygen
 
@@ -84,10 +87,10 @@ Next verification: Refresh expiring HeyGen file URLs if the video needs long-ter
 Status: Connector available, no event
 
 Evidence:
-- Circleback connector tools became available in this thread
-- Circleback action-item search failed with a Prisma query-engine error for Aria PC Completion
-- Circleback calendar search for 2026-07-19 to 2026-07-20 returned no Aria PC Completion events
-- reports/circleback_receipt.json records the connector result and remaining artifact gap
+- Circleback connector tools are available in this thread
+- Circleback calendar search for 2026-08-01 to 2026-08-15 returned no Aria PC Completion events
+- Circleback action-item search for Aria PC returned INVALID_ARGUMENT
+- reports/circleback_receipt.json records the current connector result and remaining artifact gap
 
 Next verification: Create or capture a real Circleback meeting/summary artifact, then link its meeting ID or summary URL.
 
@@ -125,19 +128,18 @@ Status: Connector not connected
 
 Evidence:
 - Actively tools are available in this thread
-- Actively account lookup for Aria PC returned USER_NOT_LOGGED_IN for asdk_app_6a15fca0d57c8191a204ffdd12fbbef2
+- Actively account lookup for Aria PC returned USER_NOT_LOGGED_IN for asdk_app_6a15fca0d57c8191a204ffdd12fbbef2 on 2026-08-01
 - reports/actively_receipt.json records the connection blocker
 
 Next verification: Connect Actively and resolve or create the relevant account target, then record account decisioning evidence.
 
 ### close
 
-Status: Connector schema error
+Status: Connector invalid argument
 
 Evidence:
-- Close tools are available and authentication was requested and accepted in this thread
-- Close search for Aria PC returned an output validation schema error after authentication
-- Close active opportunity lookup returned the same output validation schema error
+- Close tools are available in this thread
+- Close search for Aria PC returned INVALID_ARGUMENT on 2026-08-01
 - reports/close_receipt.json records the connector failure
 
-Next verification: Retry Close search after connector schema output is fixed, then create or link the Aria PC lead/task if required.
+Next verification: Retry Close search after connector argument handling is fixed, or provide an exact Close lead/contact/opportunity target.

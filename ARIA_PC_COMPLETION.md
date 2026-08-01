@@ -1,6 +1,6 @@
 # Aria PC Completion Status
 
-Updated: 2026-07-20
+Updated: 2026-08-01
 
 ## Local PC Package
 
@@ -26,7 +26,7 @@ Evidence:
 - Root `.gitignore` ignores the private NAS contents by default.
 - Local commits are tracked on `master` through the latest local checkpoint.
 - GitHub Actions workflow exists at `.github/workflows/ci.yml` and runs compile, unittest, status-report freshness, export freshness, static-site build, and editable-install dry-run checks on Windows.
-- `reports/external_readiness.json` currently records `git_remote`, `github_cli`, `vercel_cli`, `node`, and `npm` as local blockers.
+- `reports/external_readiness.json` currently records `git_remote`, `github_auth`, `vercel_cli`, `node`, and `npm` as local blockers; GitHub CLI itself is now installed but not authenticated.
 
 Remaining external proof needed:
 
@@ -75,12 +75,14 @@ Remaining external proof needed:
 
 These markers still need connected-service evidence before the overall goal can be closed.
 
-- Airtable: synced to base `apprXVtcJBWQJXl5n`, table `tbl16tPYsvz97KWlh`; `reports/airtable_receipt.json` records 10 integration rows and Airtable read-back verification.
-- Notion: synced to page `3a233b66-295a-8102-936f-f866e9e0d96f`; `reports/notion_receipt.json` records the created page and fetch verification.
+- Airtable: synced to base `apprXVtcJBWQJXl5n`, table `tbl16tPYsvz97KWlh`; `reports/airtable_receipt.json` records 10 integration rows from the 2026-07-20 read-back plus a 2026-08-01 resync attempt that now requires explicit approval.
+- Notion: synced to page `3a233b66-295a-8102-936f-f866e9e0d96f`; `reports/notion_receipt.json` records the 2026-07-20 page verification plus a 2026-08-01 resync attempt that now requires explicit approval.
 - HeyGen: completed video `8e1fec9f71d04826b2f7b4cafe39d570`; `reports/heygen_receipt.json` records the session and video page evidence.
-- Circleback: connector is available, but no Aria PC closeout event was found for 2026-07-19 to 2026-07-20 and action-item search hit a connector-side Prisma error; no meeting summary artifact exists yet.
+- Circleback: connector is available, but no Aria PC closeout event was found for 2026-08-01 to 2026-08-15 and action-item search returned `INVALID_ARGUMENT`; no meeting summary artifact exists yet.
 - Slack: draft created in `alle-in-guts-amp-gigaflopps` (`C0BAYSFPX98`); `reports/slack_receipt.json` records draft ID `Dr0BJC668XFU`.
-- GitHub: local Git history and CI config exist; no GitHub remote/push/remote CI proof yet; connector tools require an existing repository target.`r`n- Actively: tools are available, but the app is not connected; `reports/actively_receipt.json` records `USER_NOT_LOGGED_IN`.`r`n- Close: tools are available and authentication was accepted, but read tools return connector output validation errors; `reports/close_receipt.json` records the failure.
+- GitHub: local Git history and CI config exist; no GitHub remote/push/remote CI proof yet; connector tools require an existing repository target.
+- Actively: tools are available, but the app is not connected; `reports/actively_receipt.json` records `USER_NOT_LOGGED_IN`.
+- Close: tools are available, but search for `Aria PC` returned `INVALID_ARGUMENT` on 2026-08-01; `reports/close_receipt.json` records the failure.
 
 ## Current Safe Next Steps
 
@@ -92,6 +94,10 @@ These markers still need connected-service evidence before the overall goal can 
 6. Generate or link a HeyGen video from `exports/heygen_status_video_brief.md`.
 7. Run/import a Circleback meeting workflow using `exports/circleback_meeting_brief.md`.
 8. Close the goal only after those service checks have current evidence.
+
+
+
+
 
 
 

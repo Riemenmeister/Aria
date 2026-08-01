@@ -1,4 +1,4 @@
-*Aria PC status update* (2026-07-20)
+*Aria PC status update* (2026-08-01)
 
 Local package baseline is ready: tests pass, package metadata dry-run succeeds, and the status report is generated from `integrations/status.json`.
 

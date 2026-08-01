@@ -50,10 +50,22 @@ def command_status(command, version_args):
    }
 
 
+def github_auth_status():
+   if not shutil.which("gh"):
+      return {"ok": False, "available": False, "detail": "gh not found in PATH"}
+   result = run_command(["gh", "auth", "status"])
+   return {
+      "ok": result["ok"],
+      "available": True,
+      "detail": result["output"] or "gh auth status returned no output",
+   }
+
+
 def build_report():
    checks = {
       "git_remote": git_remote_status(),
       "github_cli": command_status("gh", ["--version"]),
+      "github_auth": github_auth_status(),
       "vercel_cli": command_status("vercel", ["--version"]),
       "node": command_status("node", ["--version"]),
       "npm": command_status("npm", ["--version"]),
@@ -67,7 +79,7 @@ def build_report():
       "blockers": blockers,
       "next_actions": [
          "Configure a GitHub remote and push local commits.",
-         "Install or authenticate GitHub CLI if connector-based publishing is not used.",
+         "Authenticate GitHub CLI or provide an existing repository target for connector-based publishing.",
          "Install or authenticate Vercel CLI, or deploy through a connected Vercel/Sites workflow.",
          "Install Node.js/npm locally if local static-site build verification is required.",
          "Record external deployment/import/post/video/meeting evidence in integrations/status.json.",
@@ -95,3 +107,5 @@ def main():
 
 if __name__ == "__main__":
    main()
+
+
