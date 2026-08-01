@@ -179,6 +179,31 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertTrue(any("Approve full Airtable resync" in option for option in approval["approval_options"]))
       self.assertEqual(redacted["redaction_policy"].startswith("Keep integration names"), True)
       self.assertIn("Writes Awaiting Approval", approval_doc)
+
+   def test_goal_completion_audit_records_unfinished_requirements(self):
+      audit = json.loads((ROOT / "reports" / "goal_completion_audit.json").read_text(encoding="utf-8"))
+      required = {
+         "github",
+         "actively",
+         "airtable",
+         "data-analytics",
+         "notion",
+         "heygen",
+         "circleback",
+         "slack",
+         "vercel",
+         "close",
+      }
+      results = {item["name"]: item for item in audit["results"]}
+
+      self.assertEqual(audit["status"], "incomplete")
+      self.assertEqual(set(audit["required_markers"]), required)
+      self.assertEqual(set(results), required)
+      self.assertEqual(results["heygen"]["completion"], "proved")
+      self.assertEqual(results["github"]["completion"], "incomplete")
+      self.assertIn("github_auth", audit["readiness_blockers"])
+      self.assertIn("airtable", audit["approval_required_for"])
+      self.assertIn("notion", audit["approval_required_for"])
    def test_git_repair_receipt_records_clean_status(self):
       receipt = json.loads((ROOT / "reports" / "git_repair_receipt.json").read_text(encoding="utf-8"))
 
@@ -190,6 +215,7 @@ class IntegrationStatusTests(unittest.TestCase):
 
 if __name__ == "__main__":
    unittest.main()
+
 
 
 

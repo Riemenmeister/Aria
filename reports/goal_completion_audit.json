@@ -1,0 +1,195 @@
+{
+  "approval_required_for": [
+    "airtable",
+    "notion"
+  ],
+  "checked_at": "2026-08-01",
+  "completion_gate": "Do not mark the goal complete while status is incomplete, any required marker is unproved, or approval/login/target/artifact blockers remain.",
+  "connector_status": {
+    "actively": "connector_not_connected",
+    "airtable": "available_resync_requires_approval",
+    "circleback": "available_no_artifact_found",
+    "close": "connector_invalid_argument",
+    "github": "available_existing_repo_only",
+    "heygen": "available_and_generated",
+    "notion": "available_resync_requires_approval",
+    "sites": "available_and_deployed",
+    "slack": "available_and_drafted",
+    "vercel": "cli_unavailable_sites_deployed"
+  },
+  "extra_markers": [],
+  "incomplete_count": 6,
+  "local_package": {
+    "evidence": [
+      "py -B -m unittest discover -s tests: pass",
+      "py -B -m compileall Aria tests tools: pass",
+      "py -m pip install -e . --dry-run --no-deps: Would install Aria-1.0.0"
+    ],
+    "status": "complete"
+  },
+  "missing_markers": [],
+  "project": "Aria PC",
+  "proved_count": 4,
+  "readiness_blockers": [
+    "git_remote",
+    "github_auth",
+    "vercel_cli",
+    "node",
+    "npm"
+  ],
+  "required_markers": [
+    "github",
+    "actively",
+    "airtable",
+    "data-analytics",
+    "notion",
+    "heygen",
+    "circleback",
+    "slack",
+    "vercel",
+    "close"
+  ],
+  "results": [
+    {
+      "completion": "incomplete",
+      "evidence": [
+        "local git repository clean on master",
+        "local commits exist",
+        "reports/external_readiness.json confirms no git remote is configured",
+        "reports/external_readiness.json confirms GitHub CLI gh is installed: gh version 2.96.0 (2026-07-02)",
+        "reports/external_readiness.json confirms GitHub CLI is not authenticated: gh auth status reports no logged-in hosts",
+        ".github/workflows/ci.yml defines Windows CI for compile, unittest, report freshness, export freshness, static-site build, and editable-install dry-run checks"
+      ],
+      "name": "github",
+      "next_verification": "Authenticate GitHub CLI or provide an existing repository target, then configure a remote, push commits, and confirm remote CI status.",
+      "reason": "Current status still names missing targets, connector blockers, or absent artifact proof.",
+      "status": "local_ready_remote_missing"
+    },
+    {
+      "completion": "incomplete",
+      "evidence": [
+        "Actively tools are available in this thread",
+        "Actively account lookup for Aria PC returned USER_NOT_LOGGED_IN for asdk_app_6a15fca0d57c8191a204ffdd12fbbef2 on 2026-08-01",
+        "reports/actively_receipt.json records the connection blocker"
+      ],
+      "name": "actively",
+      "next_verification": "Connect Actively and resolve or create the relevant account target, then record account decisioning evidence.",
+      "reason": "Current status still names missing targets, connector blockers, or absent artifact proof.",
+      "status": "connector_not_connected"
+    },
+    {
+      "completion": "incomplete",
+      "evidence": [
+        "Airtable base created: Aria PC Completion (apprXVtcJBWQJXl5n)",
+        "Airtable table created: Integration Status (tbl16tPYsvz97KWlh)",
+        "Last successful Airtable upsert returned 10 integration records on 2026-07-20",
+        "2026-08-01 Airtable resync was not performed because the connector rejected the payload as requiring explicit user approval",
+        "reports/airtable_receipt.json records the successful sync and the blocked resync attempt",
+        "reports/external_sync_approval_request.json records the full-vs-redacted resync approval options"
+      ],
+      "name": "airtable",
+      "next_verification": "Explicitly approve the 2026-08-01 Airtable resync payload, then upsert the 10 current records and read them back.",
+      "reason": "A previous external sync exists, but the current 2026-08-01 resync requires explicit approval.",
+      "status": "external_synced_airtable_resync_pending"
+    },
+    {
+      "completion": "proved",
+      "evidence": [
+        "integrations/status.json tracks service status and verification requirements",
+        "tools/render_status_report.py renders reports/aria_pc_status.html from the status model",
+        "py tools/render_status_report.py --check verifies the report is current",
+        "reports/external_readiness.json captures current external readiness blockers",
+        "reports/deployment_receipt.json records the production Sites URL for the generated status report"
+      ],
+      "name": "data-analytics",
+      "next_verification": "Keep the published status report current when integration evidence changes.",
+      "reason": "Current status has direct external or production evidence.",
+      "status": "production_report_published"
+    },
+    {
+      "completion": "incomplete",
+      "evidence": [
+        "Notion page created: Aria PC Completion Status",
+        "Notion page URL: https://app.notion.com/p/3a233b66295a8102936ff866e9e0d96f",
+        "Notion fetch verified the updated 2026-07-20 page content",
+        "2026-08-01 Notion resync was not performed because the connector rejected the payload as requiring explicit user approval",
+        "exports/notion_aria_pc_status.md remains the source handoff export",
+        "reports/external_sync_approval_request.json records the full-vs-redacted resync approval options"
+      ],
+      "name": "notion",
+      "next_verification": "Explicitly approve the 2026-08-01 Notion resync payload or provide a redacted update policy, then update and fetch the page again.",
+      "reason": "A previous external sync exists, but the current 2026-08-01 resync requires explicit approval.",
+      "status": "external_synced_notion_resync_pending"
+    },
+    {
+      "completion": "proved",
+      "evidence": [
+        "HeyGen Video Agent session created: b3523132028c4ba7a4154127a5cfb3b9",
+        "HeyGen video completed: 8e1fec9f71d04826b2f7b4cafe39d570",
+        "Video page URL: https://app.heygen.com/videos/8e1fec9f71d04826b2f7b4cafe39d570",
+        "Generated video URL recorded in reports/heygen_receipt.json",
+        "exports/heygen_status_video_brief.md remains the source handoff script"
+      ],
+      "name": "heygen",
+      "next_verification": "Refresh expiring HeyGen file URLs if the video needs long-term archival outside HeyGen.",
+      "reason": "Current status has direct external or production evidence.",
+      "status": "external_generated_heygen"
+    },
+    {
+      "completion": "incomplete",
+      "evidence": [
+        "Circleback connector tools are available in this thread",
+        "Circleback calendar search for 2026-08-01 to 2026-08-15 returned no Aria PC Completion events",
+        "Circleback action-item search for Aria PC returned INVALID_ARGUMENT",
+        "reports/circleback_receipt.json records the current connector result and remaining artifact gap"
+      ],
+      "name": "circleback",
+      "next_verification": "Create or capture a real Circleback meeting/summary artifact, then link its meeting ID or summary URL.",
+      "reason": "Current status still names missing targets, connector blockers, or absent artifact proof.",
+      "status": "connector_available_no_event"
+    },
+    {
+      "completion": "proved",
+      "evidence": [
+        "Slack workspace available: Guts & Gigaflopps (T0BB0MPJE3T)",
+        "Slack draft created in channel alle-in-guts-amp-gigaflopps (C0BAYSFPX98)",
+        "Slack draft id: Dr0BJC668XFU",
+        "Slack channel link: https://gutsgigaflopps.slack.com/archives/C0BAYSFPX98",
+        "reports/slack_receipt.json records the draft evidence"
+      ],
+      "name": "slack",
+      "next_verification": "Review and send the Slack draft if a public channel post is required beyond draft proof.",
+      "reason": "Current status has direct external or production evidence.",
+      "status": "external_drafted_slack"
+    },
+    {
+      "completion": "proved",
+      "evidence": [
+        "vercel.json rewrites / to the static build index",
+        "reports/aria_pc_status.html is self-contained and generated from integrations/status.json",
+        "package.json and tools/build_static_site.js build the deployable dist/ site without external npm dependencies",
+        "reports/external_readiness.json confirms Vercel CLI is not available in PATH",
+        "reports/external_readiness.json confirms local node/npm are not available in PATH",
+        "reports/deployment_receipt.json records successful production deployment",
+        "Production URL: https://aria-pc-status-20260713.soleyus80.chatgpt.site"
+      ],
+      "name": "vercel",
+      "next_verification": "If Vercel specifically is required, configure Vercel separately; otherwise keep the Sites production URL as deployment evidence.",
+      "reason": "Current status has direct external or production evidence.",
+      "status": "production_deployed_sites"
+    },
+    {
+      "completion": "incomplete",
+      "evidence": [
+        "Close tools are available in this thread",
+        "Close search for Aria PC returned INVALID_ARGUMENT on 2026-08-01",
+        "reports/close_receipt.json records the connector failure"
+      ],
+      "name": "close",
+      "next_verification": "Retry Close search after connector argument handling is fixed, or provide an exact Close lead/contact/opportunity target.",
+      "reason": "Current status still names missing targets, connector blockers, or absent artifact proof.",
+      "status": "connector_invalid_argument"
+    }
+  ],
+  "status": "incomplete"
+}
