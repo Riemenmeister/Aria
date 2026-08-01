@@ -28,6 +28,35 @@
     "status": "complete"
   },
   "missing_markers": [],
+  "prepared_resync_plan": {
+    "approval_required": true,
+    "destination": "Airtable base apprXVtcJBWQJXl5n, table tbl16tPYsvz97KWlh",
+    "execution_gate": "This tool prepares the resync plan only. External writes must be performed explicitly after user approval in the connected service tool.",
+    "external_write_performed": false,
+    "generated_at": "2026-08-01",
+    "payload": "redacted",
+    "project": "Aria PC",
+    "requested_action": "Upsert the 10 current integration status records and read them back.",
+    "risk_summary": "Payload includes internal project status, service identifiers, URLs, and authentication/connectivity blocker details.",
+    "selected_payload_summary": {
+      "integrations": [
+        "github",
+        "airtable",
+        "data-analytics",
+        "notion",
+        "heygen",
+        "circleback",
+        "slack",
+        "vercel",
+        "actively",
+        "close"
+      ],
+      "record_count": 10,
+      "redaction_policy": "Keep integration names and completion class; omit internal service IDs, URLs, auth details, exact connector error payloads, and record IDs.",
+      "source": "reports\\external_sync_redacted_payload.json:airtable"
+    },
+    "service": "airtable"
+  },
   "project": "Aria PC",
   "proved_count": 4,
   "readiness_blockers": [

@@ -7,6 +7,7 @@ STATUS_PATH = ROOT / "integrations" / "status.json"
 READINESS_PATH = ROOT / "reports" / "external_readiness.json"
 CONNECTOR_PATH = ROOT / "reports" / "connector_availability.json"
 APPROVAL_PATH = ROOT / "reports" / "external_sync_approval_request.json"
+RESYNC_PLAN_PATH = ROOT / "reports" / "external_resync_plan.json"
 REPORT_PATH = ROOT / "reports" / "goal_completion_audit.json"
 
 REQUIRED_MARKERS = [
@@ -64,6 +65,7 @@ def build_audit():
    readiness = load_json(READINESS_PATH)
    connectors = load_json(CONNECTOR_PATH)
    approval = load_json(APPROVAL_PATH)
+   resync_plan = load_json(RESYNC_PLAN_PATH) if RESYNC_PLAN_PATH.exists() else None
    markers = {item["name"]: item for item in status["integrations"]}
 
    missing_markers = [name for name in REQUIRED_MARKERS if name not in markers]
@@ -100,6 +102,7 @@ def build_audit():
       "readiness_blockers": readiness.get("blockers", []),
       "connector_status": {name: data["status"] for name, data in connectors.get("connectors", {}).items()},
       "approval_required_for": [item["service"] for item in approval.get("external_writes_requiring_explicit_approval", [])],
+      "prepared_resync_plan": resync_plan,
       "completion_gate": "Do not mark the goal complete while status is incomplete, any required marker is unproved, or approval/login/target/artifact blockers remain.",
    }
 
@@ -124,3 +127,5 @@ def main():
 
 if __name__ == "__main__":
    main()
+
+

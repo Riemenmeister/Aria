@@ -204,6 +204,16 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertIn("github_auth", audit["readiness_blockers"])
       self.assertIn("airtable", audit["approval_required_for"])
       self.assertIn("notion", audit["approval_required_for"])
+
+   def test_external_resync_plan_is_dry_run(self):
+      plan = json.loads((ROOT / "reports" / "external_resync_plan.json").read_text(encoding="utf-8"))
+      audit = json.loads((ROOT / "reports" / "goal_completion_audit.json").read_text(encoding="utf-8"))
+
+      self.assertEqual(plan["service"], "airtable")
+      self.assertEqual(plan["payload"], "redacted")
+      self.assertEqual(plan["approval_required"], True)
+      self.assertEqual(plan["external_write_performed"], False)
+      self.assertEqual(audit["prepared_resync_plan"]["external_write_performed"], False)
    def test_git_repair_receipt_records_clean_status(self):
       receipt = json.loads((ROOT / "reports" / "git_repair_receipt.json").read_text(encoding="utf-8"))
 
@@ -215,6 +225,7 @@ class IntegrationStatusTests(unittest.TestCase):
 
 if __name__ == "__main__":
    unittest.main()
+
 
 
 

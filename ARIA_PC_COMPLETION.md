@@ -52,6 +52,7 @@ Evidence:
 - `reports/connector_availability.json` records which connected-service tools are available in this thread and which remain blocked.
 - `reports/external_sync_approval_request.json` and `docs/external_sync_approval.md` record the approval choices for full or redacted Airtable/Notion resyncs.
 - `reports/goal_completion_audit.json` records the current requirement-by-requirement completion audit and explicitly keeps the overall goal incomplete while blockers remain.
+- `tools/prepare_external_resync.py` and `reports/external_resync_plan.json` prepare a dry-run external resync plan without performing external writes.
 - `reports/notion_receipt.json` records the created Notion page and fetch verification.
 - `reports/slack_receipt.json` records the created Slack draft in the workspace general channel.`r`n- `reports/heygen_receipt.json` records the completed HeyGen video.`r`n- `reports/circleback_receipt.json` records Circleback connector availability and the missing meeting artifact.`r`n- `reports/actively_receipt.json` records the Actively login blocker.`r`n- `reports/close_receipt.json` records the Close connector schema error.
 
@@ -96,6 +97,7 @@ These markers still need connected-service evidence before the overall goal can 
 6. Generate or link a HeyGen video from `exports/heygen_status_video_brief.md`.
 7. Run/import a Circleback meeting workflow using `exports/circleback_meeting_brief.md`.
 8. Close the goal only after those service checks have current evidence.
+
 
 
 
