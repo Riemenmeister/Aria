@@ -109,3 +109,26 @@ reviewable integration surface:
 
 The next implementation step is to add a small validator that checks the manifest
 and fails CI if required layer contracts are missing.
+
+## Persistent Event Store
+
+`Aria.ai_linkage` now includes `LinkageEventStore`, an append-only JSONL store for
+validated linkage events. The companion CLI in `tools/aria_linkage_events.py` can:
+
+- print linkage and store health
+- append validated events
+- list validated events
+- validate the full event store
+
+Default event store path:
+
+```text
+reports/aria_linkage_events.jsonl
+```
+
+Example:
+
+```powershell
+py tools\aria_linkage_events.py append-event --event-id first-linkage-event --source aria2 --type action --summary "Persist the first linkage event." --payload '{"step":"persist"}' --evidence integrations/aria_ai_linkage.json
+py tools\aria_linkage_events.py validate-store
+```
