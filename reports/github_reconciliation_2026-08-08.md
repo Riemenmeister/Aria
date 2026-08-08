@@ -36,3 +36,25 @@ provide a concrete pull-request target for CI verification.
 2. Open a pull request into `master`.
 3. Confirm whether CI starts for the pull request.
 4. Record the workflow status and conclusion in Airtable and Notion.
+
+## Pull Request Created
+
+- Pull request: https://github.com/Riemenmeister/Aria/pull/1
+- PR number: 1
+- PR title: Add Aria AI linkage contract
+- Base branch: master
+- Head branch: codex/aria-ai-linkage
+- Latest verified head SHA: 871d8e609ccea4b636d4b8901011e50f912f89bb
+- Mergeable: true
+- Draft: false
+- Changed files: 6
+- Local verification before push: manifest validator OK, new unit test OK, full unittest discovery OK with 18 tests.
+
+## CI Status After PR Update
+
+GitHub API checks after pushing 871d8e609ccea4b636d4b8901011e50f912f89bb returned:
+
+- Combined commit statuses: empty status list
+- Commit workflow runs: empty workflow_runs list
+
+The PR branch includes the workflow file and the `Verify Aria AI linkage manifest` step, but no GitHub Actions run was visible at verification time. Treat CI-green as unproven until Actions creates and completes a run.
