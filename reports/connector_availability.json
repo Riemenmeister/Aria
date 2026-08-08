@@ -6,19 +6,19 @@
       "status": "waived_by_user_decision"
     },
     "airtable": {
-      "evidence": "Airtable connector updated the GitHub integration row through PR #4 merged, master CI passed on 2026-08-08.",
+      "evidence": "Airtable connector updated GitHub and Actively integration rows through PR #8 merged, master CI passed on 2026-08-08.",
       "status": "available_and_synced"
     },
     "circleback": {
-      "evidence": "2026-08-08 Circleback meeting search for Aria PC in August returned []; action-item search returned INVALID_ARGUMENT.",
+      "evidence": "2026-08-08 Circleback Aria PC search, broad meeting search, calendar event search, and tag list returned []; action-item search returned INVALID_ARGUMENT.",
       "status": "available_no_artifact_found"
     },
     "close": {
-      "evidence": "Close natural-language search for Aria PC returned INVALID_ARGUMENT on 2026-08-08.",
+      "evidence": "Close natural-language search and structured activity_search both returned INVALID_ARGUMENT on 2026-08-08.",
       "status": "connector_invalid_argument"
     },
     "github": {
-      "evidence": "GitHub repository Riemenmeister/Aria is configured; PR #1 through PR #4 were merged to master and post-merge CI passed through run #13 on 2026-08-08.",
+      "evidence": "GitHub repository Riemenmeister/Aria is configured; PR #1 through PR #8 were merged to master and post-merge CI passed through run #21 on 2026-08-08.",
       "status": "available_and_synced"
     },
     "heygen": {
@@ -26,7 +26,7 @@
       "status": "available_and_generated"
     },
     "notion": {
-      "evidence": "Notion connector appended PR #1 through PR #4 CI and merge evidence through Review Fix Merge Success 2026-08-08.",
+      "evidence": "Notion connector appended PR #8 merge evidence and the Actively Scope Waiver Merge Success section on 2026-08-08.",
       "status": "available_and_synced"
     },
     "sites": {
@@ -44,9 +44,9 @@
   },
   "generated_by": "Codex connector discovery and verification in active thread",
   "next_actions": [
+    "Create or capture a Circleback closeout meeting summary outside the current empty connector result set if Circleback proof remains required.",
+    "Retry Close after connector argument handling is fixed or provide an exact Close lead/contact/opportunity ID.",
     "Keep Actively disconnected unless the user explicitly changes the completion scope and performs login through a first-party user-controlled UI.",
-    "Retry Close after connector argument handling is fixed or provide the exact lead/contact target.",
-    "Create or capture a Circleback closeout meeting summary if Circleback proof is required beyond connector availability.",
     "Keep GitHub, Airtable, and Notion evidence synchronized after each future PR or integration change."
   ],
   "project": "Aria PC",

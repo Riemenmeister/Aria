@@ -7,5 +7,10 @@
   "project": "Aria PC",
   "service": "circleback",
   "status": "connector_available_no_event",
-  "verification": "Circleback meeting search returned no Aria PC meetings in August 2026, and action-item search returned INVALID_ARGUMENT on 2026-08-08."
+  "verification": "Circleback returned no Aria PC meetings, no broad meetings from 2026-07-01 to 2026-08-09, no calendar events from 2026-08-08 to 2026-08-16, no tags, and action-item search returned INVALID_ARGUMENT on 2026-08-08.",
+  "broad_meeting_query": "all meetings from 2026-07-01 to 2026-08-09",
+  "broad_meeting_result": "[]",
+  "calendar_query": "calendar events from 2026-08-08 to 2026-08-16",
+  "calendar_result": "[]",
+  "tag_result": "[]"
 }

@@ -5,5 +5,7 @@
   "search_query": "leads or contacts or opportunities matching Aria PC",
   "service": "close",
   "status": "connector_invalid_argument",
-  "verification": "Close search tool is available but returned INVALID_ARGUMENT for an Aria PC natural-language search on 2026-08-08."
+  "verification": "Close search tool returned INVALID_ARGUMENT for an Aria PC natural-language search on 2026-08-08, and structured activity_search for meetings, calls, notes, and emails from 2026-07-01 to 2026-08-09 also returned INVALID_ARGUMENT.",
+  "structured_activity_error_code": "INVALID_ARGUMENT",
+  "structured_activity_query": "activity_search for meetings, calls, notes, and emails from 2026-07-01 to 2026-08-09"
 }
