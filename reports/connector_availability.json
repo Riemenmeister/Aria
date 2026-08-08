@@ -14,8 +14,8 @@
       "status": "available_no_artifact_found"
     },
     "close": {
-      "evidence": "Close natural-language search and structured activity_search both returned INVALID_ARGUMENT on 2026-08-08.",
-      "status": "connector_invalid_argument"
+      "status": "waived_by_user_decision",
+      "evidence": "Close CRM has no record for Aria PC; INVALID_ARGUMENT errors attributed to absence of any matching record; waived by user decision on 2026-08-08."
     },
     "github": {
       "evidence": "GitHub repository Riemenmeister/Aria is configured; PR #1 through PR #8 were merged to master and post-merge CI passed through run #21 on 2026-08-08.",

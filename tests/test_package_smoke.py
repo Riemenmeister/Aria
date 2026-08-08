@@ -148,7 +148,7 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(connectors["heygen"]["status"], "available_and_generated")
       self.assertEqual(connectors["circleback"]["status"], "available_no_artifact_found")
       self.assertEqual(connectors["actively"]["status"], "waived_by_user_decision")
-      self.assertEqual(connectors["close"]["status"], "connector_invalid_argument")
+      self.assertEqual(connectors["close"]["status"], "waived_by_user_decision")
 
    def test_new_connector_receipts_record_current_evidence(self):
       notion = json.loads((ROOT / "reports" / "notion_receipt.json").read_text(encoding="utf-8"))
@@ -168,7 +168,7 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(circleback["status"], "connector_available_no_event")
       self.assertEqual(actively["error_code"], "USER_NOT_LOGGED_IN")
       self.assertEqual(actively["status"], "waived_by_user_decision")
-      self.assertEqual(close["status"], "connector_invalid_argument")
+      self.assertEqual(close["status"], "waived_by_user_decision")
 
 
    def test_external_sync_approval_request_records_options(self):

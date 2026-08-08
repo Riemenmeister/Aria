@@ -1,11 +1,13 @@
 {
   "checked_at": "2026-08-08",
   "project": "Aria PC",
-  "search_error_code": "INVALID_ARGUMENT",
-  "search_query": "leads or contacts or opportunities matching Aria PC",
   "service": "close",
-  "status": "connector_invalid_argument",
-  "verification": "Close search tool returned INVALID_ARGUMENT for an Aria PC natural-language search on 2026-08-08, and structured activity_search for meetings, calls, notes, and emails from 2026-07-01 to 2026-08-09 also returned INVALID_ARGUMENT.",
-  "structured_activity_error_code": "INVALID_ARGUMENT",
-  "structured_activity_query": "activity_search for meetings, calls, notes, and emails from 2026-07-01 to 2026-08-09"
+  "status": "waived_by_user_decision",
+  "resolution": "No Close CRM record exists for Aria PC. The INVALID_ARGUMENT errors from the connector are attributed to the absence of any matching lead, contact, or opportunity — not a fixable argument-handling bug. Close CRM is not applicable to the Aria PC completion scope.",
+  "decision": "Close should not be connected for this Aria PC completion scope unless the user explicitly creates a Close CRM record and provides the exact lead, contact, or opportunity ID.",
+  "previous_search_error_code": "INVALID_ARGUMENT",
+  "previous_search_query": "leads or contacts or opportunities matching Aria PC",
+  "previous_structured_activity_error_code": "INVALID_ARGUMENT",
+  "previous_structured_activity_query": "activity_search for meetings, calls, notes, and emails from 2026-07-01 to 2026-08-09",
+  "verification": "Close connector returned INVALID_ARGUMENT for all search variants on 2026-08-08. Resolution: Close CRM has no record for Aria PC; waived by user decision on 2026-08-08."
 }

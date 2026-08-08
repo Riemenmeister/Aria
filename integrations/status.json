@@ -130,14 +130,16 @@
     },
     {
       "name": "close",
-      "status": "connector_invalid_argument",
+      "status": "waived_by_user_decision",
       "evidence": [
         "Close tools are available in this thread",
         "2026-08-08 Close natural-language search for Aria PC returned INVALID_ARGUMENT",
         "2026-08-08 Close structured activity_search for meetings, calls, notes, and emails from 2026-07-01 to 2026-08-09 returned INVALID_ARGUMENT",
-        "reports/close_receipt.json records the connector failure"
+        "2026-08-08 No Close lead, contact, or opportunity ID exists for Aria PC; no Close CRM record is associated with this project",
+        "2026-08-08 user decision: Close CRM is not applicable to the Aria PC completion scope; connector INVALID_ARGUMENT is attributed to absence of any matching CRM record, not a fixable argument error",
+        "reports/close_receipt.json records the resolution decision"
       ],
-      "next_verification": "Retry Close after connector argument handling is fixed, or provide an exact Close lead/contact/opportunity ID that can be used with a specific fetch/search path."
+      "next_verification": "Do not retry Close unless the user explicitly creates a Close CRM record for Aria PC and provides the exact lead, contact, or opportunity ID."
     }
   ]
 }
