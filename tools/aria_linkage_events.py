@@ -11,7 +11,12 @@ from typing import Sequence
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from Aria.ai_linkage import AriaAiLinkage, LinkageEvent, LinkageEventStore
+from Aria.ai_linkage import (  # noqa: E402
+    AriaAiLinkage,
+    LinkageEvent,
+    LinkageEventStore,
+    LinkageOrchestrator,
+)
 
 
 DEFAULT_EVENT_STORE = Path("reports") / "aria_linkage_events.jsonl"
@@ -49,12 +54,31 @@ def build_parser() -> argparse.ArgumentParser:
     append.add_argument("--type", required=True)
     append.add_argument("--summary", required=True)
     append.add_argument("--payload", default="{}", help="JSON object payload.")
-    append.add_argument(
-        "--evidence",
-        action="append",
-        default=[],
-        help="Evidence path or URL. Can be passed more than once.",
+    append.add_argument("--evidence", action="append", default=[])
+
+    start_goal = subparsers.add_parser("start-goal", help="Persist a goal start sequence.")
+    start_goal.add_argument("--goal-id", required=True)
+    start_goal.add_argument("--summary", required=True)
+    start_goal.add_argument("--owner", default="aria2")
+    start_goal.add_argument("--evidence", action="append", default=[])
+
+    record_evidence = subparsers.add_parser(
+        "record-evidence", help="Persist a goal evidence event."
     )
+    record_evidence.add_argument("--goal-id", required=True)
+    record_evidence.add_argument("--evidence-id", required=True)
+    record_evidence.add_argument("--summary", required=True)
+    record_evidence.add_argument("--source", default="aria")
+    record_evidence.add_argument("--evidence", action="append", required=True)
+
+    record_blocker = subparsers.add_parser(
+        "record-blocker", help="Persist a goal blocker event."
+    )
+    record_blocker.add_argument("--goal-id", required=True)
+    record_blocker.add_argument("--blocker-id", required=True)
+    record_blocker.add_argument("--summary", required=True)
+    record_blocker.add_argument("--next-action", required=True)
+    record_blocker.add_argument("--source", default="aegis")
 
     return parser
 
@@ -94,9 +118,45 @@ def main(argv: Sequence[str] | None = None) -> int:
         _print_json(store.append(event))
         return 0
 
+    orchestrator = LinkageOrchestrator(store)
+
+    if args.command == "start-goal":
+        _print_json(
+            orchestrator.start_goal(
+                goal_id=args.goal_id,
+                summary=args.summary,
+                owner=args.owner,
+                evidence=tuple(args.evidence),
+            )
+        )
+        return 0
+
+    if args.command == "record-evidence":
+        _print_json(
+            orchestrator.record_evidence(
+                goal_id=args.goal_id,
+                evidence_id=args.evidence_id,
+                summary=args.summary,
+                source=args.source,
+                evidence=tuple(args.evidence),
+            )
+        )
+        return 0
+
+    if args.command == "record-blocker":
+        _print_json(
+            orchestrator.record_blocker(
+                goal_id=args.goal_id,
+                blocker_id=args.blocker_id,
+                summary=args.summary,
+                next_action=args.next_action,
+                source=args.source,
+            )
+        )
+        return 0
+
     raise AssertionError(f"unhandled command: {args.command}")
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
