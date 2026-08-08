@@ -13,6 +13,15 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "integrations" / "aria_ai_linkage.json"
 READY_STATUSES = {"ready", "partially_ready", "contract_defined"}
 
+LINKAGE_MANIFEST_EVIDENCE = "integrations/aria_ai_linkage.json"
+
+
+def _with_linkage_manifest_evidence(evidence: tuple[str, ...] | None) -> tuple[str, ...]:
+    items = list(evidence or ())
+    if LINKAGE_MANIFEST_EVIDENCE not in items:
+        items.append(LINKAGE_MANIFEST_EVIDENCE)
+    return tuple(items)
+
 
 @dataclass(frozen=True)
 class LinkageLayer:
@@ -213,13 +222,15 @@ class LinkageOrchestrator:
         owner: str = "aria2",
         evidence: tuple[str, ...] | None = None,
     ) -> tuple[dict[str, Any], ...]:
+        goal_evidence = tuple(evidence or ())
+        plan_evidence = _with_linkage_manifest_evidence(goal_evidence)
         goal_event = LinkageEvent.create(
             event_id=f"{goal_id}:goal",
             source=owner,
             type="goal",
             summary=summary,
             payload={"goal_id": goal_id, "phase": "started"},
-            evidence=evidence,
+            evidence=goal_evidence,
         )
         action_event = LinkageEvent.create(
             event_id=f"{goal_id}:action:plan",
@@ -231,7 +242,7 @@ class LinkageOrchestrator:
                 "action": "plan",
                 "layers": list(self.store.linkage.layer_ids()),
             },
-            evidence=("integrations/aria_ai_linkage.json",),
+            evidence=plan_evidence,
         )
         return (self.store.append(goal_event), self.store.append(action_event))
 

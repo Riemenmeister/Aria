@@ -54,13 +54,23 @@ def build_parser() -> argparse.ArgumentParser:
     append.add_argument("--type", required=True)
     append.add_argument("--summary", required=True)
     append.add_argument("--payload", default="{}", help="JSON object payload.")
-    append.add_argument("--evidence", action="append", default=[])
+    append.add_argument(
+        "--evidence",
+        action="append",
+        default=[],
+        help="Evidence path or URL. Can be passed more than once.",
+    )
 
     start_goal = subparsers.add_parser("start-goal", help="Persist a goal start sequence.")
     start_goal.add_argument("--goal-id", required=True)
     start_goal.add_argument("--summary", required=True)
     start_goal.add_argument("--owner", default="aria2")
-    start_goal.add_argument("--evidence", action="append", default=[])
+    start_goal.add_argument(
+        "--evidence",
+        action="append",
+        default=[],
+        help="Evidence path or URL for the goal and generated planning event.",
+    )
 
     record_evidence = subparsers.add_parser(
         "record-evidence", help="Persist a goal evidence event."
