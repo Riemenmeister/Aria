@@ -20,12 +20,20 @@ class AriaLinkageOrchestratorTest(unittest.TestCase):
             events = orchestrator.start_goal(
                 goal_id="goal-1",
                 summary="Connect the four Aria AI layers.",
-                evidence=("integrations/aria_ai_linkage.json",),
+                evidence=("reports/external_readiness.json",),
             )
 
             self.assertEqual([event["type"] for event in events], ["goal", "action"])
             self.assertEqual(store.health_snapshot()["event_count"], 2)
-            self.assertEqual(store.read_all()[1]["payload"]["layers"], ["aria", "ariacore", "aria2", "aegis"])
+            self.assertEqual(events[0]["evidence"], ["reports/external_readiness.json"])
+            self.assertEqual(
+                events[1]["evidence"],
+                ["reports/external_readiness.json", "integrations/aria_ai_linkage.json"],
+            )
+            self.assertEqual(
+                store.read_all()[1]["payload"]["layers"],
+                ["aria", "ariacore", "aria2", "aegis"],
+            )
 
     def test_records_evidence_and_blocker_events(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
