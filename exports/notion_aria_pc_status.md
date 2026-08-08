@@ -30,6 +30,7 @@ Evidence:
 - PR #6 merged into master: f4f55e97aa859876913cfe93319e7ee06fc98b40; post-merge CI run #17 passed
 - PR #7 merged into master: f4602408b45df0e57337fab9d52ea2c40fa3351d; post-merge CI run #19 passed
 - Local master is synchronized with origin/master and verified on 2026-08-08
+- PR #8 merged into master: 206c994b72a370b738ad3411b78771d730a6d4a5; post-merge CI run #21 passed
 
 Next verification: Keep future branches flowing through PR CI, then verify post-merge master CI before updating external status.
 
@@ -40,9 +41,10 @@ Status: Synced to Airtable
 Evidence:
 - Airtable base created: Aria PC Completion (apprXVtcJBWQJXl5n)
 - Airtable table created: Integration Status (tbl16tPYsvz97KWlh)
-- Airtable GitHub integration row updated through PR #7 merged, master CI passed on 2026-08-08
-- Airtable evidence includes PR #7 merge commit f4602408b45df0e57337fab9d52ea2c40fa3351d and master CI run #19
-- Airtable connector returned the updated record after write
+- Airtable GitHub integration row updated through PR #8 merged, master CI passed on 2026-08-08
+- Airtable Actively integration row updated to Waived by user decision on 2026-08-08
+- Airtable evidence includes PR #8 merge commit 206c994b72a370b738ad3411b78771d730a6d4a5 and master CI run #21
+- Airtable connector returned the updated records after write
 
 Next verification: Keep Airtable status rows in sync whenever repository, deployment, or connector evidence changes.
 
@@ -67,8 +69,8 @@ Status: Synced to Notion
 Evidence:
 - Notion page created: Aria PC Completion Status
 - Notion page URL: https://app.notion.com/p/3a233b66295a8102936ff866e9e0d96f
-- Notion page updated with PR #1 through PR #7 CI and merge evidence through 2026-08-08
-- Latest Notion section added: Persisted Audit Blocker Events Merge Success 2026-08-08
+- Notion page updated with PR #1 through PR #8 CI and merge evidence through 2026-08-08
+- Latest Notion section added: Actively Scope Waiver Merge Success 2026-08-08
 
 Next verification: Keep the Notion page current when new integration evidence or connector-blocker status changes.
 
@@ -92,10 +94,13 @@ Status: Connector available, no event
 Evidence:
 - Circleback connector tools are available in this thread
 - 2026-08-08 Circleback meeting search for Aria PC from 2026-08-01 to 2026-08-31 returned []
+- 2026-08-08 Circleback broad meeting search from 2026-07-01 to 2026-08-09 returned []
+- 2026-08-08 Circleback calendar event search from 2026-08-08 to 2026-08-16 returned []
+- 2026-08-08 Circleback tag list returned []
 - 2026-08-08 Circleback action-item search for Aria PC returned INVALID_ARGUMENT
 - reports/circleback_receipt.json records the current connector result and remaining artifact gap
 
-Next verification: Create or capture a real Circleback meeting/summary artifact, then link its meeting ID or summary URL; retry action-item search after connector argument handling is fixed.
+Next verification: Create or capture a real Circleback meeting/summary artifact outside this connector result set, then link its meeting ID or summary URL; retry action-item search after connector argument handling is fixed.
 
 ### slack
 
@@ -145,6 +150,7 @@ Status: Connector invalid argument
 Evidence:
 - Close tools are available in this thread
 - 2026-08-08 Close natural-language search for Aria PC returned INVALID_ARGUMENT
+- 2026-08-08 Close structured activity_search for meetings, calls, notes, and emails from 2026-07-01 to 2026-08-09 returned INVALID_ARGUMENT
 - reports/close_receipt.json records the connector failure
 
-Next verification: Retry Close search after connector argument handling is fixed, or provide an exact Close lead/contact/opportunity target.
+Next verification: Retry Close after connector argument handling is fixed, or provide an exact Close lead/contact/opportunity ID that can be used with a specific fetch/search path.
