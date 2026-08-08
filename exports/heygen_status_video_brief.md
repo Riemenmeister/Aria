@@ -17,11 +17,11 @@ Create a short presenter video that explains the current Aria PC completion stat
 
 Aria PC now has a tested local Python package baseline, a clean local Git history, a GitHub Actions workflow, a machine-readable integration status model, and a production-published status report.
 
-The externally verified integrations are: github, airtable, data-analytics, notion, heygen, slack, vercel.
+The externally verified integrations are: github, airtable, data-analytics, notion, heygen, slack, vercel, actively.
 
 The locally prepared integrations awaiting external proof are: none.
 
-The remaining integrations still needing stronger external evidence are: circleback, actively, close.
+The remaining integrations still needing stronger external evidence are: circleback, close.
 
 Next, the project needs a GitHub remote and push plus confirmed Notion, Slack, HeyGen, and Circleback artifacts before the full close can be claimed.
 

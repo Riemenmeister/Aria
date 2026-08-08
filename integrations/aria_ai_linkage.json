@@ -100,7 +100,8 @@
       "action",
       "evidence",
       "blocker",
-      "approval"
+      "approval",
+      "decision"
     ]
   },
   "completion_gates": [
@@ -112,4 +113,3 @@
     "aegis_planning_control_boundary_documented"
   ]
 }
-

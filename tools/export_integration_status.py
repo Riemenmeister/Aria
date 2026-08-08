@@ -32,6 +32,7 @@ STATUS_LABELS = {
    "connector_schema_error": "Connector schema error",
    "connector_invalid_argument": "Connector invalid argument",
    "target_missing": "Target missing",
+   "waived_by_user_decision": "Waived by user decision",
 }
 
 
@@ -44,7 +45,12 @@ def integrations_by_status(data, status):
 
 
 def is_externally_complete(status):
-   return status == "complete" or status.startswith("external_") or status.startswith("production_")
+   return (
+      status == "complete"
+      or status == "waived_by_user_decision"
+      or status.startswith("external_")
+      or status.startswith("production_")
+   )
 
 
 def completed_integrations(data):
@@ -247,8 +253,3 @@ def main():
 
 if __name__ == "__main__":
    main()
-
-
-
-
-

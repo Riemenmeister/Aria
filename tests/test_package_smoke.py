@@ -72,7 +72,8 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(markers["notion"]["status"], "external_synced_notion")
       self.assertEqual(markers["heygen"]["status"], "external_generated_heygen")
       self.assertEqual(markers["slack"]["status"], "external_drafted_slack")
-      self.assertIn("<strong>7</strong><span>externally complete</span>", report)
+      self.assertEqual(markers["actively"]["status"], "waived_by_user_decision")
+      self.assertIn("<strong>8</strong><span>externally complete</span>", report)
       self.assertIn("Production report published", report)
 
    def test_static_site_build_configuration_exists(self):
@@ -146,7 +147,7 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(connectors["slack"]["status"], "available_and_drafted")
       self.assertEqual(connectors["heygen"]["status"], "available_and_generated")
       self.assertEqual(connectors["circleback"]["status"], "available_no_artifact_found")
-      self.assertEqual(connectors["actively"]["status"], "connector_not_connected")
+      self.assertEqual(connectors["actively"]["status"], "waived_by_user_decision")
       self.assertEqual(connectors["close"]["status"], "connector_invalid_argument")
 
    def test_new_connector_receipts_record_current_evidence(self):
@@ -166,6 +167,7 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(heygen["video_id"], "8e1fec9f71d04826b2f7b4cafe39d570")
       self.assertEqual(circleback["status"], "connector_available_no_event")
       self.assertEqual(actively["error_code"], "USER_NOT_LOGGED_IN")
+      self.assertEqual(actively["status"], "waived_by_user_decision")
       self.assertEqual(close["status"], "connector_invalid_argument")
 
 
@@ -202,6 +204,7 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(results["heygen"]["completion"], "proved")
       self.assertEqual(results["github"]["completion"], "proved")
       self.assertNotIn("github", audit["unfinished_required_markers"])
+      self.assertNotIn("actively", audit["unfinished_required_markers"])
       self.assertNotIn("airtable", audit["approval_required_for"])
       self.assertNotIn("notion", audit["approval_required_for"])
 
@@ -225,12 +228,3 @@ class IntegrationStatusTests(unittest.TestCase):
 
 if __name__ == "__main__":
    unittest.main()
-
-
-
-
-
-
-
-
-

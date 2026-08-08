@@ -5,6 +5,8 @@
   "project": "Aria PC",
   "query": "Aria PC",
   "service": "actively",
-  "status": "connector_not_connected",
-  "verification": "Actively lookup_accounts is available but returned USER_NOT_LOGGED_IN on 2026-08-08."
+  "status": "waived_by_user_decision",
+  "verification": "Actively lookup_accounts is available but returned USER_NOT_LOGGED_IN on 2026-08-08; Actively is intentionally not connected by user decision.",
+  "scope_decision": "User explicitly said not to connect Actively on 2026-08-08.",
+  "login_boundary": "If the scope changes later, login must happen through a first-party user-controlled UI such as browser, OS credential prompt, Windows Hello, or sensor-based authentication; no password is collected or stored in this repository."
 }
