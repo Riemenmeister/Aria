@@ -1,11 +1,11 @@
 {
+  "action_item_error_code": "INVALID_ARGUMENT",
+  "action_item_query": "Aria PC from 2026-08-01 to 2026-08-31",
+  "checked_at": "2026-08-08",
+  "meeting_query": "Aria PC from 2026-08-01 to 2026-08-31",
+  "meeting_result": "[]",
   "project": "Aria PC",
   "service": "circleback",
   "status": "connector_available_no_event",
-  "checked_at": "2026-08-01",
-  "calendar_query": "2026-08-01 to 2026-08-15",
-  "calendar_result": "[]",
-  "action_item_query": "Aria PC",
-  "action_item_error_code": "INVALID_ARGUMENT",
-  "verification": "Circleback calendar search returned no Aria PC Completion event through 2026-08-15, and action-item search returned INVALID_ARGUMENT."
+  "verification": "Circleback meeting search returned no Aria PC meetings in August 2026, and action-item search returned INVALID_ARGUMENT on 2026-08-08."
 }

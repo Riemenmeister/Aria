@@ -28,6 +28,9 @@ COMPLETE_STATUSES = {
    "production_deployed_sites",
    "external_generated_heygen",
    "external_drafted_slack",
+   "complete",
+   "external_synced_airtable",
+   "external_synced_notion",
 }
 
 RESYNC_PENDING_STATUSES = {
@@ -97,11 +100,16 @@ def build_audit():
       "extra_markers": extra_markers,
       "proved_count": sum(1 for item in results if item["completion"] == "proved"),
       "incomplete_count": len(incomplete),
+      "unfinished_required_markers": [item["name"] for item in incomplete],
       "results": results,
       "local_package": status["local_package"],
       "readiness_blockers": readiness.get("blockers", []),
       "connector_status": {name: data["status"] for name, data in connectors.get("connectors", {}).items()},
-      "approval_required_for": [item["service"] for item in approval.get("external_writes_requiring_explicit_approval", [])],
+      "approval_required_for": [
+         item["service"]
+         for item in approval.get("external_writes_requiring_explicit_approval", [])
+         if markers.get(item["service"], {}).get("status") in RESYNC_PENDING_STATUSES
+      ],
       "prepared_resync_plan": resync_plan,
       "completion_gate": "Do not mark the goal complete while status is incomplete, any required marker is unproved, or approval/login/target/artifact blockers remain.",
    }

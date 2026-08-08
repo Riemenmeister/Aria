@@ -1,9 +1,9 @@
 {
+  "checked_at": "2026-08-08",
   "project": "Aria PC",
+  "search_error_code": "INVALID_ARGUMENT",
+  "search_query": "leads or contacts or opportunities matching Aria PC",
   "service": "close",
   "status": "connector_invalid_argument",
-  "checked_at": "2026-08-01",
-  "search_query": "Aria PC",
-  "search_error_code": "INVALID_ARGUMENT",
-  "verification": "Close search tool is available but returned INVALID_ARGUMENT for Aria PC on 2026-08-01."
+  "verification": "Close search tool is available but returned INVALID_ARGUMENT for an Aria PC natural-language search on 2026-08-08."
 }

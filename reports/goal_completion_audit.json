@@ -1,24 +1,21 @@
 {
-  "approval_required_for": [
-    "airtable",
-    "notion"
-  ],
-  "checked_at": "2026-08-01",
+  "approval_required_for": [],
+  "checked_at": "2026-08-08",
   "completion_gate": "Do not mark the goal complete while status is incomplete, any required marker is unproved, or approval/login/target/artifact blockers remain.",
   "connector_status": {
     "actively": "connector_not_connected",
-    "airtable": "available_resync_requires_approval",
+    "airtable": "available_and_synced",
     "circleback": "available_no_artifact_found",
     "close": "connector_invalid_argument",
-    "github": "available_existing_repo_only",
+    "github": "available_and_synced",
     "heygen": "available_and_generated",
-    "notion": "available_resync_requires_approval",
+    "notion": "available_and_synced",
     "sites": "available_and_deployed",
     "slack": "available_and_drafted",
     "vercel": "cli_unavailable_sites_deployed"
   },
   "extra_markers": [],
-  "incomplete_count": 6,
+  "incomplete_count": 3,
   "local_package": {
     "evidence": [
       "py -B -m unittest discover -s tests: pass",
@@ -58,9 +55,8 @@
     "service": "airtable"
   },
   "project": "Aria PC",
-  "proved_count": 4,
+  "proved_count": 7,
   "readiness_blockers": [
-    "git_remote",
     "github_auth",
     "vercel_cli",
     "node",
@@ -80,25 +76,25 @@
   ],
   "results": [
     {
-      "completion": "incomplete",
+      "completion": "proved",
       "evidence": [
-        "local git repository clean on master",
-        "local commits exist",
-        "reports/external_readiness.json confirms no git remote is configured",
-        "reports/external_readiness.json confirms GitHub CLI gh is installed: gh version 2.96.0 (2026-07-02)",
-        "reports/external_readiness.json confirms GitHub CLI is not authenticated: gh auth status reports no logged-in hosts",
-        ".github/workflows/ci.yml defines Windows CI for compile, unittest, report freshness, export freshness, static-site build, and editable-install dry-run checks"
+        "GitHub remote origin is configured for https://github.com/Riemenmeister/Aria.git",
+        "PR #1 merged into master: dcdc4167814935969f8043779ecd0f78c9b8a092; post-merge CI run #7 passed",
+        "PR #2 merged into master: 0ab79d1072446c6166576df4f169dab272263a68; post-merge CI run #9 passed",
+        "PR #3 merged into master: 9c90e2a94941c604997c0c375b392188413fee19; post-merge CI run #11 passed",
+        "PR #4 merged into master: 56355d727c3370bc9769fd2908fa1ea7e697e6f7; post-merge CI run #13 passed",
+        "Local master is synchronized with origin/master and verified on 2026-08-08"
       ],
       "name": "github",
-      "next_verification": "Authenticate GitHub CLI or provide an existing repository target, then configure a remote, push commits, and confirm remote CI status.",
-      "reason": "Current status still names missing targets, connector blockers, or absent artifact proof.",
-      "status": "local_ready_remote_missing"
+      "next_verification": "Keep future branches flowing through PR CI, then verify post-merge master CI before updating external status.",
+      "reason": "Current status has direct external or production evidence.",
+      "status": "complete"
     },
     {
       "completion": "incomplete",
       "evidence": [
         "Actively tools are available in this thread",
-        "Actively account lookup for Aria PC returned USER_NOT_LOGGED_IN for asdk_app_6a15fca0d57c8191a204ffdd12fbbef2 on 2026-08-01",
+        "2026-08-08 Actively account lookup for Aria PC returned USER_NOT_LOGGED_IN for asdk_app_6a15fca0d57c8191a204ffdd12fbbef2",
         "reports/actively_receipt.json records the connection blocker"
       ],
       "name": "actively",
@@ -107,19 +103,18 @@
       "status": "connector_not_connected"
     },
     {
-      "completion": "incomplete",
+      "completion": "proved",
       "evidence": [
         "Airtable base created: Aria PC Completion (apprXVtcJBWQJXl5n)",
         "Airtable table created: Integration Status (tbl16tPYsvz97KWlh)",
-        "Last successful Airtable upsert returned 10 integration records on 2026-07-20",
-        "2026-08-01 Airtable resync was not performed because the connector rejected the payload as requiring explicit user approval",
-        "reports/airtable_receipt.json records the successful sync and the blocked resync attempt",
-        "reports/external_sync_approval_request.json records the full-vs-redacted resync approval options"
+        "Airtable GitHub integration row updated through PR #4 merged, master CI passed on 2026-08-08",
+        "Airtable evidence includes PR #4 merge commit 56355d727c3370bc9769fd2908fa1ea7e697e6f7 and master CI run #13",
+        "Airtable connector returned the updated record after write"
       ],
       "name": "airtable",
-      "next_verification": "Explicitly approve the 2026-08-01 Airtable resync payload, then upsert the 10 current records and read them back.",
-      "reason": "A previous external sync exists, but the current 2026-08-01 resync requires explicit approval.",
-      "status": "external_synced_airtable_resync_pending"
+      "next_verification": "Keep Airtable status rows in sync whenever repository, deployment, or connector evidence changes.",
+      "reason": "Current status has direct external or production evidence.",
+      "status": "external_synced_airtable"
     },
     {
       "completion": "proved",
@@ -136,19 +131,17 @@
       "status": "production_report_published"
     },
     {
-      "completion": "incomplete",
+      "completion": "proved",
       "evidence": [
         "Notion page created: Aria PC Completion Status",
         "Notion page URL: https://app.notion.com/p/3a233b66295a8102936ff866e9e0d96f",
-        "Notion fetch verified the updated 2026-07-20 page content",
-        "2026-08-01 Notion resync was not performed because the connector rejected the payload as requiring explicit user approval",
-        "exports/notion_aria_pc_status.md remains the source handoff export",
-        "reports/external_sync_approval_request.json records the full-vs-redacted resync approval options"
+        "Notion page updated with PR #1, PR #2, PR #3, PR #4 CI and merge evidence through 2026-08-08",
+        "Latest Notion section added: Review Fix Merge Success 2026-08-08"
       ],
       "name": "notion",
-      "next_verification": "Explicitly approve the 2026-08-01 Notion resync payload or provide a redacted update policy, then update and fetch the page again.",
-      "reason": "A previous external sync exists, but the current 2026-08-01 resync requires explicit approval.",
-      "status": "external_synced_notion_resync_pending"
+      "next_verification": "Keep the Notion page current when new integration evidence or connector-blocker status changes.",
+      "reason": "Current status has direct external or production evidence.",
+      "status": "external_synced_notion"
     },
     {
       "completion": "proved",
@@ -168,12 +161,12 @@
       "completion": "incomplete",
       "evidence": [
         "Circleback connector tools are available in this thread",
-        "Circleback calendar search for 2026-08-01 to 2026-08-15 returned no Aria PC Completion events",
-        "Circleback action-item search for Aria PC returned INVALID_ARGUMENT",
+        "2026-08-08 Circleback meeting search for Aria PC from 2026-08-01 to 2026-08-31 returned []",
+        "2026-08-08 Circleback action-item search for Aria PC returned INVALID_ARGUMENT",
         "reports/circleback_receipt.json records the current connector result and remaining artifact gap"
       ],
       "name": "circleback",
-      "next_verification": "Create or capture a real Circleback meeting/summary artifact, then link its meeting ID or summary URL.",
+      "next_verification": "Create or capture a real Circleback meeting/summary artifact, then link its meeting ID or summary URL; retry action-item search after connector argument handling is fixed.",
       "reason": "Current status still names missing targets, connector blockers, or absent artifact proof.",
       "status": "connector_available_no_event"
     },
@@ -211,7 +204,7 @@
       "completion": "incomplete",
       "evidence": [
         "Close tools are available in this thread",
-        "Close search for Aria PC returned INVALID_ARGUMENT on 2026-08-01",
+        "2026-08-08 Close natural-language search for Aria PC returned INVALID_ARGUMENT",
         "reports/close_receipt.json records the connector failure"
       ],
       "name": "close",
@@ -220,5 +213,10 @@
       "status": "connector_invalid_argument"
     }
   ],
-  "status": "incomplete"
+  "status": "incomplete",
+  "unfinished_required_markers": [
+    "actively",
+    "circleback",
+    "close"
+  ]
 }

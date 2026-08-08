@@ -1,6 +1,5 @@
 {
   "blockers": [
-    "git_remote",
     "github_auth",
     "vercel_cli",
     "node",
@@ -8,9 +7,12 @@
   ],
   "checks": {
     "git_remote": {
-      "detail": "no git remote configured",
-      "ok": false,
-      "remotes": []
+      "detail": "remote configured",
+      "ok": true,
+      "remotes": [
+        "origin\thttps://github.com/Riemenmeister/Aria.git (fetch)",
+        "origin\thttps://github.com/Riemenmeister/Aria.git (push)"
+      ]
     },
     "github_auth": {
       "available": true,
