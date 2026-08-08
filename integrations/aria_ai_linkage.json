@@ -1,0 +1,115 @@
+{
+  "project": "Aria PC",
+  "created": "2026-08-08",
+  "linkage_version": 1,
+  "goal": "Connect Aria, AriaCore, Aria 2, and AEGIS into one auditable AI system path.",
+  "layers": [
+    {
+      "id": "aria",
+      "name": "Aria",
+      "role": "operator_interface_and_memory_surface",
+      "status": "partially_ready",
+      "required_capabilities": [
+        "identity",
+        "health",
+        "events",
+        "memory",
+        "safety"
+      ],
+      "evidence": [
+        "ARIA_PC_COMPLETION.md",
+        "reports/aria_pc_status.html",
+        "integrations/status.json"
+      ],
+      "next_verification": "Confirm current local report and external status surfaces remain in sync."
+    },
+    {
+      "id": "ariacore",
+      "name": "AriaCore",
+      "role": "runtime_and_event_backbone",
+      "status": "needs_remote_ci_proof",
+      "required_capabilities": [
+        "identity",
+        "health",
+        "events",
+        "memory",
+        "safety"
+      ],
+      "evidence": [
+        ".github/workflows/ci.yml",
+        "tests/",
+        "tools/"
+      ],
+      "next_verification": "Run CI on the pull request and record workflow conclusion."
+    },
+    {
+      "id": "aria2",
+      "name": "Aria 2",
+      "role": "cognitive_orchestration_upgrade_path",
+      "status": "contract_defined",
+      "required_capabilities": [
+        "identity",
+        "health",
+        "events",
+        "memory",
+        "safety"
+      ],
+      "evidence": [
+        "docs/aria_ai_linkage_implementation.md"
+      ],
+      "next_verification": "Add orchestration package and tests after the linkage contract is accepted."
+    },
+    {
+      "id": "aegis",
+      "name": "AEGIS",
+      "role": "mission_and_safety_architecture_layer",
+      "status": "safety_contract_required",
+      "required_capabilities": [
+        "identity",
+        "health",
+        "events",
+        "memory",
+        "safety"
+      ],
+      "evidence": [
+        "AEGIS/README.md",
+        "docs/aria_ai_linkage_implementation.md"
+      ],
+      "next_verification": "Document the split between cognitive planning and real-time control before autonomous use."
+    }
+  ],
+  "event_contract": {
+    "required_fields": [
+      "event_id",
+      "timestamp",
+      "source",
+      "type",
+      "summary",
+      "payload",
+      "evidence"
+    ],
+    "sources": [
+      "aria",
+      "ariacore",
+      "aria2",
+      "aegis"
+    ],
+    "types": [
+      "goal",
+      "status",
+      "action",
+      "evidence",
+      "blocker",
+      "approval"
+    ]
+  },
+  "completion_gates": [
+    "local_runtime_tests_pass",
+    "github_branch_and_pull_request_exist",
+    "pull_request_ci_result_recorded",
+    "airtable_and_notion_current",
+    "external_connectors_resolved_or_declared_optional",
+    "aegis_planning_control_boundary_documented"
+  ]
+}
+
