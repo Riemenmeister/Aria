@@ -72,7 +72,7 @@
         "safety"
       ],
       "evidence": [
-        "AEGIS/",
+        "AEGIS/README.md",
         "docs/aria_ai_linkage_implementation.md"
       ],
       "next_verification": "Document the split between cognitive planning and real-time control before autonomous use."
@@ -112,3 +112,4 @@
     "aegis_planning_control_boundary_documented"
   ]
 }
+
