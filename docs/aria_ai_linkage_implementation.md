@@ -149,3 +149,21 @@ py tools\aria_linkage_events.py start-goal --goal-id aria-pc-linkage --summary "
 py tools\aria_linkage_events.py record-evidence --goal-id aria-pc-linkage --evidence-id ci --summary "CI passed." --evidence https://github.com/Riemenmeister/Aria/actions
 py tools\aria_linkage_events.py record-blocker --goal-id aria-pc-linkage --blocker-id approval --summary "Merge requires explicit approval." --next-action "Ask for approval before merging."
 ```
+
+## Audit Blocker Events
+
+The goal audit can be converted into persisted blocker events so the remaining
+external gates are visible through the same append-only linkage event contract.
+This is useful after a connector recheck: proved markers are skipped, and every
+incomplete marker becomes a validated `blocker` event with its evidence and next
+action.
+
+Example:
+
+```powershell
+py tools\aria_linkage_events.py record-audit-blockers --goal-id aria-pc-completion --audit reports\goal_completion_audit.json
+py tools\aria_linkage_events.py validate-store
+```
+
+For the 2026-08-08 connector recheck this records the remaining Actively,
+Circleback, and Close blockers while preserving their receipt evidence.
