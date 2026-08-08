@@ -1,0 +1,80 @@
+{
+  "project": "Aria PC",
+  "updated": "2026-08-08",
+  "generated_by": "Codex connector recheck after PR #9",
+  "status": "waiting_for_external_artifact_or_exact_target",
+  "current_scope_decisions": [
+    {
+      "service": "actively",
+      "status": "waived_by_user_decision",
+      "decision": "Actively remains intentionally disconnected for this completion scope.",
+      "login_boundary": "If scope changes later, login must happen only through a first-party user-controlled UI; no password is collected or stored in this repository.",
+      "evidence": [
+        "reports/actively_receipt.json",
+        "reports/aria_linkage_events.jsonl"
+      ]
+    }
+  ],
+  "remaining_gates": [
+    {
+      "service": "circleback",
+      "current_status": "connector_available_no_artifact_found",
+      "last_recheck": "2026-08-08",
+      "blocking_condition": "No Circleback closeout meeting, calendar event, tag, transcript, or action-item artifact is visible through the connector.",
+      "accepted_resolution_inputs": [
+        "Circleback meeting ID for a real Aria PC closeout meeting",
+        "Circleback summary URL for a real Aria PC closeout meeting",
+        "Exported Circleback summary file path that can be referenced from integrations/status.json"
+      ],
+      "acceptance_criteria": [
+        "Artifact exists and is externally attributable to Circleback or an exported Circleback summary",
+        "Artifact explicitly covers Aria PC completion or closeout",
+        "Artifact ID, URL, or file path is recorded in integrations/status.json and reports/circleback_receipt.json",
+        "py tools/audit_goal_completion.py --check passes after the status update"
+      ],
+      "latest_evidence": [
+        "Circleback Aria PC meeting search returned []",
+        "Circleback broad meeting search from 2026-07-01 to 2026-08-09 returned []",
+        "Circleback calendar event search from 2026-08-08 to 2026-08-16 returned []",
+        "Circleback tag list returned []",
+        "Circleback transcript searches for Aria, closeout, and completion returned []",
+        "Circleback action-item search returned INVALID_ARGUMENT"
+      ],
+      "next_action": "Create/capture the closeout meeting in Circleback or provide a Circleback meeting ID, summary URL, or exported summary file path."
+    },
+    {
+      "service": "close",
+      "current_status": "connector_invalid_argument",
+      "last_recheck": "2026-08-08",
+      "blocking_condition": "Close connector returns INVALID_ARGUMENT for natural-language search and structured activity_search variants.",
+      "accepted_resolution_inputs": [
+        "Exact Close lead ID",
+        "Exact Close contact ID",
+        "Exact Close opportunity ID",
+        "Confirmation that Close connector argument handling has been fixed and should be retried"
+      ],
+      "acceptance_criteria": [
+        "Exact target can be queried through a specific Close fetch/search path, or connector retry succeeds without INVALID_ARGUMENT",
+        "Result is recorded in integrations/status.json and reports/close_receipt.json",
+        "py tools/audit_goal_completion.py --check passes after the status update"
+      ],
+      "latest_evidence": [
+        "Close natural-language search for Aria returned INVALID_ARGUMENT",
+        "Close natural-language search for Aria PC returned INVALID_ARGUMENT",
+        "Close activity_search for meetings returned INVALID_ARGUMENT",
+        "Close activity_search for notes returned INVALID_ARGUMENT",
+        "Close structured activity_search for meetings, calls, notes, and emails from 2026-07-01 to 2026-08-09 returned INVALID_ARGUMENT"
+      ],
+      "next_action": "Provide an exact Close lead/contact/opportunity ID or retry after connector argument handling is fixed."
+    }
+  ],
+  "verification_commands": [
+    "py tools\\aria_linkage_events.py validate-store",
+    "py tools\\render_status_report.py --check",
+    "py tools\\export_integration_status.py --check",
+    "py tools\\audit_goal_completion.py --check",
+    "py tools\\validate_aria_ai_linkage.py",
+    "py -B -m unittest discover -s tests",
+    "py -B -m compileall Aria tests tools"
+  ]
+}

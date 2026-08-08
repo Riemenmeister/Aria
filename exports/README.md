@@ -7,6 +7,7 @@ These files are generated from `integrations/status.json` for manual or connecto
 - `slack_status_update.md`: concise update text for Slack.
 - `heygen_status_video_brief.md`: presenter-video brief and script for HeyGen.
 - `circleback_meeting_brief.md`: closeout meeting agenda and capture checklist for Circleback.
+- `blocker_resolution_handoff.md`: exact remaining Circleback and Close resolution inputs and acceptance criteria.
 
 Regenerate all exports with:
 
