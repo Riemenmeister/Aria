@@ -26,6 +26,9 @@ Evidence:
 - PR #2 merged into master: 0ab79d1072446c6166576df4f169dab272263a68; post-merge CI run #9 passed
 - PR #3 merged into master: 9c90e2a94941c604997c0c375b392188413fee19; post-merge CI run #11 passed
 - PR #4 merged into master: 56355d727c3370bc9769fd2908fa1ea7e697e6f7; post-merge CI run #13 passed
+- PR #5 merged into master: 5cfd04658afe993443c84aeb483cf6bbe616e899; post-merge CI run #15 passed
+- PR #6 merged into master: f4f55e97aa859876913cfe93319e7ee06fc98b40; post-merge CI run #17 passed
+- PR #7 merged into master: f4602408b45df0e57337fab9d52ea2c40fa3351d; post-merge CI run #19 passed
 - Local master is synchronized with origin/master and verified on 2026-08-08
 
 Next verification: Keep future branches flowing through PR CI, then verify post-merge master CI before updating external status.
@@ -37,8 +40,8 @@ Status: Synced to Airtable
 Evidence:
 - Airtable base created: Aria PC Completion (apprXVtcJBWQJXl5n)
 - Airtable table created: Integration Status (tbl16tPYsvz97KWlh)
-- Airtable GitHub integration row updated through PR #4 merged, master CI passed on 2026-08-08
-- Airtable evidence includes PR #4 merge commit 56355d727c3370bc9769fd2908fa1ea7e697e6f7 and master CI run #13
+- Airtable GitHub integration row updated through PR #7 merged, master CI passed on 2026-08-08
+- Airtable evidence includes PR #7 merge commit f4602408b45df0e57337fab9d52ea2c40fa3351d and master CI run #19
 - Airtable connector returned the updated record after write
 
 Next verification: Keep Airtable status rows in sync whenever repository, deployment, or connector evidence changes.
@@ -53,9 +56,9 @@ Evidence:
 - py tools/render_status_report.py --check verifies the report is current
 - reports/external_readiness.json captures current external readiness blockers
 - reports/deployment_receipt.json records the production Sites URL for the generated status report
-- reports/aria_linkage_events.jsonl persists the current Actively, Circleback, and Close blockers as validated linkage events
+- reports/aria_linkage_events.jsonl persists the Actively scope decision and the current Circleback and Close blockers as validated linkage events
 
-Next verification: Keep reports/aria_linkage_events.jsonl current when blocker evidence changes or blockers are resolved.
+Next verification: Keep reports/aria_linkage_events.jsonl current when scope decisions change, blocker evidence changes, or blockers are resolved.
 
 ### notion
 
@@ -64,8 +67,8 @@ Status: Synced to Notion
 Evidence:
 - Notion page created: Aria PC Completion Status
 - Notion page URL: https://app.notion.com/p/3a233b66295a8102936ff866e9e0d96f
-- Notion page updated with PR #1, PR #2, PR #3, PR #4 CI and merge evidence through 2026-08-08
-- Latest Notion section added: Review Fix Merge Success 2026-08-08
+- Notion page updated with PR #1 through PR #7 CI and merge evidence through 2026-08-08
+- Latest Notion section added: Persisted Audit Blocker Events Merge Success 2026-08-08
 
 Next verification: Keep the Notion page current when new integration evidence or connector-blocker status changes.
 
@@ -124,14 +127,16 @@ Next verification: If Vercel specifically is required, configure Vercel separate
 
 ### actively
 
-Status: Connector not connected
+Status: Waived by user decision
 
 Evidence:
 - Actively tools are available in this thread
 - 2026-08-08 Actively account lookup for Aria PC returned USER_NOT_LOGGED_IN for asdk_app_6a15fca0d57c8191a204ffdd12fbbef2
-- reports/actively_receipt.json records the connection blocker
+- 2026-08-08 user decision: Actively should not be connected for this Aria PC completion scope
+- Login, if the scope changes later, must happen only through a first-party user-controlled UI such as browser, OS credential prompt, Windows Hello, or sensor-based authentication; no password is collected or stored in this repository
+- reports/actively_receipt.json records the non-connection decision
 
-Next verification: Connect Actively and resolve or create the relevant account target, then record account decisioning evidence.
+Next verification: Do not connect Actively unless the user explicitly changes this scope decision and performs login through a first-party user-controlled UI.
 
 ### close
 

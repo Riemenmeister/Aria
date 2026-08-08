@@ -2,8 +2,8 @@
   "checked_at": "2026-08-08",
   "connectors": {
     "actively": {
-      "evidence": "Actively lookup_accounts for Aria PC returned USER_NOT_LOGGED_IN on 2026-08-08.",
-      "status": "connector_not_connected"
+      "evidence": "Actively lookup_accounts for Aria PC returned USER_NOT_LOGGED_IN on 2026-08-08; the user then decided Actively should not be connected for this completion scope. If this changes later, login must happen through a first-party user-controlled UI, not by storing credentials in the repo.",
+      "status": "waived_by_user_decision"
     },
     "airtable": {
       "evidence": "Airtable connector updated the GitHub integration row through PR #4 merged, master CI passed on 2026-08-08.",
@@ -44,7 +44,7 @@
   },
   "generated_by": "Codex connector discovery and verification in active thread",
   "next_actions": [
-    "Connect Actively and retry account lookup for the Aria PC target.",
+    "Keep Actively disconnected unless the user explicitly changes the completion scope and performs login through a first-party user-controlled UI.",
     "Retry Close after connector argument handling is fixed or provide the exact lead/contact target.",
     "Create or capture a Circleback closeout meeting summary if Circleback proof is required beyond connector availability.",
     "Keep GitHub, Airtable, and Notion evidence synchronized after each future PR or integration change."

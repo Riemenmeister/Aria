@@ -29,5 +29,11 @@
     "checked_at": "2026-08-01",
     "status": "rejected_by_connector_risk_policy",
     "verification": "Airtable rejected the 2026-08-01 10-record resync because the payload contains internal project status, service identifiers, URLs, and authentication/connectivity details and needs explicit user approval."
+  },
+  "last_targeted_update": {
+    "operation": "update_records_for_table",
+    "checked_at": "2026-08-08",
+    "status": "succeeded",
+    "verification": "Airtable GitHub integration record recToIGYn5R1tZp8U was updated after PR #7 merged into master and post-merge CI run #19 succeeded."
   }
 }

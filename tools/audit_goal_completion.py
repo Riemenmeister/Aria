@@ -31,6 +31,7 @@ COMPLETE_STATUSES = {
    "complete",
    "external_synced_airtable",
    "external_synced_notion",
+   "waived_by_user_decision",
 }
 
 RESYNC_PENDING_STATUSES = {
@@ -44,7 +45,10 @@ def load_json(path):
 
 
 def item_result(name, status, evidence, next_verification):
-   if status in COMPLETE_STATUSES:
+   if status == "waived_by_user_decision":
+      completion = "proved"
+      reason = "Connector is intentionally excluded from the current completion scope by user decision."
+   elif status in COMPLETE_STATUSES:
       completion = "proved"
       reason = "Current status has direct external or production evidence."
    elif status in RESYNC_PENDING_STATUSES:
@@ -135,5 +139,3 @@ def main():
 
 if __name__ == "__main__":
    main()
-
-

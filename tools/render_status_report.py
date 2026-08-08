@@ -26,6 +26,7 @@ STATUS_LABELS = {
    "connector_schema_error": "Connector schema error",
    "connector_invalid_argument": "Connector invalid argument",
    "target_missing": "Target missing",
+   "waived_by_user_decision": "Waived by user decision",
 }
 
 
@@ -34,7 +35,12 @@ def esc(value):
 
 
 def is_externally_complete(status):
-   return status == "complete" or status.startswith("external_") or status.startswith("production_")
+   return (
+      status == "complete"
+      or status == "waived_by_user_decision"
+      or status.startswith("external_")
+      or status.startswith("production_")
+   )
 
 
 def status_class(status):
@@ -212,8 +218,3 @@ def main():
 
 if __name__ == "__main__":
    main()
-
-
-
-
-

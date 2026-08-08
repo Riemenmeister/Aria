@@ -93,8 +93,10 @@ class AriaAiLinkageEventStoreTest(unittest.TestCase):
         store = LinkageEventStore(ROOT / "reports" / "aria_linkage_events.jsonl", AriaAiLinkage())
         events = store.read_all()
         blocker_ids = {event["payload"]["blocker_id"] for event in events if event["type"] == "blocker"}
+        decision_ids = {event["payload"]["decision_id"] for event in events if event["type"] == "decision"}
 
-        self.assertEqual(blocker_ids, {"actively", "circleback", "close"})
+        self.assertEqual(blocker_ids, {"circleback", "close"})
+        self.assertEqual(decision_ids, {"actively-not-connected"})
         self.assertEqual(len(events), 3)
 
 
