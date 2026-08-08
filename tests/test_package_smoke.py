@@ -208,6 +208,19 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertNotIn("airtable", audit["approval_required_for"])
       self.assertNotIn("notion", audit["approval_required_for"])
 
+
+   def test_blocker_resolution_handoff_records_remaining_inputs(self):
+      handoff = json.loads((ROOT / "reports" / "blocker_resolution_handoff.json").read_text(encoding="utf-8"))
+      handoff_doc = (ROOT / "exports" / "blocker_resolution_handoff.md").read_text(encoding="utf-8")
+      gates = {item["service"]: item for item in handoff["remaining_gates"]}
+
+      self.assertEqual(handoff["status"], "waiting_for_external_artifact_or_exact_target")
+      self.assertEqual(set(gates), {"circleback", "close"})
+      self.assertIn("Circleback meeting ID", " | ".join(gates["circleback"]["accepted_resolution_inputs"]))
+      self.assertIn("Exact Close lead ID", " | ".join(gates["close"]["accepted_resolution_inputs"]))
+      self.assertIn("first-party user-controlled UI", handoff["current_scope_decisions"][0]["login_boundary"])
+      self.assertIn("# Aria PC Blocker Resolution Handoff", handoff_doc)
+      self.assertIn("Exact Close opportunity ID", handoff_doc)
    def test_external_resync_plan_is_dry_run(self):
       plan = json.loads((ROOT / "reports" / "external_resync_plan.json").read_text(encoding="utf-8"))
       audit = json.loads((ROOT / "reports" / "goal_completion_audit.json").read_text(encoding="utf-8"))
