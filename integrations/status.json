@@ -43,9 +43,10 @@
         "tools/render_status_report.py renders reports/aria_pc_status.html from the status model",
         "py tools/render_status_report.py --check verifies the report is current",
         "reports/external_readiness.json captures current external readiness blockers",
-        "reports/deployment_receipt.json records the production Sites URL for the generated status report"
+        "reports/deployment_receipt.json records the production Sites URL for the generated status report",
+        "reports/aria_linkage_events.jsonl persists the current Actively, Circleback, and Close blockers as validated linkage events"
       ],
-      "next_verification": "Keep the published status report current when integration evidence changes."
+      "next_verification": "Keep reports/aria_linkage_events.jsonl current when blocker evidence changes or blockers are resolved."
     },
     {
       "name": "notion",
