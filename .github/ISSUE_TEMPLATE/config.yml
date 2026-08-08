@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Aria PC blocker resolution handoff
+    url: https://github.com/Riemenmeister/Aria/blob/master/exports/blocker_resolution_handoff.md
+    about: Read the exact remaining Circleback and Close resolution inputs.

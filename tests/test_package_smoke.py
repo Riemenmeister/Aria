@@ -221,6 +221,17 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertIn("first-party user-controlled UI", handoff["current_scope_decisions"][0]["login_boundary"])
       self.assertIn("# Aria PC Blocker Resolution Handoff", handoff_doc)
       self.assertIn("Exact Close opportunity ID", handoff_doc)
+
+   def test_external_gate_issue_templates_exist(self):
+      circleback = (ROOT / ".github" / "ISSUE_TEMPLATE" / "circleback_closeout_gate.md").read_text(encoding="utf-8")
+      close = (ROOT / ".github" / "ISSUE_TEMPLATE" / "close_exact_target_gate.md").read_text(encoding="utf-8")
+      config = (ROOT / ".github" / "ISSUE_TEMPLATE" / "config.yml").read_text(encoding="utf-8")
+
+      self.assertIn("Circleback meeting ID", circleback)
+      self.assertIn("Circleback summary URL", circleback)
+      self.assertIn("Exact Close lead ID", close)
+      self.assertIn("Exact Close opportunity ID", close)
+      self.assertIn("blocker_resolution_handoff.md", config)
    def test_external_resync_plan_is_dry_run(self):
       plan = json.loads((ROOT / "reports" / "external_resync_plan.json").read_text(encoding="utf-8"))
       audit = json.loads((ROOT / "reports" / "goal_completion_audit.json").read_text(encoding="utf-8"))
