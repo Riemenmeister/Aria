@@ -128,9 +128,9 @@
                <span class="pill">Production report published</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>integrations/status.json tracks service status and verification requirements</li><li>tools/render_status_report.py renders reports/aria_pc_status.html from the status model</li><li>py tools/render_status_report.py --check verifies the report is current</li><li>reports/external_readiness.json captures current external readiness blockers</li><li>reports/deployment_receipt.json records the production Sites URL for the generated status report</li></ul>
+            <ul><li>integrations/status.json tracks service status and verification requirements</li><li>tools/render_status_report.py renders reports/aria_pc_status.html from the status model</li><li>py tools/render_status_report.py --check verifies the report is current</li><li>reports/external_readiness.json captures current external readiness blockers</li><li>reports/deployment_receipt.json records the production Sites URL for the generated status report</li><li>reports/aria_linkage_events.jsonl persists the current Actively, Circleback, and Close blockers as validated linkage events</li></ul>
             <h4>Next verification</h4>
-            <p>Keep the published status report current when integration evidence changes.</p>
+            <p>Keep reports/aria_linkage_events.jsonl current when blocker evidence changes or blockers are resolved.</p>
          </article>
          
 

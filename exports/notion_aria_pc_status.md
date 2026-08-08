@@ -53,8 +53,9 @@ Evidence:
 - py tools/render_status_report.py --check verifies the report is current
 - reports/external_readiness.json captures current external readiness blockers
 - reports/deployment_receipt.json records the production Sites URL for the generated status report
+- reports/aria_linkage_events.jsonl persists the current Actively, Circleback, and Close blockers as validated linkage events
 
-Next verification: Keep the published status report current when integration evidence changes.
+Next verification: Keep reports/aria_linkage_events.jsonl current when blocker evidence changes or blockers are resolved.
 
 ### notion
 

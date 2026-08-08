@@ -89,6 +89,14 @@ class AriaAiLinkageEventStoreTest(unittest.TestCase):
             self.assertIn('"event_id": "cli-test"', append.stdout)
             self.assertIn("aria-linkage-events-ok (1 events)", validate.stdout)
 
+    def test_default_event_store_records_current_external_blockers(self) -> None:
+        store = LinkageEventStore(ROOT / "reports" / "aria_linkage_events.jsonl", AriaAiLinkage())
+        events = store.read_all()
+        blocker_ids = {event["payload"]["blocker_id"] for event in events if event["type"] == "blocker"}
+
+        self.assertEqual(blocker_ids, {"actively", "circleback", "close"})
+        self.assertEqual(len(events), 3)
+
 
 if __name__ == "__main__":
     unittest.main()
