@@ -1,56 +1,54 @@
 {
-  "project": "Aria PC",
-  "checked_at": "2026-08-01",
-  "generated_by": "Codex connector discovery and verification in active thread",
-  "status": "partial_external_connectors_available",
+  "checked_at": "2026-08-08",
   "connectors": {
+    "actively": {
+      "evidence": "Actively lookup_accounts for Aria PC returned USER_NOT_LOGGED_IN on 2026-08-08.",
+      "status": "connector_not_connected"
+    },
     "airtable": {
-      "status": "available_resync_requires_approval",
-      "evidence": "Airtable tools are available and were successfully synced on 2026-07-20; the 2026-08-01 resync was rejected by connector risk policy pending explicit user approval."
-    },
-    "sites": {
-      "status": "available_and_deployed",
-      "evidence": "Sites tools were available; production deployment is recorded in reports/deployment_receipt.json."
-    },
-    "github": {
-      "status": "available_existing_repo_only",
-      "evidence": "GitHub tools for existing repositories are available; local gh is installed but unauthenticated, and this workspace has no configured git remote or repository target."
-    },
-    "notion": {
-      "status": "available_resync_requires_approval",
-      "evidence": "Notion page was created and verified on 2026-07-20; the 2026-08-01 resync was rejected by connector risk policy pending explicit user approval."
-    },
-    "slack": {
-      "status": "available_and_drafted",
-      "evidence": "Slack draft Dr0BJC668XFU was created in channel C0BAYSFPX98 in workspace T0BB0MPJE3T."
-    },
-    "heygen": {
-      "status": "available_and_generated",
-      "evidence": "HeyGen session b3523132028c4ba7a4154127a5cfb3b9 completed video 8e1fec9f71d04826b2f7b4cafe39d570."
+      "evidence": "Airtable connector updated the GitHub integration row through PR #4 merged, master CI passed on 2026-08-08.",
+      "status": "available_and_synced"
     },
     "circleback": {
-      "status": "available_no_artifact_found",
-      "evidence": "Circleback calendar search returned no Aria PC Completion event for 2026-08-01 to 2026-08-15; action-item search returned INVALID_ARGUMENT."
-    },
-    "vercel": {
-      "status": "cli_unavailable_sites_deployed",
-      "evidence": "reports/external_readiness.json records no vercel CLI; Sites deployment is live as the available deployment path."
-    },
-    "actively": {
-      "status": "connector_not_connected",
-      "evidence": "Actively lookup_accounts for Aria PC returned USER_NOT_LOGGED_IN on 2026-08-01."
+      "evidence": "2026-08-08 Circleback meeting search for Aria PC in August returned []; action-item search returned INVALID_ARGUMENT.",
+      "status": "available_no_artifact_found"
     },
     "close": {
-      "status": "connector_invalid_argument",
-      "evidence": "Close search for Aria PC returned INVALID_ARGUMENT on 2026-08-01."
+      "evidence": "Close natural-language search for Aria PC returned INVALID_ARGUMENT on 2026-08-08.",
+      "status": "connector_invalid_argument"
+    },
+    "github": {
+      "evidence": "GitHub repository Riemenmeister/Aria is configured; PR #1 through PR #4 were merged to master and post-merge CI passed through run #13 on 2026-08-08.",
+      "status": "available_and_synced"
+    },
+    "heygen": {
+      "evidence": "HeyGen session b3523132028c4ba7a4154127a5cfb3b9 completed video 8e1fec9f71d04826b2f7b4cafe39d570.",
+      "status": "available_and_generated"
+    },
+    "notion": {
+      "evidence": "Notion connector appended PR #1 through PR #4 CI and merge evidence through Review Fix Merge Success 2026-08-08.",
+      "status": "available_and_synced"
+    },
+    "sites": {
+      "evidence": "Sites tools were available; production deployment is recorded in reports/deployment_receipt.json.",
+      "status": "available_and_deployed"
+    },
+    "slack": {
+      "evidence": "Slack draft Dr0BJC668XFU was created in channel C0BAYSFPX98 in workspace T0BB0MPJE3T.",
+      "status": "available_and_drafted"
+    },
+    "vercel": {
+      "evidence": "reports/external_readiness.json records no vercel CLI; Sites deployment is live as the available deployment path.",
+      "status": "cli_unavailable_sites_deployed"
     }
   },
+  "generated_by": "Codex connector discovery and verification in active thread",
   "next_actions": [
-    "Configure a GitHub remote or provide an existing repository full name for connector-based GitHub verification.",
-    "Authenticate GitHub CLI if local push/CI verification is required.",
-    "Keep Airtable records updated when integrations/status.json changes.",
     "Connect Actively and retry account lookup for the Aria PC target.",
     "Retry Close after connector argument handling is fixed or provide the exact lead/contact target.",
-    "Create or capture a Circleback closeout meeting summary if Circleback proof is required beyond connector availability."
-  ]
+    "Create or capture a Circleback closeout meeting summary if Circleback proof is required beyond connector availability.",
+    "Keep GitHub, Airtable, and Notion evidence synchronized after each future PR or integration change."
+  ],
+  "project": "Aria PC",
+  "status": "partial_external_connectors_available"
 }

@@ -66,13 +66,13 @@ class IntegrationStatusTests(unittest.TestCase):
       markers = {item["name"]: item for item in data["integrations"]}
       report = (ROOT / "reports" / "aria_pc_status.html").read_text(encoding="utf-8")
 
-      self.assertEqual(markers["airtable"]["status"], "external_synced_airtable_resync_pending")
+      self.assertEqual(markers["airtable"]["status"], "external_synced_airtable")
       self.assertEqual(markers["data-analytics"]["status"], "production_report_published")
       self.assertEqual(markers["vercel"]["status"], "production_deployed_sites")
-      self.assertEqual(markers["notion"]["status"], "external_synced_notion_resync_pending")
+      self.assertEqual(markers["notion"]["status"], "external_synced_notion")
       self.assertEqual(markers["heygen"]["status"], "external_generated_heygen")
       self.assertEqual(markers["slack"]["status"], "external_drafted_slack")
-      self.assertIn("<strong>6</strong><span>externally complete</span>", report)
+      self.assertIn("<strong>7</strong><span>externally complete</span>", report)
       self.assertIn("Production report published", report)
 
    def test_static_site_build_configuration_exists(self):
@@ -140,9 +140,9 @@ class IntegrationStatusTests(unittest.TestCase):
       connectors = report["connectors"]
 
       self.assertEqual(report["status"], "partial_external_connectors_available")
-      self.assertEqual(connectors["airtable"]["status"], "available_resync_requires_approval")
-      self.assertEqual(connectors["github"]["status"], "available_existing_repo_only")
-      self.assertEqual(connectors["notion"]["status"], "available_resync_requires_approval")
+      self.assertEqual(connectors["airtable"]["status"], "available_and_synced")
+      self.assertEqual(connectors["github"]["status"], "available_and_synced")
+      self.assertEqual(connectors["notion"]["status"], "available_and_synced")
       self.assertEqual(connectors["slack"]["status"], "available_and_drafted")
       self.assertEqual(connectors["heygen"]["status"], "available_and_generated")
       self.assertEqual(connectors["circleback"]["status"], "available_no_artifact_found")
@@ -200,10 +200,10 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(set(audit["required_markers"]), required)
       self.assertEqual(set(results), required)
       self.assertEqual(results["heygen"]["completion"], "proved")
-      self.assertEqual(results["github"]["completion"], "incomplete")
-      self.assertIn("github_auth", audit["readiness_blockers"])
-      self.assertIn("airtable", audit["approval_required_for"])
-      self.assertIn("notion", audit["approval_required_for"])
+      self.assertEqual(results["github"]["completion"], "proved")
+      self.assertNotIn("github", audit["unfinished_required_markers"])
+      self.assertNotIn("airtable", audit["approval_required_for"])
+      self.assertNotIn("notion", audit["approval_required_for"])
 
    def test_external_resync_plan_is_dry_run(self):
       plan = json.loads((ROOT / "reports" / "external_resync_plan.json").read_text(encoding="utf-8"))
