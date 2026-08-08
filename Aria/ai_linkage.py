@@ -145,3 +145,55 @@ class AriaAiLinkage:
             errors.append("event summary must not be empty")
 
         return errors
+
+
+class LinkageEventStore:
+    """Append-only JSONL store for validated linkage events."""
+
+    def __init__(self, path: Path, linkage: AriaAiLinkage | None = None) -> None:
+        self.path = path
+        self.linkage = linkage or AriaAiLinkage()
+
+    def append(self, event: LinkageEvent) -> dict[str, Any]:
+        errors = self.linkage.validate_event(event)
+        if errors:
+            raise ValueError("; ".join(errors))
+
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        event_data = event.as_dict()
+        with self.path.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(event_data, sort_keys=True) + "\n")
+        return event_data
+
+    def read_all(self) -> tuple[dict[str, Any], ...]:
+        if not self.path.exists():
+            return ()
+
+        events: list[dict[str, Any]] = []
+        with self.path.open("r", encoding="utf-8") as handle:
+            for line_number, line in enumerate(handle, start=1):
+                stripped = line.strip()
+                if not stripped:
+                    continue
+                try:
+                    event = json.loads(stripped)
+                except json.JSONDecodeError as exc:
+                    raise ValueError(
+                        f"invalid JSONL event at {self.path}:{line_number}"
+                    ) from exc
+                errors = self.linkage.validate_event(event)
+                if errors:
+                    raise ValueError(
+                        f"invalid event at {self.path}:{line_number}: "
+                        f"{'; '.join(errors)}"
+                    )
+                events.append(event)
+        return tuple(events)
+
+    def health_snapshot(self) -> dict[str, Any]:
+        events = self.read_all()
+        return {
+            "path": str(self.path),
+            "event_count": len(events),
+            "last_event": events[-1] if events else None,
+        }
