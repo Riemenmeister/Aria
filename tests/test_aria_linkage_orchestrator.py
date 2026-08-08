@@ -118,6 +118,97 @@ class AriaLinkageOrchestratorTest(unittest.TestCase):
             self.assertIn('"event_id": "cli-goal:evidence:manifest"', evidence.stdout)
             self.assertIn("aria-linkage-events-ok (3 events)", validate.stdout)
 
+    def test_records_goal_audit_blockers(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            store = LinkageEventStore(Path(tmpdir) / "events.jsonl", AriaAiLinkage())
+            orchestrator = LinkageOrchestrator(store)
+            audit = {
+                "results": [
+                    {
+                        "name": "github",
+                        "status": "complete",
+                        "completion": "proved",
+                        "evidence": ["https://github.com/Riemenmeister/Aria/actions"],
+                        "next_verification": "Keep CI green.",
+                    },
+                    {
+                        "name": "actively",
+                        "status": "connector_not_connected",
+                        "completion": "incomplete",
+                        "evidence": ["reports/actively_receipt.json"],
+                        "next_verification": "Connect Actively.",
+                    },
+                    {
+                        "name": "close",
+                        "status": "connector_invalid_argument",
+                        "completion": "incomplete",
+                        "evidence": ["reports/close_receipt.json"],
+                        "next_verification": "Provide an exact Close target.",
+                    },
+                ]
+            }
+
+            events = orchestrator.record_goal_audit_blockers(
+                goal_id="aria-pc-completion",
+                audit=audit,
+            )
+
+            self.assertEqual(
+                [event["payload"]["blocker_id"] for event in events],
+                ["actively", "close"],
+            )
+            self.assertEqual(
+                events[0]["event_id"],
+                "aria-pc-completion:blocker:actively",
+            )
+            self.assertEqual(events[0]["evidence"], ["reports/actively_receipt.json"])
+            self.assertEqual(store.health_snapshot()["event_count"], 2)
+
+    def test_cli_records_goal_audit_blockers(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            store_path = Path(tmpdir) / "events.jsonl"
+            audit_path = Path(tmpdir) / "audit.json"
+            audit_path.write_text(
+                '{"results":[{"name":"circleback","status":"connector_available_no_event","completion":"incomplete","evidence":["reports/circleback_receipt.json"],"next_verification":"Capture a meeting artifact."}]}',
+                encoding="utf-8",
+            )
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "tools/aria_linkage_events.py",
+                    "--store",
+                    str(store_path),
+                    "record-audit-blockers",
+                    "--goal-id",
+                    "aria-pc-completion",
+                    "--audit",
+                    str(audit_path),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=True,
+            )
+
+            self.assertIn(
+                '"event_id": "aria-pc-completion:blocker:circleback"',
+                result.stdout,
+            )
+            validate = subprocess.run(
+                [
+                    sys.executable,
+                    "tools/aria_linkage_events.py",
+                    "--store",
+                    str(store_path),
+                    "validate-store",
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=True,
+            )
+            self.assertIn("aria-linkage-events-ok (1 events)", validate.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

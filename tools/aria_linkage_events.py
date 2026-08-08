@@ -89,6 +89,24 @@ def build_parser() -> argparse.ArgumentParser:
     record_blocker.add_argument("--summary", required=True)
     record_blocker.add_argument("--next-action", required=True)
     record_blocker.add_argument("--source", default="aegis")
+    record_blocker.add_argument(
+        "--evidence",
+        action="append",
+        default=[],
+        help="Evidence path or URL. Can be passed more than once.",
+    )
+
+    audit_blockers = subparsers.add_parser(
+        "record-audit-blockers",
+        help="Persist blocker events for incomplete markers in a goal audit JSON file.",
+    )
+    audit_blockers.add_argument("--goal-id", required=True)
+    audit_blockers.add_argument(
+        "--audit",
+        default="reports/goal_completion_audit.json",
+        help="Goal audit JSON path. Defaults to reports/goal_completion_audit.json.",
+    )
+    audit_blockers.add_argument("--source", default="aegis")
 
     return parser
 
@@ -160,6 +178,18 @@ def main(argv: Sequence[str] | None = None) -> int:
                 blocker_id=args.blocker_id,
                 summary=args.summary,
                 next_action=args.next_action,
+                source=args.source,
+                evidence=tuple(args.evidence),
+            )
+        )
+        return 0
+
+    if args.command == "record-audit-blockers":
+        audit = json.loads(Path(args.audit).read_text(encoding="utf-8"))
+        _print_json(
+            orchestrator.record_goal_audit_blockers(
+                goal_id=args.goal_id,
+                audit=audit,
                 source=args.source,
             )
         )

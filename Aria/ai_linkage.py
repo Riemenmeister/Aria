@@ -273,6 +273,7 @@ class LinkageOrchestrator:
         summary: str,
         next_action: str,
         source: str = "aegis",
+        evidence: tuple[str, ...] | None = None,
     ) -> dict[str, Any]:
         event = LinkageEvent.create(
             event_id=f"{goal_id}:blocker:{blocker_id}",
@@ -280,6 +281,32 @@ class LinkageOrchestrator:
             type="blocker",
             summary=summary,
             payload={"goal_id": goal_id, "blocker_id": blocker_id, "next_action": next_action},
-            evidence=(),
+            evidence=evidence,
         )
         return self.store.append(event)
+
+    def record_goal_audit_blockers(
+        self,
+        *,
+        goal_id: str,
+        audit: dict[str, Any],
+        source: str = "aegis",
+    ) -> tuple[dict[str, Any], ...]:
+        events: list[dict[str, Any]] = []
+        for item in audit.get("results", []):
+            if item.get("completion") == "proved":
+                continue
+            name = str(item["name"])
+            next_action = str(item.get("next_verification") or "Resolve blocker and record evidence.")
+            summary = f"{name} remains incomplete: {item.get('status', 'unknown')}."
+            events.append(
+                self.record_blocker(
+                    goal_id=goal_id,
+                    blocker_id=name,
+                    summary=summary,
+                    next_action=next_action,
+                    source=source,
+                    evidence=tuple(item.get("evidence", ())),
+                )
+            )
+        return tuple(events)
