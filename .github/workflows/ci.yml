@@ -35,6 +35,8 @@ jobs:
       - name: Verify service exports are current
         run: py tools\export_integration_status.py --check
 
+      - name: Verify Aria AI linkage manifest
+        run: py tools\validate_aria_ai_linkage.py
 
       - name: Build static status site
         run: npm run build
@@ -44,5 +46,6 @@ jobs:
 
       - name: Check editable install metadata
         run: py -m pip install -e . --dry-run --no-deps
+
 
 
