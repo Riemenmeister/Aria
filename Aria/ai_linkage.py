@@ -197,3 +197,78 @@ class LinkageEventStore:
             "event_count": len(events),
             "last_event": events[-1] if events else None,
         }
+
+
+class LinkageOrchestrator:
+    """Create persisted linkage event sequences for goals and follow-up work."""
+
+    def __init__(self, store: LinkageEventStore) -> None:
+        self.store = store
+
+    def start_goal(
+        self,
+        *,
+        goal_id: str,
+        summary: str,
+        owner: str = "aria2",
+        evidence: tuple[str, ...] | None = None,
+    ) -> tuple[dict[str, Any], ...]:
+        goal_event = LinkageEvent.create(
+            event_id=f"{goal_id}:goal",
+            source=owner,
+            type="goal",
+            summary=summary,
+            payload={"goal_id": goal_id, "phase": "started"},
+            evidence=evidence,
+        )
+        action_event = LinkageEvent.create(
+            event_id=f"{goal_id}:action:plan",
+            source="ariacore",
+            type="action",
+            summary=f"Plan execution path for {goal_id}.",
+            payload={
+                "goal_id": goal_id,
+                "action": "plan",
+                "layers": list(self.store.linkage.layer_ids()),
+            },
+            evidence=("integrations/aria_ai_linkage.json",),
+        )
+        return (self.store.append(goal_event), self.store.append(action_event))
+
+    def record_evidence(
+        self,
+        *,
+        goal_id: str,
+        evidence_id: str,
+        summary: str,
+        evidence: tuple[str, ...],
+        source: str = "aria",
+    ) -> dict[str, Any]:
+        event = LinkageEvent.create(
+            event_id=f"{goal_id}:evidence:{evidence_id}",
+            source=source,
+            type="evidence",
+            summary=summary,
+            payload={"goal_id": goal_id, "evidence_id": evidence_id},
+            evidence=evidence,
+        )
+        return self.store.append(event)
+
+    def record_blocker(
+        self,
+        *,
+        goal_id: str,
+        blocker_id: str,
+        summary: str,
+        next_action: str,
+        source: str = "aegis",
+    ) -> dict[str, Any]:
+        event = LinkageEvent.create(
+            event_id=f"{goal_id}:blocker:{blocker_id}",
+            source=source,
+            type="blocker",
+            summary=summary,
+            payload={"goal_id": goal_id, "blocker_id": blocker_id, "next_action": next_action},
+            evidence=(),
+        )
+        return self.store.append(event)

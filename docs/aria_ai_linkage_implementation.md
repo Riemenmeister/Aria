@@ -132,3 +132,20 @@ Example:
 py tools\aria_linkage_events.py append-event --event-id first-linkage-event --source aria2 --type action --summary "Persist the first linkage event." --payload '{"step":"persist"}' --evidence integrations/aria_ai_linkage.json
 py tools\aria_linkage_events.py validate-store
 ```
+
+## Goal Orchestration
+
+`LinkageOrchestrator` builds on the event store and creates deterministic event
+sequences for higher-level work:
+
+- `start-goal` records a `goal` event and a first `action` planning event
+- `record-evidence` links proof back to a goal
+- `record-blocker` records a blocker and the required next action
+
+Example:
+
+```powershell
+py tools\aria_linkage_events.py start-goal --goal-id aria-pc-linkage --summary "Connect Aria, AriaCore, Aria 2, and AEGIS." --evidence integrations/aria_ai_linkage.json
+py tools\aria_linkage_events.py record-evidence --goal-id aria-pc-linkage --evidence-id ci --summary "CI passed." --evidence https://github.com/Riemenmeister/Aria/actions
+py tools\aria_linkage_events.py record-blocker --goal-id aria-pc-linkage --blocker-id approval --summary "Merge requires explicit approval." --next-action "Ask for approval before merging."
+```
