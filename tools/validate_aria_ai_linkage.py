@@ -57,6 +57,10 @@ def validate_manifest(manifest: dict) -> list[str]:
             errors.append(f"{layer_id} missing status")
         if not layer.get("next_verification"):
             errors.append(f"{layer_id} missing next_verification")
+        for evidence in layer.get("evidence", []):
+            evidence_path = ROOT / evidence
+            if evidence and not evidence.startswith("http") and not evidence_path.exists():
+                errors.append(f"{layer_id} evidence path missing: {evidence}")
 
     event_contract = manifest.get("event_contract", {})
     event_fields = set(event_contract.get("required_fields", []))
@@ -86,3 +90,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
