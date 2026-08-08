@@ -17,3 +17,5 @@ py tools\render_status_report.py --check
 Additional report:
 
 - `blocker_resolution_handoff.json` records the exact remaining Circleback and Close resolution inputs and acceptance criteria.
+
+GitHub issue templates in `.github/ISSUE_TEMPLATE` mirror the remaining Circleback and Close handoff gates for repository-level tracking.
