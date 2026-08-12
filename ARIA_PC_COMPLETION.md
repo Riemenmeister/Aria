@@ -107,3 +107,28 @@ These markers still need connected-service evidence before the overall goal can 
 
 
 
+
+## Local Command Center
+
+Status: usable local command center added on 2026-08-12.
+
+Evidence:
+
+- `Aria.command_center` builds a read-only command-center snapshot from `integrations/status.json`, `reports/goal_completion_audit.json`, and `reports/aria_linkage_events.jsonl`.
+- `py tools/aria_command_center.py` prints a terminal-friendly command center with ready services, open gates, and the last linkage event.
+- `py tools/aria_command_center.py --json` prints the same snapshot as JSON for automation or a future UI.
+- `py -B -m unittest discover -s tests` passes with 36 tests.
+- `py -B -m compileall Aria tools tests` passes.
+
+Current command-center result:
+
+- Ready/monitored: 8.
+- Open: 2 (`circleback`, `close`).
+- Actively remains waived by user decision and must not be connected unless the scope changes explicitly.
+
+Repository maintenance note:
+
+- Git object repair was completed on 2026-08-12. Corrupt loose objects `1d6730326012cf345b842fc173e3fa1bb4e88ad7` and `95158cbbb182c82f01bb9e776cbf51d5a8d09b64` were backed up under `.git/corrupt-objects-backup-20260812-115502`, then reconstructed from the working tree and GitHub raw history. `git fsck --full` now reports only a dangling tree and no missing or corrupt objects.
+
+
+

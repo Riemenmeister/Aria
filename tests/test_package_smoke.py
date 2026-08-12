@@ -23,6 +23,10 @@ class PackageSmokeTests(unittest.TestCase):
    def test_pyproject_declares_console_script(self):
       data = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
       self.assertEqual(data["project"]["scripts"]["aria"], "Aria:Main")
+      self.assertEqual(
+         data["project"]["scripts"]["aria-command-center"],
+         "Aria.command_center:main",
+      )
       self.assertGreaterEqual(data["project"]["requires-python"], ">=3.9")
 
 
@@ -252,3 +256,4 @@ class IntegrationStatusTests(unittest.TestCase):
 
 if __name__ == "__main__":
    unittest.main()
+
