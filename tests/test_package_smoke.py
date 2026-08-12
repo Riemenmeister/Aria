@@ -73,7 +73,7 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(markers["heygen"]["status"], "external_generated_heygen")
       self.assertEqual(markers["slack"]["status"], "external_drafted_slack")
       self.assertEqual(markers["actively"]["status"], "waived_by_user_decision")
-      self.assertIn("<strong>8</strong><span>externally complete</span>", report)
+      self.assertIn("<strong>9</strong><span>externally complete</span>", report)
       self.assertIn("Production report published", report)
 
    def test_static_site_build_configuration_exists(self):

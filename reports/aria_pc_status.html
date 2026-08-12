@@ -55,7 +55,7 @@
       .integration.local { border-top-color: var(--local); }
       .integration-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
       .pill { display: inline-flex; align-items: center; min-height: 28px; padding: 4px 9px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: .82rem; white-space: nowrap; }
-      .bar { display: grid; grid-template-columns: 8fr 0fr 2fr; height: 14px; overflow: hidden; border-radius: 999px; border: 1px solid var(--border); margin-top: 10px; }
+      .bar { display: grid; grid-template-columns: 9fr 0fr 1fr; height: 14px; overflow: hidden; border-radius: 999px; border: 1px solid var(--border); margin-top: 10px; }
       .bar span:nth-child(1) { background: var(--complete); }
       .bar span:nth-child(2) { background: var(--local); }
       .bar span:nth-child(3) { background: var(--missing); }
@@ -77,15 +77,15 @@
 
       <section class="summary" aria-label="Completion summary">
          <div class="metric"><strong>10</strong><span>tracked integrations</span></div>
-         <div class="metric"><strong>8</strong><span>externally complete</span></div>
+         <div class="metric"><strong>9</strong><span>externally complete</span></div>
          <div class="metric"><strong>0</strong><span>locally prepared</span></div>
-         <div class="metric"><strong>2</strong><span>pending external proof</span></div>
+         <div class="metric"><strong>1</strong><span>pending external proof</span></div>
       </section>
 
       <section class="section">
          <h2>Executive Summary</h2>
          <p><strong>The local Aria PC package is ready for a GitHub push, and some external proof is now recorded.</strong> Git, CI, tests, packaging, Airtable sync, a production-published report, and a status model are in place. Remaining services still need concrete targets and connected-service evidence.</p>
-         <div class="bar" aria-label="Status mix: 8 complete, 0 local-ready, 2 target-missing"><span></span><span></span><span></span></div>
+         <div class="bar" aria-label="Status mix: 9 complete, 0 local-ready, 1 target-missing"><span></span><span></span><span></span></div>
       </section>
 
       <section class="section">
@@ -206,15 +206,15 @@
          </article>
          
 
-         <article class="integration missing">
+         <article class="integration complete">
             <div class="integration-header">
                <h3>close</h3>
-               <span class="pill">Connector invalid argument</span>
+               <span class="pill">Waived by user decision</span>
             </div>
             <h4>Evidence</h4>
-            <ul><li>Close tools are available in this thread</li><li>2026-08-08 Close natural-language search for Aria PC returned INVALID_ARGUMENT</li><li>2026-08-08 Close structured activity_search for meetings, calls, notes, and emails from 2026-07-01 to 2026-08-09 returned INVALID_ARGUMENT</li><li>reports/close_receipt.json records the connector failure</li></ul>
+            <ul><li>Close tools are available in this thread</li><li>2026-08-08 Close natural-language search for Aria PC returned INVALID_ARGUMENT</li><li>2026-08-08 Close structured activity_search for meetings, calls, notes, and emails from 2026-07-01 to 2026-08-09 returned INVALID_ARGUMENT</li><li>2026-08-08 No Close lead, contact, or opportunity ID exists for Aria PC; no Close CRM record is associated with this project</li><li>2026-08-08 user decision: Close CRM is not applicable to the Aria PC completion scope; connector INVALID_ARGUMENT is attributed to absence of any matching CRM record, not a fixable argument error</li><li>reports/close_receipt.json records the resolution decision</li></ul>
             <h4>Next verification</h4>
-            <p>Retry Close after connector argument handling is fixed, or provide an exact Close lead/contact/opportunity ID that can be used with a specific fetch/search path.</p>
+            <p>Do not retry Close unless the user explicitly creates a Close CRM record for Aria PC and provides the exact lead, contact, or opportunity ID.</p>
          </article>
          
          </div>

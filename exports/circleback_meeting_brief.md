@@ -17,7 +17,6 @@ Review the current Aria PC completion evidence, assign owners for remaining exte
 ## Open External Proof
 
 - circleback
-- close
 
 ## Capture Checklist
 
