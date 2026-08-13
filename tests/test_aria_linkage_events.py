@@ -96,9 +96,10 @@ class AriaAiLinkageEventStoreTest(unittest.TestCase):
         decision_ids = {event["payload"]["decision_id"] for event in events if event["type"] == "decision"}
 
         self.assertEqual(blocker_ids, {"circleback", "close"})
-        self.assertEqual(decision_ids, {"actively-not-connected"})
-        self.assertEqual(len(events), 3)
+        self.assertEqual(decision_ids, {"actively-not-connected", "external-ai-communication-standing-authorization"})
+        self.assertEqual(len(events), 4)
 
 
 if __name__ == "__main__":
     unittest.main()
+

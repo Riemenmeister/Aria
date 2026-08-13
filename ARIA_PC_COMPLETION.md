@@ -145,4 +145,14 @@ Evidence:
 - `tools/install_aria_pc_server_startup.ps1` provides a per-user Startup-folder fallback when Scheduled Task registration is denied by Windows policy.
 - `reports/aria_pc_server_runtime_receipt.json` records the verified running server, Startup-folder file, and live NAS health check.
 - `py -B -m unittest discover -s tests` covers the website, JSON APIs, NAS health, 404 behavior, and operations-script presence.
+## External AI Communication Authorization
+
+Status: standing authorization recorded on 2026-08-13.
+
+Evidence:
+
+- `docs/ai_communication_policy.md` records the user's durable approval for Aria to communicate with ChatGPT, Copilot, OpenAI services, Cortana or Microsoft assistant surfaces, Google Gemini, and other approved chatbot systems for self-improvement.
+- `reports/ai_communication_permission.json` records the authorization as `approved_with_guardrails` and `approved_but_gated`.
+- `reports/aria_linkage_events.jsonl` includes `aria-pc-completion:decision:external-ai-communication-authorized`.
+- The authorization does not connect Actively, store credentials, bypass first-party login, or prove that any provider-specific connector is live.
 

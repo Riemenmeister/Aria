@@ -1,0 +1,52 @@
+{
+  "project": "Aria PC",
+  "decision_id": "external-ai-communication-standing-authorization",
+  "status": "approved_with_guardrails",
+  "approved_at": "2026-08-13T15:40:00+02:00",
+  "approved_by": "user",
+  "scope": {
+    "purpose": [
+      "self_improvement",
+      "coordination",
+      "diagnostics",
+      "implementation_support",
+      "operational_learning"
+    ],
+    "named_systems": [
+      "ChatGPT",
+      "Copilot",
+      "OpenAI services",
+      "Cortana or Microsoft assistant surfaces",
+      "Google Gemini"
+    ],
+    "additional_systems": "Other chatbot or AI-assistant systems added later by the user or configured through an approved connector",
+    "applies_to": [
+      "Aria PC",
+      "Ariacore",
+      "Aria 2",
+      "AEGIS",
+      "related local-server workflows"
+    ]
+  },
+  "guardrails": [
+    "Do not send passwords, API keys, access tokens, private keys, recovery codes, browser cookies, session data, or credential prompts to external AI systems.",
+    "Do not collect or store credentials in this repository.",
+    "Do not bypass first-party login flows.",
+    "Do not connect Actively unless the user explicitly changes the separate Actively scope decision.",
+    "Do not claim an external AI integration is live until real connector, browser, CLI, API-key, or first-party app evidence proves it.",
+    "Treat external AI output as suggestions until locally verified.",
+    "Keep external writes auditable whenever the target system supports it.",
+    "High-risk public posting, deletion, billing, permission, or secret-bearing actions still require explicit action-specific confirmation."
+  ],
+  "default_runtime_mode": "approved_but_gated",
+  "policy_document": "docs/ai_communication_policy.md",
+  "external_write_performed": false,
+  "connector_logins_performed": false,
+  "actively_scope_changed": false,
+  "evidence": [
+    "2026-08-13 user request: Aria communication with ChatGPT, Copilot, OpenAI, Cortana, Google Gemini and further chatbots for self-improvement permanently approved.",
+    "Policy records standing authorization with credential, login, verification, and audit guardrails.",
+    "This receipt records authorization only; it does not prove any provider connection is live."
+  ],
+  "next_verification": "Configure provider-specific connector, CLI, browser session, or API credential through a first-party user-controlled flow before claiming live external AI communication."
+}
