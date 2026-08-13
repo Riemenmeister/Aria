@@ -155,4 +155,16 @@ Evidence:
 - `reports/ai_communication_permission.json` records the authorization as `approved_with_guardrails` and `approved_but_gated`.
 - `reports/aria_linkage_events.jsonl` includes `aria-pc-completion:decision:external-ai-communication-authorized`.
 - The authorization does not connect Actively, store credentials, bypass first-party login, or prove that any provider-specific connector is live.
+## Device Mesh Remote Communication
+
+Status: configured for Aria PC, Aria Laptop Zephyr, and Aria Smartphone Honor X5c.
+
+Evidence:
+
+- `integrations/device_mesh.json` records the three-device mesh, LAN access mode, guardrails, and next verification steps.
+- `Aria.device_mesh` exposes read-only snapshots for the configured device mesh and individual devices.
+- `/api/device-mesh` returns the PC/Laptop/Smartphone communication manifest.
+- `/api/device/aria-laptop-zephyr` and `/api/device/aria-smartphone-honor-x5c` return remote-client setup metadata.
+- Remote clients remain `configured_pending_live_check` until Zephyr and Honor X5c open the Aria PC LAN URL and a receipt records that evidence.
+- Use `py tools/aria_pc_server.py --host 0.0.0.0 --port 8787` only on a trusted LAN when remote clients need access.
 

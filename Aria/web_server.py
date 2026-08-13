@@ -9,6 +9,11 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urlparse
 
+from .device_mesh import (
+   DEFAULT_DEVICE_MESH_PATH,
+   build_device_mesh_snapshot,
+   build_device_snapshot,
+)
 from .command_center import (
    DEFAULT_AUDIT_PATH,
    DEFAULT_EVENTS_PATH,
@@ -40,12 +45,14 @@ class AriaPcServerConfig:
       audit_path: Path = DEFAULT_AUDIT_PATH,
       events_path: Path = DEFAULT_EVENTS_PATH,
       nas_root: Path = DEFAULT_NAS_ROOT,
+      device_mesh_path: Path = DEFAULT_DEVICE_MESH_PATH,
    ) -> None:
       self.report_path = report_path
       self.status_path = status_path
       self.audit_path = audit_path
       self.events_path = events_path
       self.nas_root = nas_root
+      self.device_mesh_path = device_mesh_path
 
 
 def _json_default(value: Any) -> str:
@@ -108,6 +115,7 @@ def build_health(config: AriaPcServerConfig) -> dict[str, Any]:
       events_path=config.events_path,
    )
    nas = build_nas_health(config)
+   device_mesh = build_device_mesh_snapshot(config.device_mesh_path)
    return {
       "status": "ok" if nas["status"] == "ok" else "degraded",
       "service": "aria-pc-server",
@@ -115,6 +123,7 @@ def build_health(config: AriaPcServerConfig) -> dict[str, Any]:
       "ready_count": snapshot["ready_count"],
       "open_count": snapshot["open_count"],
       "nas": nas,
+      "device_mesh": device_mesh,
    }
 
 
@@ -137,6 +146,17 @@ def make_handler(config: AriaPcServerConfig) -> type[BaseHTTPRequestHandler]:
             return
          if path == "/api/nas":
             self._send_json(build_nas_health(config))
+            return
+         if path == "/api/device-mesh":
+            self._send_json(build_device_mesh_snapshot(config.device_mesh_path))
+            return
+         if path.startswith("/api/device/"):
+            device_id = path.removeprefix("/api/device/")
+            device = build_device_snapshot(device_id, config.device_mesh_path)
+            if device is None:
+               self._send_json({"error": "device_not_found", "device_id": device_id}, status=HTTPStatus.NOT_FOUND)
+               return
+            self._send_json(device)
             return
          if path == "/api/command-center":
             self._send_json(
@@ -217,6 +237,7 @@ def main(argv: list[str] | None = None) -> int:
    parser.add_argument("--audit", type=Path, default=DEFAULT_AUDIT_PATH)
    parser.add_argument("--events", type=Path, default=DEFAULT_EVENTS_PATH)
    parser.add_argument("--nas-root", type=Path, default=DEFAULT_NAS_ROOT)
+   parser.add_argument("--device-mesh", type=Path, default=DEFAULT_DEVICE_MESH_PATH)
    args = parser.parse_args(argv)
 
    config = AriaPcServerConfig(
@@ -225,6 +246,7 @@ def main(argv: list[str] | None = None) -> int:
       audit_path=args.audit,
       events_path=args.events,
       nas_root=args.nas_root,
+      device_mesh_path=args.device_mesh,
    )
    server = build_server(host=args.host, port=args.port, config=config)
    print(f"Serving Aria PC at http://{args.host}:{server.server_port}/")

@@ -71,6 +71,36 @@ class AriaPcWebServerTests(unittest.TestCase):
       self.assertTrue(payload["can_list"])
       self.assertTrue(payload["required_paths"]["status_report"]["exists"])
 
+
+   def test_device_mesh_endpoint_lists_pc_laptop_and_phone(self):
+      status, payload = self.read_json("/api/device-mesh")
+      device_ids = {device["id"] for device in payload["devices"]}
+
+      self.assertEqual(status, 200)
+      self.assertEqual(payload["project"], "Aria Device Mesh")
+      self.assertEqual(payload["device_count"], 3)
+      self.assertEqual(payload["verified_count"], 1)
+      self.assertEqual(payload["pending_count"], 2)
+      self.assertIn("aria-pc", device_ids)
+      self.assertIn("aria-laptop-zephyr", device_ids)
+      self.assertIn("aria-smartphone-honor-x5c", device_ids)
+      self.assertIn("trusted LAN", " ".join(payload["guardrails"]))
+
+   def test_device_endpoint_returns_one_remote_client(self):
+      status, payload = self.read_json("/api/device/aria-laptop-zephyr")
+
+      self.assertEqual(status, 200)
+      self.assertEqual(payload["device"]["name"], "Aria Laptop Zephyr")
+      self.assertEqual(payload["device"]["status"], "configured_pending_live_check")
+      self.assertEqual(payload["server"]["port"], 8787)
+
+   def test_unknown_device_returns_json_404(self):
+      with self.assertRaises(urllib.error.HTTPError) as caught:
+         urllib.request.urlopen(f"{self.base_url}/api/device/missing-device", timeout=5)
+
+      self.assertEqual(caught.exception.code, 404)
+      payload = json.loads(caught.exception.read().decode("utf-8"))
+      self.assertEqual(payload["error"], "device_not_found")
    def test_unknown_routes_return_json_404(self):
       with self.assertRaises(urllib.error.HTTPError) as caught:
          urllib.request.urlopen(f"{self.base_url}/missing", timeout=5)
