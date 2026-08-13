@@ -1,0 +1,76 @@
+{
+  "project": "Aria Device Mesh",
+  "updated": "2026-08-13",
+  "status": "configured_pending_remote_client_verification",
+  "server": {
+    "id": "aria-pc",
+    "name": "Aria PC",
+    "role": "local-mini-server-and-nas-gateway",
+    "host_default": "127.0.0.1",
+    "lan_host_option": "0.0.0.0",
+    "port": 8787,
+    "nas_root": "T:\\NasDisk119\\Aria",
+    "local_url": "http://127.0.0.1:8787/",
+    "lan_url_template": "http://<aria-pc-lan-ip>:8787/"
+  },
+  "devices": [
+    {
+      "id": "aria-pc",
+      "name": "Aria PC",
+      "type": "windows_pc",
+      "role": "host",
+      "trust_level": "local_owner_controlled",
+      "connection_mode": "loopback_or_lan_http",
+      "expected_base_url": "http://127.0.0.1:8787",
+      "required_checks": [
+        "/api/health",
+        "/api/nas",
+        "/api/device-mesh"
+      ],
+      "status": "verified_local_host"
+    },
+    {
+      "id": "aria-laptop-zephyr",
+      "name": "Aria Laptop Zephyr",
+      "type": "windows_laptop",
+      "role": "trusted_remote_client",
+      "trust_level": "user_controlled_device",
+      "connection_mode": "same_lan_http_to_aria_pc",
+      "expected_base_url": "http://<aria-pc-lan-ip>:8787",
+      "required_checks": [
+        "/api/health",
+        "/api/device-mesh",
+        "/api/device/aria-laptop-zephyr"
+      ],
+      "status": "configured_pending_live_check"
+    },
+    {
+      "id": "aria-smartphone-honor-x5c",
+      "name": "Aria Smartphone Honor X5c",
+      "type": "android_phone",
+      "role": "trusted_mobile_client",
+      "trust_level": "user_controlled_device",
+      "connection_mode": "same_lan_mobile_browser_to_aria_pc",
+      "expected_base_url": "http://<aria-pc-lan-ip>:8787",
+      "required_checks": [
+        "/api/health",
+        "/api/device-mesh",
+        "/api/device/aria-smartphone-honor-x5c"
+      ],
+      "status": "configured_pending_live_check"
+    }
+  ],
+  "guardrails": [
+    "Remote device communication is read-only until an explicit authenticated write channel is implemented.",
+    "Do not expose the server to the public internet without firewall, authentication, and reverse-proxy review.",
+    "Use --host 0.0.0.0 only on a trusted LAN when Zephyr or Honor X5c need access.",
+    "Do not store device passwords, Wi-Fi credentials, browser cookies, or tokens in this repository.",
+    "Treat Zephyr and Honor X5c as configured but unverified until a live client check from each device is recorded."
+  ],
+  "next_verification": [
+    "Start Aria PC server with --host 0.0.0.0 on trusted LAN when remote clients need access.",
+    "Find the Aria PC LAN IP with ipconfig and open http://<aria-pc-lan-ip>:8787/api/health from Zephyr.",
+    "Open http://<aria-pc-lan-ip>:8787/api/health from Honor X5c on the same Wi-Fi.",
+    "Record successful client checks in a future receipt before marking remote clients verified."
+  ]
+}

@@ -180,6 +180,17 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(close["status"], "connector_invalid_argument")
 
 
+   def test_device_mesh_records_remote_clients(self):
+      mesh = json.loads((ROOT / "integrations" / "device_mesh.json").read_text(encoding="utf-8"))
+      devices = {device["id"]: device for device in mesh["devices"]}
+
+      self.assertEqual(mesh["status"], "configured_pending_remote_client_verification")
+      self.assertEqual(set(devices), {"aria-pc", "aria-laptop-zephyr", "aria-smartphone-honor-x5c"})
+      self.assertEqual(devices["aria-pc"]["status"], "verified_local_host")
+      self.assertEqual(devices["aria-laptop-zephyr"]["name"], "Aria Laptop Zephyr")
+      self.assertEqual(devices["aria-smartphone-honor-x5c"]["name"], "Aria Smartphone Honor X5c")
+      self.assertIn("--host 0.0.0.0", " ".join(mesh["next_verification"]))
+      self.assertIn("Do not store device passwords", " ".join(mesh["guardrails"]))
    def test_external_ai_communication_permission_records_guardrails(self):
       receipt = json.loads((ROOT / "reports" / "ai_communication_permission.json").read_text(encoding="utf-8"))
       policy = (ROOT / "docs" / "ai_communication_policy.md").read_text(encoding="utf-8")
