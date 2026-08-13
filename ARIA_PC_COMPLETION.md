@@ -175,3 +175,14 @@ Evidence:
 - `docs/device_mesh_lan_access.md` gives the trusted-LAN startup and browser-check procedure.
 - `reports/device_mesh_client_checklist.json` tracks the exact Zephyr and Honor X5c browser checks that still need live device evidence.
 
+
+## FRITZ!NAS Session Resilience
+
+Status: local health checks classify and mitigate the observed 5-minute FRITZ!NAS idle logout.
+
+Evidence:
+
+- `/api/nas` includes `session_resilience` with the observed `fritz_nas_idle_logout_after_5_minutes` risk.
+- NAS access errors are classified as `fritz_nas_session_or_auth_expired` when Windows reports session, login, credential, timeout, or unavailable-network symptoms.
+- `tools/aria_fritz_nas_keepalive.ps1` can poll `/api/nas` read-only every 240 seconds, below the observed 5-minute logout window.
+- The keepalive does not store FRITZ!NAS credentials or change router/NAS settings.

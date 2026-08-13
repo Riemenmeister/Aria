@@ -58,6 +58,51 @@ class AriaPcServerConfig:
       self.device_client_checklist_path = device_client_checklist_path
 
 
+
+NAS_SESSION_ERROR_MARKERS = (
+   "not accessible",
+   "access is denied",
+   "anmeldung",
+   "authentication",
+   "credential",
+   "credentials",
+   "logon",
+   "login",
+   "network name is no longer available",
+   "session",
+   "timeout",
+   "timed out",
+   "unavailable",
+)
+
+
+def classify_nas_access_error(message: str) -> str:
+   normalized = message.lower()
+   if any(marker in normalized for marker in NAS_SESSION_ERROR_MARKERS):
+      return "fritz_nas_session_or_auth_expired"
+   return "nas_access_error"
+
+
+def _path_probe(path: Path) -> dict[str, Any]:
+   result: dict[str, Any] = {
+      "path": str(path),
+      "exists": False,
+      "is_dir": False,
+      "is_file": False,
+      "access_error": None,
+      "error_type": None,
+   }
+   try:
+      result["exists"] = path.exists()
+      result["is_dir"] = path.is_dir()
+      result["is_file"] = path.is_file()
+   except OSError as exc:
+      message = str(exc)
+      result["access_error"] = message
+      result["error_type"] = classify_nas_access_error(message)
+   return result
+
+
 def _json_default(value: Any) -> str:
    if isinstance(value, Path):
       return str(value)
@@ -75,25 +120,25 @@ def build_nas_health(config: AriaPcServerConfig) -> dict[str, Any]:
    }
    path_checks = {}
    for name, path in required_paths.items():
-      path_checks[name] = {
-         "path": str(path),
-         "exists": path.exists(),
-         "is_dir": path.is_dir(),
-         "is_file": path.is_file(),
-      }
+      path_checks[name] = _path_probe(path)
 
+   root_check = path_checks["workspace"]
    can_list = False
+   can_list_error = root_check["access_error"]
+   can_list_error_type = root_check["error_type"]
    sample_entries: list[str] = []
-   if root.exists() and root.is_dir():
+   if root_check["exists"] and root_check["is_dir"]:
       try:
          sample_entries = sorted(child.name for child in root.iterdir())[:8]
          can_list = True
-      except OSError:
+      except OSError as exc:
          can_list = False
+         can_list_error = str(exc)
+         can_list_error_type = classify_nas_access_error(can_list_error)
 
    ready = (
-      root.exists()
-      and root.is_dir()
+      root_check["exists"]
+      and root_check["is_dir"]
       and can_list
       and path_checks["status_model"]["exists"]
       and path_checks["status_report"]["exists"]
@@ -103,9 +148,17 @@ def build_nas_health(config: AriaPcServerConfig) -> dict[str, Any]:
    return {
       "status": "ok" if ready else "degraded",
       "root": str(root),
-      "exists": root.exists(),
-      "is_dir": root.is_dir(),
+      "exists": root_check["exists"],
+      "is_dir": root_check["is_dir"],
       "can_list": can_list,
+      "can_list_error": can_list_error,
+      "can_list_error_type": can_list_error_type,
+      "session_resilience": {
+         "risk": "fritz_nas_idle_logout_after_5_minutes",
+         "keepalive_interval_seconds": 240,
+         "keepalive_script": "tools/aria_fritz_nas_keepalive.ps1",
+         "recovery_hint": "If NAS access degrades after idle time, run a read-only keepalive below the FRITZ.NAS 5-minute logout window or remount the share from Windows.",
+      },
       "sample_entries": sample_entries,
       "required_paths": path_checks,
    }
