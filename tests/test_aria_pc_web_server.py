@@ -5,7 +5,7 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-from Aria.web_server import AriaPcServerConfig, build_nas_health, build_server
+from Aria.web_server import AriaPcServerConfig, build_nas_health, build_server, classify_nas_access_error
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -53,6 +53,8 @@ class AriaPcWebServerTests(unittest.TestCase):
       self.assertEqual(payload["open_count"], 2)
       self.assertEqual(payload["nas"]["status"], "ok")
       self.assertTrue(payload["nas"]["required_paths"]["status_report"]["exists"])
+      self.assertEqual(payload["nas"]["session_resilience"]["risk"], "fritz_nas_idle_logout_after_5_minutes")
+      self.assertEqual(payload["nas"]["session_resilience"]["keepalive_interval_seconds"], 240)
 
    def test_command_center_endpoint_exposes_open_gates(self):
       status, payload = self.read_json("/api/command-center")
@@ -70,6 +72,8 @@ class AriaPcWebServerTests(unittest.TestCase):
       self.assertTrue(payload["exists"])
       self.assertTrue(payload["can_list"])
       self.assertTrue(payload["required_paths"]["status_report"]["exists"])
+      self.assertIn("session_resilience", payload)
+      self.assertIsNone(payload["can_list_error_type"])
 
 
    def test_device_mesh_endpoint_lists_pc_laptop_and_phone(self):
@@ -128,14 +132,26 @@ class AriaPcWebServerTests(unittest.TestCase):
 
 
 
+   def test_nas_access_error_classifier_marks_session_expiry(self):
+      self.assertEqual(
+         classify_nas_access_error("The network name is no longer available"),
+         "fritz_nas_session_or_auth_expired",
+      )
+      self.assertEqual(
+         classify_nas_access_error("Access is denied after login timeout"),
+         "fritz_nas_session_or_auth_expired",
+      )
+      self.assertEqual(classify_nas_access_error("disk quota exceeded"), "nas_access_error")
    def test_windows_operations_scripts_are_present_but_not_executed(self):
       install_script = ROOT / "tools" / "install_aria_pc_server_task.ps1"
       health_script = ROOT / "tools" / "aria_pc_server_health.ps1"
       startup_script = ROOT / "tools" / "install_aria_pc_server_startup.ps1"
+      keepalive_script = ROOT / "tools" / "aria_fritz_nas_keepalive.ps1"
 
       install_source = install_script.read_text(encoding="utf-8")
       health_source = health_script.read_text(encoding="utf-8")
       startup_source = startup_script.read_text(encoding="utf-8")
+      keepalive_source = keepalive_script.read_text(encoding="utf-8")
 
       self.assertIn("Register-ScheduledTask", install_source)
       self.assertIn("New-ScheduledTaskTrigger -AtLogOn", install_source)
@@ -147,6 +163,9 @@ class AriaPcWebServerTests(unittest.TestCase):
       self.assertIn("Invoke-RestMethod", health_source)
       self.assertIn("/api/health", health_source)
       self.assertIn("/api/nas", health_source)
+      self.assertIn("IntervalSeconds", keepalive_source)
+      self.assertIn("/api/nas", keepalive_source)
+      self.assertIn("5-minute idle logout", keepalive_source)
 
 
    def test_runtime_receipt_records_installed_startup_fallback(self):
