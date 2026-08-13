@@ -169,6 +169,7 @@ Evidence:
 - `Aria.device_mesh` exposes read-only snapshots for the configured device mesh and individual devices.
 - `/api/device-mesh` returns the PC/Laptop/Smartphone communication manifest.
 - `/api/device/aria-laptop-zephyr` and `/api/device/aria-smartphone-honor-x5c` return remote-client setup metadata.
+- `/api/device-client-checklist` exposes the Zephyr and Honor X5c browser-check list through the read-only Aria PC server.
 - Remote clients remain `configured_pending_live_check` until Zephyr and Honor X5c open the Aria PC LAN URL and a receipt records that evidence.
 - Use `py tools/aria_pc_server.py --host 0.0.0.0 --port 8787` only on a trusted LAN when remote clients need access.
 - `docs/device_mesh_lan_access.md` gives the trusted-LAN startup and browser-check procedure.
