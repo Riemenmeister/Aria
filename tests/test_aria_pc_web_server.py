@@ -86,6 +86,16 @@ class AriaPcWebServerTests(unittest.TestCase):
       self.assertIn("aria-smartphone-honor-x5c", device_ids)
       self.assertIn("trusted LAN", " ".join(payload["guardrails"]))
 
+   def test_device_client_checklist_endpoint_exposes_remote_checks(self):
+      status, payload = self.read_json("/api/device-client-checklist")
+      clients = {client["id"]: client for client in payload["clients"]}
+
+      self.assertEqual(status, 200)
+      self.assertEqual(payload["status"], "remote_client_checks_pending")
+      self.assertIn("aria-laptop-zephyr", clients)
+      self.assertIn("aria-smartphone-honor-x5c", clients)
+      self.assertIn("/api/device/aria-laptop-zephyr", " ".join(clients["aria-laptop-zephyr"]["checks"]))
+      self.assertIn("/api/device/aria-smartphone-honor-x5c", " ".join(clients["aria-smartphone-honor-x5c"]["checks"]))
    def test_device_endpoint_returns_one_remote_client(self):
       status, payload = self.read_json("/api/device/aria-laptop-zephyr")
 

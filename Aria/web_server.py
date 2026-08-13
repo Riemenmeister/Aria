@@ -27,6 +27,7 @@ DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8787
 DEFAULT_REPORT_PATH = ROOT / "reports" / "aria_pc_status.html"
 DEFAULT_NAS_ROOT = ROOT
+DEFAULT_DEVICE_CLIENT_CHECKLIST_PATH = ROOT / "reports" / "device_mesh_client_checklist.json"
 
 STATIC_REPORTS = {
    "/reports/aria_pc_status.html": DEFAULT_REPORT_PATH,
@@ -46,6 +47,7 @@ class AriaPcServerConfig:
       events_path: Path = DEFAULT_EVENTS_PATH,
       nas_root: Path = DEFAULT_NAS_ROOT,
       device_mesh_path: Path = DEFAULT_DEVICE_MESH_PATH,
+      device_client_checklist_path: Path = DEFAULT_DEVICE_CLIENT_CHECKLIST_PATH,
    ) -> None:
       self.report_path = report_path
       self.status_path = status_path
@@ -53,6 +55,7 @@ class AriaPcServerConfig:
       self.events_path = events_path
       self.nas_root = nas_root
       self.device_mesh_path = device_mesh_path
+      self.device_client_checklist_path = device_client_checklist_path
 
 
 def _json_default(value: Any) -> str:
@@ -150,6 +153,9 @@ def make_handler(config: AriaPcServerConfig) -> type[BaseHTTPRequestHandler]:
          if path == "/api/device-mesh":
             self._send_json(build_device_mesh_snapshot(config.device_mesh_path))
             return
+         if path == "/api/device-client-checklist":
+            self._send_file(config.device_client_checklist_path)
+            return
          if path.startswith("/api/device/"):
             device_id = path.removeprefix("/api/device/")
             device = build_device_snapshot(device_id, config.device_mesh_path)
@@ -238,6 +244,7 @@ def main(argv: list[str] | None = None) -> int:
    parser.add_argument("--events", type=Path, default=DEFAULT_EVENTS_PATH)
    parser.add_argument("--nas-root", type=Path, default=DEFAULT_NAS_ROOT)
    parser.add_argument("--device-mesh", type=Path, default=DEFAULT_DEVICE_MESH_PATH)
+   parser.add_argument("--device-client-checklist", type=Path, default=DEFAULT_DEVICE_CLIENT_CHECKLIST_PATH)
    args = parser.parse_args(argv)
 
    config = AriaPcServerConfig(
@@ -247,6 +254,7 @@ def main(argv: list[str] | None = None) -> int:
       events_path=args.events,
       nas_root=args.nas_root,
       device_mesh_path=args.device_mesh,
+      device_client_checklist_path=args.device_client_checklist,
    )
    server = build_server(host=args.host, port=args.port, config=config)
    print(f"Serving Aria PC at http://{args.host}:{server.server_port}/")
