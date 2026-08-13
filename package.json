@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "node tools/build_static_site.js",
-    "check": "node tools/build_static_site.js --check"
+    "check": "node tools/build_static_site.js --check",
+    "serve:aria-pc": "py tools/aria_pc_server.py"
   }
 }
+

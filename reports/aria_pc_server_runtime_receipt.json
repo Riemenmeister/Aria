@@ -1,0 +1,23 @@
+{
+  "project": "Aria PC",
+  "status": "running_with_user_startup_fallback",
+  "updated": "2026-08-13T14:00:20.1155730+02:00",
+  "url": "http://127.0.0.1:8787/",
+  "startup_file": "C:\\Users\\soley\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\AriaPcServer.cmd",
+  "startup_file_exists": true,
+  "scheduled_task_attempt": {
+    "task_name": "Aria PC Local Website Server",
+    "status": "denied_by_windows_policy",
+    "error": "Register-ScheduledTask returned Zugriff verweigert"
+  },
+  "fallback": {
+    "method": "current_user_startup_folder",
+    "script": "tools/install_aria_pc_server_startup.ps1",
+    "start_now": true
+  },
+  "verification": [
+    "tools/aria_pc_server_health.ps1 returned service_status ok and nas_status ok",
+    "Invoke-WebRequest http://127.0.0.1:8787/ returned HTTP 200 and Aria PC Completion Status title",
+    "Startup file exists in the current user Startup folder"
+  ]
+}

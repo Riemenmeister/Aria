@@ -15,6 +15,7 @@ authors = [
 [project.scripts]
 aria = "Aria:Main"
 aria-command-center = "Aria.command_center:main"
+aria-pc-server = "Aria.web_server:main"
 
 [tool.setuptools]
 packages = ["Aria", "Aria.ErrorReport", "Aria.Linux", "Aria.Mac", "Aria.Windows"]

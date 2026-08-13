@@ -129,6 +129,20 @@ Current command-center result:
 Repository maintenance note:
 
 - Git object repair was completed on 2026-08-12. Corrupt loose objects `1d6730326012cf345b842fc173e3fa1bb4e88ad7` and `95158cbbb182c82f01bb9e776cbf51d5a8d09b64` were backed up under `.git/corrupt-objects-backup-20260812-115502`, then reconstructed from the working tree and GitHub raw history. `git fsck --full` now reports only a dangling tree and no missing or corrupt objects.
+## Local Website Server
 
+Status: read-only local server added for using the Aria PC as the website host.
 
+Evidence:
+
+- `Aria.web_server` serves `reports/aria_pc_status.html` at `/` and `/index.html`.
+- `/api/health` exposes command-center counts plus NASDisk health for the current workspace.
+- `/api/command-center` exposes the same snapshot as `py tools/aria_command_center.py --json`.
+- `/api/nas` verifies that the NAS workspace is present, listable, and has the required local status artifacts.
+- `py tools/aria_pc_server.py --host 127.0.0.1 --port 8787` starts the local website server without external writes.
+- `tools/aria_pc_server_health.ps1` verifies `/api/health` and `/api/nas` from Windows PowerShell.
+- `tools/install_aria_pc_server_task.ps1` can register an at-logon Windows Scheduled Task for stable local startup when the user explicitly runs it.
+- `tools/install_aria_pc_server_startup.ps1` provides a per-user Startup-folder fallback when Scheduled Task registration is denied by Windows policy.
+- `reports/aria_pc_server_runtime_receipt.json` records the verified running server, Startup-folder file, and live NAS health check.
+- `py -B -m unittest discover -s tests` covers the website, JSON APIs, NAS health, 404 behavior, and operations-script presence.
 

@@ -27,6 +27,10 @@ class PackageSmokeTests(unittest.TestCase):
          data["project"]["scripts"]["aria-command-center"],
          "Aria.command_center:main",
       )
+      self.assertEqual(
+         data["project"]["scripts"]["aria-pc-server"],
+         "Aria.web_server:main",
+      )
       self.assertGreaterEqual(data["project"]["requires-python"], ">=3.9")
 
 
@@ -88,6 +92,7 @@ class IntegrationStatusTests(unittest.TestCase):
 
       self.assertEqual(package["scripts"]["build"], "node tools/build_static_site.js")
       self.assertEqual(package["scripts"]["check"], "node tools/build_static_site.js --check")
+      self.assertEqual(package["scripts"]["serve:aria-pc"], "py tools/aria_pc_server.py")
       self.assertEqual(vercel["outputDirectory"], "dist")
       self.assertIn("server", build_source)
       self.assertIn("hosting.json", build_source)
