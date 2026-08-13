@@ -180,6 +180,23 @@ class IntegrationStatusTests(unittest.TestCase):
       self.assertEqual(close["status"], "connector_invalid_argument")
 
 
+   def test_external_ai_communication_permission_records_guardrails(self):
+      receipt = json.loads((ROOT / "reports" / "ai_communication_permission.json").read_text(encoding="utf-8"))
+      policy = (ROOT / "docs" / "ai_communication_policy.md").read_text(encoding="utf-8")
+      events = (ROOT / "reports" / "aria_linkage_events.jsonl").read_text(encoding="utf-8")
+
+      self.assertEqual(receipt["status"], "approved_with_guardrails")
+      self.assertEqual(receipt["default_runtime_mode"], "approved_but_gated")
+      self.assertFalse(receipt["external_write_performed"])
+      self.assertFalse(receipt["connector_logins_performed"])
+      self.assertFalse(receipt["actively_scope_changed"])
+      self.assertIn("ChatGPT", receipt["scope"]["named_systems"])
+      self.assertIn("Copilot", receipt["scope"]["named_systems"])
+      self.assertIn("Google Gemini", receipt["scope"]["named_systems"])
+      self.assertIn("Do not send passwords", " ".join(receipt["guardrails"]))
+      self.assertIn("Do not connect Actively", " ".join(receipt["guardrails"]))
+      self.assertIn("Standing User Authorization", policy)
+      self.assertIn("external-ai-communication-authorized", events)
    def test_external_sync_approval_request_records_options(self):
       approval = json.loads((ROOT / "reports" / "external_sync_approval_request.json").read_text(encoding="utf-8"))
       redacted = json.loads((ROOT / "reports" / "external_sync_redacted_payload.json").read_text(encoding="utf-8"))
