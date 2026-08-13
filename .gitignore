@@ -23,6 +23,8 @@
 !tests/**
 !tools/
 !tools/**
+!docs/
+!docs/device_mesh_lan_access.md
 
 # Generated Python/build artifacts stay out of version control.
 __pycache__/
