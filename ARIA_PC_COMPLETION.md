@@ -54,7 +54,11 @@ Evidence:
 - `reports/goal_completion_audit.json` records the current requirement-by-requirement completion audit and explicitly keeps the overall goal incomplete while blockers remain.
 - `tools/prepare_external_resync.py` and `reports/external_resync_plan.json` prepare a dry-run external resync plan without performing external writes.
 - `reports/notion_receipt.json` records the created Notion page and fetch verification.
-- `reports/slack_receipt.json` records the created Slack draft in the workspace general channel.`r`n- `reports/heygen_receipt.json` records the completed HeyGen video.`r`n- `reports/circleback_receipt.json` records Circleback connector availability and the missing meeting artifact.`r`n- `reports/actively_receipt.json` records the Actively login blocker.`r`n- `reports/close_receipt.json` records the Close connector schema error.
+- `reports/slack_receipt.json` records the created Slack draft in the workspace general channel.
+- `reports/heygen_receipt.json` records the completed HeyGen video.
+- `reports/circleback_receipt.json` records Circleback connector availability and the missing meeting artifact.
+- `reports/actively_receipt.json` records the Actively login blocker.
+- `reports/close_receipt.json` records the Close connector schema error.
 
 ## Deployment Readiness
 
@@ -167,4 +171,6 @@ Evidence:
 - `/api/device/aria-laptop-zephyr` and `/api/device/aria-smartphone-honor-x5c` return remote-client setup metadata.
 - Remote clients remain `configured_pending_live_check` until Zephyr and Honor X5c open the Aria PC LAN URL and a receipt records that evidence.
 - Use `py tools/aria_pc_server.py --host 0.0.0.0 --port 8787` only on a trusted LAN when remote clients need access.
+- `docs/device_mesh_lan_access.md` gives the trusted-LAN startup and browser-check procedure.
+- `reports/device_mesh_client_checklist.json` tracks the exact Zephyr and Honor X5c browser checks that still need live device evidence.
 

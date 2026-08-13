@@ -1,0 +1,52 @@
+{
+  "project": "Aria Device Mesh",
+  "updated": "2026-08-13",
+  "status": "remote_client_checks_pending",
+  "server": {
+    "id": "aria-pc",
+    "lan_url_template": "http://<aria-pc-lan-ip>:8787/",
+    "safe_start_command": "py tools/aria_pc_server.py --host 0.0.0.0 --port 8787"
+  },
+  "clients": [
+    {
+      "id": "aria-laptop-zephyr",
+      "name": "Aria Laptop Zephyr",
+      "expected_network": "same trusted LAN as Aria PC",
+      "status": "pending_live_browser_check",
+      "checks": [
+        "http://<aria-pc-lan-ip>:8787/api/health",
+        "http://<aria-pc-lan-ip>:8787/api/device-mesh",
+        "http://<aria-pc-lan-ip>:8787/api/device/aria-laptop-zephyr"
+      ],
+      "success_criteria": [
+        "JSON response is visible in the browser or HTTP client.",
+        "Device endpoint returns id aria-laptop-zephyr.",
+        "No credentials, cookies, tokens, or passwords are copied into the repository."
+      ]
+    },
+    {
+      "id": "aria-smartphone-honor-x5c",
+      "name": "Aria Smartphone Honor X5c",
+      "expected_network": "same trusted Wi-Fi as Aria PC",
+      "status": "pending_live_mobile_browser_check",
+      "checks": [
+        "http://<aria-pc-lan-ip>:8787/api/health",
+        "http://<aria-pc-lan-ip>:8787/api/device-mesh",
+        "http://<aria-pc-lan-ip>:8787/api/device/aria-smartphone-honor-x5c"
+      ],
+      "success_criteria": [
+        "JSON response is visible in the mobile browser.",
+        "Device endpoint returns id aria-smartphone-honor-x5c.",
+        "No credentials, cookies, tokens, or passwords are copied into the repository."
+      ]
+    }
+  ],
+  "guardrails": [
+    "Trusted LAN only.",
+    "Read-only remote communication only.",
+    "No public internet exposure without authentication, firewall, and reverse-proxy review.",
+    "No device passwords, Wi-Fi credentials, browser cookies, or tokens in this repository.",
+    "Do not connect Actively unless the user explicitly changes scope."
+  ],
+  "next_step": "Run the listed checks from Zephyr and Honor X5c, then record observed evidence without secrets."
+}
