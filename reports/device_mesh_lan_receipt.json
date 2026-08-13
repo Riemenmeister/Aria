@@ -1,0 +1,35 @@
+{
+  "project": "Aria Device Mesh",
+  "updated": "2026-08-13",
+  "status": "local_mesh_endpoints_verified_remote_clients_pending",
+  "server": {
+    "id": "aria-pc",
+    "role": "local-mini-server-and-nas-gateway",
+    "local_url": "http://127.0.0.1:8787/",
+    "lan_url_template": "http://<aria-pc-lan-ip>:8787/"
+  },
+  "verified_locally": [
+    "/api/health",
+    "/api/device-mesh",
+    "/api/device/aria-laptop-zephyr",
+    "/api/device/aria-smartphone-honor-x5c"
+  ],
+  "remote_clients_pending_live_check": [
+    "aria-laptop-zephyr",
+    "aria-smartphone-honor-x5c"
+  ],
+  "probe_script": "tools/aria_device_mesh_probe.ps1",
+  "safe_lan_command": "py tools/aria_pc_server.py --host 0.0.0.0 --port 8787",
+  "guardrails": [
+    "Use only on a trusted LAN.",
+    "Do not expose this server to the public internet without authentication, firewall, and reverse-proxy review.",
+    "Do not store device passwords, Wi-Fi credentials, browser cookies, or tokens in this repository.",
+    "Keep remote device communication read-only until an authenticated write channel is explicitly implemented."
+  ],
+  "next_verification": [
+    "Find Aria PC LAN IP with ipconfig.",
+    "Open http://<aria-pc-lan-ip>:8787/api/health from Zephyr.",
+    "Open http://<aria-pc-lan-ip>:8787/api/health from Honor X5c.",
+    "Run tools/aria_device_mesh_probe.ps1 -BaseUrl http://<aria-pc-lan-ip>:8787 -RecordPath reports/device_mesh_lan_receipt.json after remote checks are reachable."
+  ]
+}
