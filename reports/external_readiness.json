@@ -1,7 +1,5 @@
 {
-  "blockers": [
-    "vercel_cli"
-  ],
+  "blockers": [],
   "checks": {
     "git_remote": {
       "detail": "remote configured",
@@ -35,10 +33,10 @@
       "path": "C:\\Program Files\\nodejs\\npm.CMD"
     },
     "vercel_cli": {
-      "available": false,
-      "detail": "vercel not found in PATH",
-      "ok": false,
-      "path": null
+      "available": true,
+      "detail": "59.0.0",
+      "ok": true,
+      "path": "C:\\Users\\soley\\AppData\\Roaming\\npm\\vercel.CMD"
     }
   },
   "generated_by": "tools/audit_external_readiness.py",
@@ -50,5 +48,5 @@
     "Record external deployment/import/post/video/meeting evidence in integrations/status.json."
   ],
   "project": "Aria PC",
-  "status": "ready_for_external_configuration"
+  "status": "external_cli_ready"
 }
