@@ -1,6 +1,9 @@
 {
+  "framework": null,
   "cleanUrls": true,
   "trailingSlash": false,
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
     {
