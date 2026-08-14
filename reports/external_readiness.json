@@ -1,9 +1,6 @@
 {
   "blockers": [
-    "github_auth",
-    "vercel_cli",
-    "node",
-    "npm"
+    "vercel_cli"
   ],
   "checks": {
     "git_remote": {
@@ -16,8 +13,8 @@
     },
     "github_auth": {
       "available": true,
-      "detail": "You are not logged into any GitHub hosts. To log in, run: gh auth login",
-      "ok": false
+      "detail": "github.com\n  \u00e2\u0153\u201c Logged in to github.com account Riemenmeister (GH_TOKEN)\n  - Active account: true\n  - Git operations protocol: https\n  - Token: gho_************************************\n  - Token scopes: 'gist', 'project', 'read:org', 'repo', 'user', 'workflow'\n\n  \u00e2\u0153\u201c Logged in to github.com account Riemenmeister (keyring)\n  - Active account: false\n  - Git operations protocol: https\n  - Token: gho_************************************\n  - Token scopes: 'gist', 'read:org', 'repo', 'workflow'",
+      "ok": true
     },
     "github_cli": {
       "available": true,
@@ -26,16 +23,16 @@
       "path": "C:\\Program Files\\GitHub CLI\\gh.EXE"
     },
     "node": {
-      "available": false,
-      "detail": "node not found in PATH",
-      "ok": false,
-      "path": null
+      "available": true,
+      "detail": "v24.19.0",
+      "ok": true,
+      "path": "C:\\Program Files\\nodejs\\node.EXE"
     },
     "npm": {
-      "available": false,
-      "detail": "npm not found in PATH",
-      "ok": false,
-      "path": null
+      "available": true,
+      "detail": "11.17.0",
+      "ok": true,
+      "path": "C:\\Program Files\\nodejs\\npm.CMD"
     },
     "vercel_cli": {
       "available": false,
