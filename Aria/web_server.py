@@ -54,6 +54,7 @@ class AriaPcServerConfig:
       device_mesh_path: Path = DEFAULT_DEVICE_MESH_PATH,
       device_client_checklist_path: Path = DEFAULT_DEVICE_CLIENT_CHECKLIST_PATH,
       allow_write: bool = True,
+      write_whitelist: list[Path] | None = None,
    ) -> None:
       self.report_path = report_path
       self.status_path = status_path
@@ -63,6 +64,10 @@ class AriaPcServerConfig:
       self.device_mesh_path = device_mesh_path
       self.device_client_checklist_path = device_client_checklist_path
       self.allow_write = allow_write
+      self.write_whitelist = [
+          (nas_root / "reports").resolve(strict=False),
+          (nas_root / "docs").resolve(strict=False),
+      ] if write_whitelist is None else write_whitelist
 
 
 
@@ -205,12 +210,18 @@ def _resolve_write_target(raw_path: str, config: AriaPcServerConfig) -> Path:
    else:
       resolved = (config.nas_root / candidate).resolve(strict=False)
 
-   root = config.nas_root.resolve(strict=False)
-   try:
-      resolved.relative_to(root)
-   except ValueError:
-      raise ValueError("Path escapes the configured NAS/workspace root")
-   return resolved
+   resolved_abs = resolved.resolve(strict=False)
+   for allowed_parent in config.write_whitelist:
+      allowed_abs = allowed_parent.resolve(strict=False)
+      try:
+         resolved_abs.relative_to(allowed_abs)
+         return resolved_abs
+      except ValueError:
+         pass
+
+   whitelist_str = ", ".join(str(p) for p in config.write_whitelist)
+   raise ValueError(f"Path {resolved_abs} not in write whitelist: [{whitelist_str}]")
+   return resolved_abs
 
 
 def make_handler(config: AriaPcServerConfig) -> type[BaseHTTPRequestHandler]:
