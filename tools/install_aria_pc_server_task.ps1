@@ -14,7 +14,7 @@ if (-not (Test-Path -LiteralPath $serverScript)) {
    throw "Aria PC server script not found: $serverScript"
 }
 
-$arguments = "-B `"$serverScript`" --host $HostAddress --port $Port --nas-root `"$RepoRoot`""
+$arguments = "-B `"$serverScript`" --host $HostAddress --port $Port --nas-root `"$RepoRoot`" --allow-write"
 $action = New-ScheduledTaskAction -Execute $python -Argument $arguments -WorkingDirectory $RepoRoot
 $trigger = New-ScheduledTaskTrigger -AtLogOn
 $settings = New-ScheduledTaskSettingsSet `
@@ -39,10 +39,10 @@ if ($RunNow) {
 }
 
 [PSCustomObject]@{
-   task_name = $TaskName
-   repo_root = $RepoRoot
-   url = "http://${HostAddress}:$Port/"
+   task_name    = $TaskName
+   repo_root    = $RepoRoot
+   url          = "http://${HostAddress}:$Port/"
    health_check = ".\tools\aria_pc_server_health.ps1 -BaseUrl http://${HostAddress}:$Port"
-   run_now = [bool]$RunNow
+   run_now      = [bool]$RunNow
 } | ConvertTo-Json -Depth 4
 

@@ -1,228 +1,255 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
+
 <head>
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="color-scheme" content="light dark">
-   <title>Aria PC Completion Status</title>
+   <meta name="theme-color" content="#061922">
+   <title>ARIA // START</title>
    <style>
       :root {
-         --bg: #f7f8f5;
-         --panel: #ffffff;
-         --text: #18201d;
-         --muted: #5e6963;
-         --border: #d9dfd7;
-         --complete: #207856;
-         --local: #2f6690;
-         --missing: #9a5b22;
-         --shadow: 0 1px 2px rgba(24, 32, 29, .08);
+         --bg-0: #020913;
+         --bg-1: #071d2d;
+         --bg-2: #0d2438;
+         --panel: rgba(8, 18, 28, 0.9);
+         --panel-soft: rgba(15, 29, 42, 0.78);
+         --cyan: #9eeeff;
+         --cyan-strong: #65d9ff;
+         --green: #7ef8d3;
+         --silver: #edf6ff;
+         --muted: #c9d9e7;
+         --shadow: rgba(101, 217, 255, 0.42);
       }
-      @media (prefers-color-scheme: dark) {
-         :root {
-            --bg: #151816;
-            --panel: #202521;
-            --text: #eef4ef;
-            --muted: #b7c1ba;
-            --border: #3a443d;
-            --shadow: none;
-         }
+
+      * {
+         box-sizing: border-box;
       }
-      * { box-sizing: border-box; }
+
       body {
          margin: 0;
-         background: var(--bg);
-         color: var(--text);
-         font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+         min-height: 100vh;
+         display: grid;
+         place-items: center;
+         background:
+            radial-gradient(circle at 50% 24%, rgba(145, 224, 255, 0.18), transparent 30%),
+            linear-gradient(140deg, var(--bg-0), var(--bg-1) 42%, var(--bg-2) 100%);
+         color: var(--silver);
+         font: 16px/1.5 "Segoe UI", Arial, sans-serif;
       }
-      main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 44px; }
-      header { margin-bottom: 24px; }
-      h1 { font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.05; margin: 0 0 12px; letter-spacing: 0; }
-      h2 { margin: 0 0 12px; font-size: 1.35rem; letter-spacing: 0; }
-      h3 { margin: 0; font-size: 1.05rem; letter-spacing: 0; text-transform: capitalize; }
-      h4 { margin: 18px 0 6px; font-size: .82rem; letter-spacing: 0; color: var(--muted); text-transform: uppercase; }
-      p { margin: 0 0 10px; }
-      ul { margin: 0; padding-left: 20px; }
-      li + li { margin-top: 4px; }
-      .muted { color: var(--muted); }
-      .summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 22px 0; }
-      .metric, .section, .integration { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow); }
-      .metric { padding: 16px; min-height: 112px; }
-      .metric strong { display: block; font-size: 2rem; line-height: 1; margin-bottom: 8px; }
-      .section { padding: 20px; margin: 16px 0; }
-      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-      .integration { padding: 18px; border-top: 5px solid var(--missing); }
-      .integration.complete { border-top-color: var(--complete); }
-      .integration.local { border-top-color: var(--local); }
-      .integration-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-      .pill { display: inline-flex; align-items: center; min-height: 28px; padding: 4px 9px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: .82rem; white-space: nowrap; }
-      .bar { display: grid; grid-template-columns: 8fr 0fr 2fr; height: 14px; overflow: hidden; border-radius: 999px; border: 1px solid var(--border); margin-top: 10px; }
-      .bar span:nth-child(1) { background: var(--complete); }
-      .bar span:nth-child(2) { background: var(--local); }
-      .bar span:nth-child(3) { background: var(--missing); }
-      footer { color: var(--muted); font-size: .9rem; margin-top: 24px; }
-      @media (max-width: 760px) {
-         main { width: min(100% - 20px, 1120px); padding-top: 22px; }
-         .summary, .grid { grid-template-columns: 1fr; }
-         .integration-header { flex-direction: column; }
-         .pill { white-space: normal; }
+
+      .frame {
+         position: relative;
+         width: min(92vw, 500px);
+         padding: 22px 20px 20px;
+         border-radius: 30px;
+         background: linear-gradient(180deg, rgba(9, 22, 34, 0.93), rgba(5, 14, 21, 0.94));
+         border: 1px solid rgba(158, 238, 255, 0.28);
+         box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 0 28px rgba(101, 217, 255, 0.18), 0 22px 42px rgba(0, 0, 0, 0.38);
+      }
+
+      .frame::before {
+         content: "";
+         position: absolute;
+         inset: 12px;
+         border-radius: 22px;
+         border: 1px solid rgba(158, 238, 255, 0.12);
+         pointer-events: none;
+      }
+
+      .status {
+         display: inline-flex;
+         align-items: center;
+         gap: 10px;
+         border-radius: 999px;
+         background: rgba(6, 18, 24, 0.9);
+         border: 1px solid rgba(158, 238, 255, 0.38);
+         color: var(--cyan);
+         padding: 8px 14px;
+         letter-spacing: 0.18em;
+         text-transform: uppercase;
+         font-size: 10px;
+         font-weight: 800;
+      }
+
+      .dot {
+         width: 10px;
+         height: 10px;
+         border-radius: 50%;
+         background: linear-gradient(180deg, var(--green), #47d9ae);
+         box-shadow: 0 0 14px rgba(126, 248, 211, 0.95);
+         animation: pulse 1.8s infinite ease-in-out;
+      }
+
+      .icon-wrap {
+         display: grid;
+         place-items: center;
+         margin: 18px auto 10px;
+         width: 172px;
+         height: 172px;
+         border-radius: 32px;
+         background: linear-gradient(180deg, rgba(158, 238, 255, 0.08), rgba(7, 24, 35, 0.05));
+         border: 1px solid rgba(158, 238, 255, 0.22);
+         box-shadow: inset 0 0 24px rgba(101, 217, 255, 0.13);
+      }
+
+      .icon {
+         width: 120px;
+         height: 120px;
+         display: block;
+         filter: drop-shadow(0 0 20px rgba(101, 217, 255, 0.38));
+      }
+
+      h1 {
+         margin: 0;
+         text-align: center;
+         font-size: clamp(2.1rem, 9vw, 3.4rem);
+         letter-spacing: 0.18em;
+         text-transform: uppercase;
+      }
+
+      .subtitle {
+         text-align: center;
+         margin-top: 8px;
+         color: var(--muted);
+         letter-spacing: 0.28em;
+         text-transform: uppercase;
+         font-size: 0.72rem;
+      }
+
+      .controls {
+         margin-top: 22px;
+         display: grid;
+         grid-template-columns: 1.4fr 1fr 0.8fr;
+         gap: 10px;
+      }
+
+      button {
+         appearance: none;
+         border: 1px solid transparent;
+         border-radius: 16px;
+         padding: 16px 12px;
+         font-weight: 800;
+         letter-spacing: 0.14em;
+         text-transform: uppercase;
+         font-size: 0.7rem;
+         cursor: pointer;
+         transition: transform 0.16s ease, box-shadow 0.16s ease;
+      }
+
+      button:hover {
+         transform: translateY(-1px);
+      }
+
+      button:active {
+         transform: translateY(0);
+      }
+
+      .primary {
+         background: linear-gradient(135deg, #dffcff 0%, #a5eeff 22%, #6fe0ff 45%, #3eaef3 100%);
+         color: #041b2f;
+         box-shadow: 0 14px 28px rgba(101, 217, 255, 0.35), inset 0 2px 0 rgba(255, 255, 255, 0.8);
+      }
+
+      .secondary {
+         background: rgba(10, 22, 34, 0.9);
+         border-color: rgba(158, 238, 255, 0.38);
+         color: var(--silver);
+      }
+
+      .ghost {
+         background: rgba(13, 27, 38, 0.8);
+         border-color: rgba(126, 248, 211, 0.36);
+         color: var(--muted);
+      }
+
+      .meta {
+         margin-top: 18px;
+         display: flex;
+         justify-content: center;
+      }
+
+      .meta-badge {
+         display: inline-flex;
+         align-items: center;
+         border-radius: 999px;
+         padding: 8px 14px;
+         border: 1px solid rgba(126, 248, 211, 0.24);
+         background: rgba(7, 19, 26, 0.75);
+         color: var(--muted);
+         font-size: 0.7rem;
+         letter-spacing: 0.18em;
+         text-transform: uppercase;
+      }
+
+      .hint {
+         margin-top: 16px;
+         text-align: center;
+         color: var(--muted);
+         line-height: 1.65;
+         font-size: 0.78rem;
+      }
+
+      @keyframes pulse {
+
+         0%,
+         100% {
+            opacity: 1;
+            transform: scale(1);
+         }
+
+         50% {
+            opacity: 0.68;
+            transform: scale(1.2);
+         }
+      }
+
+      @media (max-width: 420px) {
+         .controls {
+            grid-template-columns: 1fr;
+         }
+
+         .frame {
+            padding: 18px 14px;
+         }
       }
    </style>
 </head>
+
 <body>
-   <main>
-      <header>
-         <h1>Aria PC Completion Status</h1>
-         <p class="muted">Evidence-backed local readiness snapshot updated 2026-08-08.</p>
-      </header>
+   <main class="frame">
+      <div class="status"><span class="dot"></span> Aria // online</div>
 
-      <section class="summary" aria-label="Completion summary">
-         <div class="metric"><strong>10</strong><span>tracked integrations</span></div>
-         <div class="metric"><strong>8</strong><span>externally complete</span></div>
-         <div class="metric"><strong>0</strong><span>locally prepared</span></div>
-         <div class="metric"><strong>2</strong><span>pending external proof</span></div>
-      </section>
+      <div class="icon-wrap">
+         <img class="icon" src="Aria_Icon_Cyberpunk_Metallic.svg" alt="ARIA icon" />
+      </div>
 
-      <section class="section">
-         <h2>Executive Summary</h2>
-         <p><strong>The local Aria PC package is ready for a GitHub push, and some external proof is now recorded.</strong> Git, CI, tests, packaging, Airtable sync, a production-published report, and a status model are in place. Remaining services still need concrete targets and connected-service evidence.</p>
-         <div class="bar" aria-label="Status mix: 8 complete, 0 local-ready, 2 target-missing"><span></span><span></span><span></span></div>
-      </section>
+      <h1>ARIA</h1>
+      <div class="subtitle">Guts &amp; Gigaflopps</div>
 
-      <section class="section">
-         <h2>Local Package Evidence</h2>
-         <p>Status: <strong>Complete</strong></p>
-         <ul><li>py -B -m unittest discover -s tests: pass</li><li>py -B -m compileall Aria tests tools: pass</li><li>py -m pip install -e . --dry-run --no-deps: Would install Aria-1.0.0</li></ul>
-      </section>
+      <div class="controls">
+         <button class="primary" onclick="runLaunch('start_master.ps1')">ARIA START</button>
+         <button class="secondary" onclick="runLaunch('Start-Phoenix.ps1')">PHOENIX</button>
+         <button class="ghost" onclick="runLaunch('safe_mode.ps1')">SAFE</button>
+      </div>
 
-      <section class="section">
-         <h2>Integration Readiness</h2>
-         <div class="grid">
-            
-         <article class="integration complete">
-            <div class="integration-header">
-               <h3>github</h3>
-               <span class="pill">Complete</span>
-            </div>
-            <h4>Evidence</h4>
-            <ul><li>GitHub remote origin is configured for https://github.com/Riemenmeister/Aria.git</li><li>PR #1 merged into master: dcdc4167814935969f8043779ecd0f78c9b8a092; post-merge CI run #7 passed</li><li>PR #2 merged into master: 0ab79d1072446c6166576df4f169dab272263a68; post-merge CI run #9 passed</li><li>PR #3 merged into master: 9c90e2a94941c604997c0c375b392188413fee19; post-merge CI run #11 passed</li><li>PR #4 merged into master: 56355d727c3370bc9769fd2908fa1ea7e697e6f7; post-merge CI run #13 passed</li><li>PR #5 merged into master: 5cfd04658afe993443c84aeb483cf6bbe616e899; post-merge CI run #15 passed</li><li>PR #6 merged into master: f4f55e97aa859876913cfe93319e7ee06fc98b40; post-merge CI run #17 passed</li><li>PR #7 merged into master: f4602408b45df0e57337fab9d52ea2c40fa3351d; post-merge CI run #19 passed</li><li>Local master is synchronized with origin/master and verified on 2026-08-08</li><li>PR #8 merged into master: 206c994b72a370b738ad3411b78771d730a6d4a5; post-merge CI run #21 passed</li></ul>
-            <h4>Next verification</h4>
-            <p>Keep future branches flowing through PR CI, then verify post-merge master CI before updating external status.</p>
-         </article>
-         
+      <div class="meta"><span class="meta-badge">SYSTEM READY</span></div>
 
-         <article class="integration complete">
-            <div class="integration-header">
-               <h3>airtable</h3>
-               <span class="pill">Synced to Airtable</span>
-            </div>
-            <h4>Evidence</h4>
-            <ul><li>Airtable base created: Aria PC Completion (apprXVtcJBWQJXl5n)</li><li>Airtable table created: Integration Status (tbl16tPYsvz97KWlh)</li><li>Airtable GitHub integration row updated through PR #8 merged, master CI passed on 2026-08-08</li><li>Airtable Actively integration row updated to Waived by user decision on 2026-08-08</li><li>Airtable evidence includes PR #8 merge commit 206c994b72a370b738ad3411b78771d730a6d4a5 and master CI run #21</li><li>Airtable connector returned the updated records after write</li></ul>
-            <h4>Next verification</h4>
-            <p>Keep Airtable status rows in sync whenever repository, deployment, or connector evidence changes.</p>
-         </article>
-         
-
-         <article class="integration complete">
-            <div class="integration-header">
-               <h3>data-analytics</h3>
-               <span class="pill">Production report published</span>
-            </div>
-            <h4>Evidence</h4>
-            <ul><li>integrations/status.json tracks service status and verification requirements</li><li>tools/render_status_report.py renders reports/aria_pc_status.html from the status model</li><li>py tools/render_status_report.py --check verifies the report is current</li><li>reports/external_readiness.json captures current external readiness blockers</li><li>reports/deployment_receipt.json records the production Sites URL for the generated status report</li><li>reports/aria_linkage_events.jsonl persists the Actively scope decision and the current Circleback and Close blockers as validated linkage events</li></ul>
-            <h4>Next verification</h4>
-            <p>Keep reports/aria_linkage_events.jsonl current when scope decisions change, blocker evidence changes, or blockers are resolved.</p>
-         </article>
-         
-
-         <article class="integration complete">
-            <div class="integration-header">
-               <h3>notion</h3>
-               <span class="pill">Synced to Notion</span>
-            </div>
-            <h4>Evidence</h4>
-            <ul><li>Notion page created: Aria PC Completion Status</li><li>Notion page URL: https://app.notion.com/p/3a233b66295a8102936ff866e9e0d96f</li><li>Notion page updated with PR #1 through PR #8 CI and merge evidence through 2026-08-08</li><li>Latest Notion section added: Actively Scope Waiver Merge Success 2026-08-08</li></ul>
-            <h4>Next verification</h4>
-            <p>Keep the Notion page current when new integration evidence or connector-blocker status changes.</p>
-         </article>
-         
-
-         <article class="integration complete">
-            <div class="integration-header">
-               <h3>heygen</h3>
-               <span class="pill">Generated in HeyGen</span>
-            </div>
-            <h4>Evidence</h4>
-            <ul><li>HeyGen Video Agent session created: b3523132028c4ba7a4154127a5cfb3b9</li><li>HeyGen video completed: 8e1fec9f71d04826b2f7b4cafe39d570</li><li>Video page URL: https://app.heygen.com/videos/8e1fec9f71d04826b2f7b4cafe39d570</li><li>Generated video URL recorded in reports/heygen_receipt.json</li><li>exports/heygen_status_video_brief.md remains the source handoff script</li></ul>
-            <h4>Next verification</h4>
-            <p>Refresh expiring HeyGen file URLs if the video needs long-term archival outside HeyGen.</p>
-         </article>
-         
-
-         <article class="integration missing">
-            <div class="integration-header">
-               <h3>circleback</h3>
-               <span class="pill">Connector available, no event</span>
-            </div>
-            <h4>Evidence</h4>
-            <ul><li>Circleback connector tools are available in this thread</li><li>2026-08-08 Circleback meeting search for Aria PC from 2026-08-01 to 2026-08-31 returned []</li><li>2026-08-08 Circleback broad meeting search from 2026-07-01 to 2026-08-09 returned []</li><li>2026-08-08 Circleback calendar event search from 2026-08-08 to 2026-08-16 returned []</li><li>2026-08-08 Circleback tag list returned []</li><li>2026-08-08 Circleback action-item search for Aria PC returned INVALID_ARGUMENT</li><li>reports/circleback_receipt.json records the current connector result and remaining artifact gap</li></ul>
-            <h4>Next verification</h4>
-            <p>Create or capture a real Circleback meeting/summary artifact outside this connector result set, then link its meeting ID or summary URL; retry action-item search after connector argument handling is fixed.</p>
-         </article>
-         
-
-         <article class="integration complete">
-            <div class="integration-header">
-               <h3>slack</h3>
-               <span class="pill">Drafted in Slack</span>
-            </div>
-            <h4>Evidence</h4>
-            <ul><li>Slack workspace available: Guts &amp; Gigaflopps (T0BB0MPJE3T)</li><li>Slack draft created in channel alle-in-guts-amp-gigaflopps (C0BAYSFPX98)</li><li>Slack draft id: Dr0BJC668XFU</li><li>Slack channel link: https://gutsgigaflopps.slack.com/archives/C0BAYSFPX98</li><li>reports/slack_receipt.json records the draft evidence</li></ul>
-            <h4>Next verification</h4>
-            <p>Review and send the Slack draft if a public channel post is required beyond draft proof.</p>
-         </article>
-         
-
-         <article class="integration complete">
-            <div class="integration-header">
-               <h3>vercel</h3>
-               <span class="pill">Production deployed via Sites</span>
-            </div>
-            <h4>Evidence</h4>
-            <ul><li>vercel.json rewrites / to the static build index</li><li>reports/aria_pc_status.html is self-contained and generated from integrations/status.json</li><li>package.json and tools/build_static_site.js build the deployable dist/ site without external npm dependencies</li><li>reports/external_readiness.json confirms Vercel CLI is not available in PATH</li><li>reports/external_readiness.json confirms local node/npm are not available in PATH</li><li>reports/deployment_receipt.json records successful production deployment</li><li>Production URL: https://aria-pc-status-20260713.soleyus80.chatgpt.site</li></ul>
-            <h4>Next verification</h4>
-            <p>If Vercel specifically is required, configure Vercel separately; otherwise keep the Sites production URL as deployment evidence.</p>
-         </article>
-         
-
-         <article class="integration complete">
-            <div class="integration-header">
-               <h3>actively</h3>
-               <span class="pill">Waived by user decision</span>
-            </div>
-            <h4>Evidence</h4>
-            <ul><li>Actively tools are available in this thread</li><li>2026-08-08 Actively account lookup for Aria PC returned USER_NOT_LOGGED_IN for asdk_app_6a15fca0d57c8191a204ffdd12fbbef2</li><li>2026-08-08 user decision: Actively should not be connected for this Aria PC completion scope</li><li>Login, if the scope changes later, must happen only through a first-party user-controlled UI such as browser, OS credential prompt, Windows Hello, or sensor-based authentication; no password is collected or stored in this repository</li><li>reports/actively_receipt.json records the non-connection decision</li></ul>
-            <h4>Next verification</h4>
-            <p>Do not connect Actively unless the user explicitly changes this scope decision and performs login through a first-party user-controlled UI.</p>
-         </article>
-         
-
-         <article class="integration missing">
-            <div class="integration-header">
-               <h3>close</h3>
-               <span class="pill">Connector invalid argument</span>
-            </div>
-            <h4>Evidence</h4>
-            <ul><li>Close tools are available in this thread</li><li>2026-08-08 Close natural-language search for Aria PC returned INVALID_ARGUMENT</li><li>2026-08-08 Close structured activity_search for meetings, calls, notes, and emails from 2026-07-01 to 2026-08-09 returned INVALID_ARGUMENT</li><li>reports/close_receipt.json records the connector failure</li></ul>
-            <h4>Next verification</h4>
-            <p>Retry Close after connector argument handling is fixed, or provide an exact Close lead/contact/opportunity ID that can be used with a specific fetch/search path.</p>
-         </article>
-         
-         </div>
-      </section>
-
-      <footer>
-         Source: integrations/status.json. Generated by tools/render_status_report.py.
-      </footer>
+      <div class="hint">
+         Windows Desktop: direkt starten oder als Shortcut sichern.<br>
+         Smartphone: als Home-Screen-Symbol im Browser speichern.
+      </div>
    </main>
+
+   <script>
+      function runLaunch(file) {
+         const ua = navigator.userAgent || '';
+         if (/Windows/i.test(ua)) {
+            window.location.href = file;
+         } else {
+            alert('Windows-optimiert. Auf dem Smartphone als Lesezeichen oder Home-Screen-Symbol speichern.');
+         }
+      }
+   </script>
 </body>
+
 </html>

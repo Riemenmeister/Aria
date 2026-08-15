@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Guts &amp; Gigaflops</title>
+    <style>
+        :root {
+            --bg: #050816;
+            --bg-2: #0a1024;
+            --panel: rgba(10, 18, 35, 0.82);
+            --panel-2: rgba(18, 28, 52, 0.92);
+            --line: rgba(120, 180, 255, 0.28);
+            --cyan: #69e4ff;
+            --blue: #75a7ff;
+            --violet: #9a7bff;
+            --pink: #ff75c8;
+            --text: #ebf5ff;
+            --muted: #a7c0dd;
+            --good: #8ef2bb;
+            --gold: #ffd76b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+            background: radial-gradient(circle at top, rgba(53, 93, 180, .28), transparent 36%), linear-gradient(180deg, var(--bg), var(--bg-2));
+            color: var(--text);
+            font-family: Inter, "Segoe UI", sans-serif;
+        }
+
+        body {
+            padding: 30px 18px 60px;
+        }
+
+        .shell {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .hud {
+            border: 1px solid var(--line);
+            background: var(--panel);
+            border-radius: 18px;
+            box-shadow: 0 0 0 1px rgba(110, 150, 255, .12), 0 24px 60px rgba(3, 6, 20, .45);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hud::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent, rgba(138, 177, 255, .14), transparent);
+            pointer-events: none;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--line);
+            background: rgba(11, 18, 34, 0.86);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .logo {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cyan), var(--blue), var(--violet));
+            box-shadow: 0 0 18px rgba(105, 228, 255, 0.9);
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(142, 242, 187, .24);
+            background: rgba(19, 46, 34, 0.35);
+            color: var(--good);
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .status::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--good);
+            box-shadow: 0 0 12px rgba(142, 242, 187, .7);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.35fr .85fr;
+            gap: 24px;
+            padding: 28px 24px 20px;
+        }
+
+        .eyebrow {
+            color: var(--cyan);
+            text-transform: uppercase;
+            letter-spacing: .14em;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        h1 {
+            margin: 10px 0 16px;
+            font-size: clamp(2.7rem, 5vw, 5.1rem);
+            line-height: .94;
+            letter-spacing: -.06em;
+            background: linear-gradient(135deg, #e8f7ff 0%, #8cc8ff 34%, #d29cff 68%, #ffd76b 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .lead {
+            font-size: 1.07rem;
+            line-height: 1.7;
+            color: var(--muted);
+            max-width: 52ch;
+        }
+
+        .cta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 26px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: .04em;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-1px);
+        }
+
+        .button.primary {
+            background: linear-gradient(135deg, var(--cyan), var(--violet));
+            color: #071522;
+            box-shadow: 0 12px 30px rgba(105, 228, 255, .27);
+        }
+
+        .button.secondary {
+            color: var(--text);
+            border-color: var(--line);
+            background: rgba(18, 28, 52, 0.75);
+        }
+
+        .panel {
+            background: linear-gradient(180deg, rgba(15, 24, 42, 0.96), rgba(10, 16, 28, 0.96));
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 18px;
+            position: relative;
+        }
+
+        .panel h2 {
+            margin: 0 0 14px;
+            font-size: 12px;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .metric {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: rgba(19, 29, 49, 0.76);
+            padding: 12px 12px 10px;
+        }
+
+        .metric b {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+        }
+
+        .metric span {
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .line {
+            margin-top: 18px;
+            padding-top: 12px;
+            border-top: 1px solid var(--line);
+            font-size: 12px;
+            color: var(--muted);
+            letter-spacing: .09em;
+            text-transform: uppercase;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            padding: 0 24px 24px;
+        }
+
+        .mini {
+            border: 1px solid var(--line);
+            background: var(--panel-2);
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .mini h3 {
+            margin: 0 0 14px;
+            font-size: 0.78rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .mini p,
+        .mini li {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .mini ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .footer {
+            padding: 0 24px 24px;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 840px) {
+
+            .hero,
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shell">
+        <div class="hud">
+            <div class="topbar">
+                <div class="brand"><span class="logo"></span> Guts &amp; Gigaflops</div>
+                <div class="status">online / status nominal</div>
+            </div>
+
+            <div class="hero">
+                <div>
+                    <div class="eyebrow">systems / public launch</div>
+                    <h1>Guts &amp; Gigaflops</h1>
+                    <p class="lead">Technische Präsenz, rauer Anspruch und klarer Durchblick. Die Marke steht für
+                        ambitionierte Umsetzung, disziplinierten Einsatz und eine robuste, sichtbare Identität im
+                        digitalen Raum.</p>
+                    <div class="cta-row">
+                        <a class="button primary" href="/reports/guts_gigaflops_source_inventory.json">source
+                            inventory</a>
+                        <a class="button secondary" href="/reports/aria_pc_status.html">aria pc status</a>
+                    </div>
+                </div>
+
+                <aside class="panel">
+                    <h2>live telemetry</h2>
+                    <div class="metrics">
+                        <div class="metric"><b>01</b><span>brand core</span></div>
+                        <div class="metric"><b>04</b><span>build paths</span></div>
+                        <div class="metric"><b>24/7</b><span>system focus</span></div>
+                        <div class="metric"><b>∞</b><span>execution</span></div>
+                    </div>
+                    <div class="line">domain: https://www.guts-gigaflops.de</div>
+                </aside>
+            </div>
+
+            <div class="section-grid">
+                <section class="mini">
+                    <h3>mission</h3>
+                    <p>Die Marke bündelt Gegenwart, technische Stärke und genaues Handeln in einer klaren digitalen
+                        Oberfläche.</p>
+                </section>
+                <section class="mini">
+                    <h3>focus</h3>
+                    <ul>
+                        <li>kommunikative Klarheit</li>
+                        <li>saubere Systematik</li>
+                        <li>sichtbare Produktlogik</li>
+                    </ul>
+                </section>
+                <section class="mini">
+                    <h3>delivery</h3>
+                    <p>Die öffentliche Seite wird als statische, verifizierbare Landingpage bereitgestellt und in den
+                        Aria-PC-Build-Pfad integriert.</p>
+                </section>
+            </div>
+
+            <div class="footer">Guts &amp; Gigaflops // public-ready // cyberpunk stack</div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+{
+    "project": "Guts & Gigaflops",
+    "domain": "https://www.guts-gigaflops.de",
+    "status": "public-ready",
+    "generated_at": "2026-08-15",
+    "source_inventory": [
+        {
+            "name": "landing_page",
+            "path": "reports/guts_gigaflops.html",
+            "type": "html",
+            "purpose": "public-facing landing page"
+        },
+        {
+            "name": "build_route",
+            "path": "tools/build_static_site.js",
+            "type": "script",
+            "purpose": "includes the published site in dist output"
+        },
+        {
+            "name": "web_server_route",
+            "path": "Aria/web_server.py",
+            "type": "python",
+            "purpose": "serves the public report through the Aria PC web server"
+        },
+        {
+            "name": "build_output",
+            "path": "dist/guts-gigaflops/index.html",
+            "type": "html",
+            "purpose": "deployed static output"
+        }
+    ],
+    "routes": [
+        "/guts-gigaflops",
+        "/guts-gigaflops/",
+        "/reports/guts_gigaflops.html",
+        "/reports/guts_gigaflops_source_inventory.json"
+    ]
+}

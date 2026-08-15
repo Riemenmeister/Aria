@@ -26,6 +26,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8787
 DEFAULT_REPORT_PATH = ROOT / "reports" / "aria_pc_status.html"
+DEFAULT_LAUNCHER_PATH = ROOT / "AEGIS" / "Guts&Gigaflopps" / "Aria_Start.html"
 DEFAULT_NAS_ROOT = ROOT
 DEFAULT_DEVICE_CLIENT_CHECKLIST_PATH = ROOT / "reports" / "device_mesh_client_checklist.json"
 
@@ -34,6 +35,10 @@ STATIC_REPORTS = {
    "/reports/external_readiness.json": ROOT / "reports" / "external_readiness.json",
    "/reports/goal_completion_audit.json": DEFAULT_AUDIT_PATH,
    "/reports/deployment_receipt.json": ROOT / "reports" / "deployment_receipt.json",
+   "/reports/guts_gigaflops.html": ROOT / "reports" / "guts_gigaflops.html",
+   "/reports/guts_gigaflops_source_inventory.json": ROOT / "reports" / "guts_gigaflops_source_inventory.json",
+   "/guts-gigaflops": ROOT / "reports" / "guts_gigaflops.html",
+   "/guts-gigaflops/": ROOT / "reports" / "guts_gigaflops.html",
 }
 
 
@@ -48,6 +53,7 @@ class AriaPcServerConfig:
       nas_root: Path = DEFAULT_NAS_ROOT,
       device_mesh_path: Path = DEFAULT_DEVICE_MESH_PATH,
       device_client_checklist_path: Path = DEFAULT_DEVICE_CLIENT_CHECKLIST_PATH,
+      allow_write: bool = True,
    ) -> None:
       self.report_path = report_path
       self.status_path = status_path
@@ -56,6 +62,7 @@ class AriaPcServerConfig:
       self.nas_root = nas_root
       self.device_mesh_path = device_mesh_path
       self.device_client_checklist_path = device_client_checklist_path
+      self.allow_write = allow_write
 
 
 
@@ -185,8 +192,25 @@ def build_health(config: AriaPcServerConfig) -> dict[str, Any]:
 
 def _safe_static_path(request_path: str, config: AriaPcServerConfig) -> Path | None:
    if request_path in {"/", "/index.html"}:
+      if DEFAULT_LAUNCHER_PATH.exists():
+         return DEFAULT_LAUNCHER_PATH
       return config.report_path
    return STATIC_REPORTS.get(request_path)
+
+
+def _resolve_write_target(raw_path: str, config: AriaPcServerConfig) -> Path:
+   candidate = Path(raw_path)
+   if candidate.is_absolute():
+      resolved = candidate.resolve(strict=False)
+   else:
+      resolved = (config.nas_root / candidate).resolve(strict=False)
+
+   root = config.nas_root.resolve(strict=False)
+   try:
+      resolved.relative_to(root)
+   except ValueError:
+      raise ValueError("Path escapes the configured NAS/workspace root")
+   return resolved
 
 
 def make_handler(config: AriaPcServerConfig) -> type[BaseHTTPRequestHandler]:
@@ -198,7 +222,7 @@ def make_handler(config: AriaPcServerConfig) -> type[BaseHTTPRequestHandler]:
          path = unquote(parsed.path)
 
          if path == "/api/health":
-            self._send_json(build_health(config))
+            self._send_json({**build_health(config), "write_access": config.allow_write})
             return
          if path == "/api/nas":
             self._send_json(build_nas_health(config))
@@ -236,6 +260,53 @@ def make_handler(config: AriaPcServerConfig) -> type[BaseHTTPRequestHandler]:
             {"error": "not_found", "path": path},
             status=HTTPStatus.NOT_FOUND,
          )
+
+      def do_POST(self) -> None:
+         parsed = urlparse(self.path)
+         path = unquote(parsed.path)
+         if path != "/api/write":
+            self._send_json({"error": "not_found", "path": path}, status=HTTPStatus.NOT_FOUND)
+            return
+         if not config.allow_write:
+            self._send_json({"error": "write_disabled", "path": path}, status=HTTPStatus.FORBIDDEN)
+            return
+
+         try:
+            length = int(self.headers.get("Content-Length", "0"))
+            raw_body = self.rfile.read(length) if length > 0 else b""
+            payload = json.loads(raw_body.decode("utf-8"))
+         except (ValueError, UnicodeDecodeError):
+            self._send_json({"error": "invalid_json_body"}, status=HTTPStatus.BAD_REQUEST)
+            return
+
+         if not isinstance(payload, dict):
+            self._send_json({"error": "write_payload_must_be_object"}, status=HTTPStatus.BAD_REQUEST)
+            return
+
+         target = payload.get("path")
+         content = payload.get("content")
+         if not isinstance(target, str) or target == "":
+            self._send_json({"error": "missing_write_target"}, status=HTTPStatus.BAD_REQUEST)
+            return
+
+         try:
+            resolved = _resolve_write_target(target, config)
+            resolved.parent.mkdir(parents=True, exist_ok=True)
+            if isinstance(content, (dict, list, int, float, bool)) or content is None:
+               body = json.dumps(content, indent=2, ensure_ascii=False).encode("utf-8")
+               resolved.write_bytes(body)
+               self._send_json({"ok": True, "path": target, "written": True, "bytes": len(body)})
+               return
+            text = str(content)
+            resolved.write_text(text, encoding="utf-8")
+            self._send_json({"ok": True, "path": target, "written": True, "bytes": len(text.encode("utf-8"))})
+            return
+         except ValueError as exc:
+            self._send_json({"error": "path_outside_workspace", "detail": str(exc)}, status=HTTPStatus.BAD_REQUEST)
+            return
+         except OSError as exc:
+            self._send_json({"error": "write_failed", "detail": str(exc)}, status=HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
 
       def log_message(self, format: str, *args: Any) -> None:
          return
@@ -298,6 +369,7 @@ def main(argv: list[str] | None = None) -> int:
    parser.add_argument("--nas-root", type=Path, default=DEFAULT_NAS_ROOT)
    parser.add_argument("--device-mesh", type=Path, default=DEFAULT_DEVICE_MESH_PATH)
    parser.add_argument("--device-client-checklist", type=Path, default=DEFAULT_DEVICE_CLIENT_CHECKLIST_PATH)
+   parser.add_argument("--allow-write", action="store_true", default=True, help="Enable local write access inside the configured workspace root.")
    args = parser.parse_args(argv)
 
    config = AriaPcServerConfig(
@@ -308,6 +380,7 @@ def main(argv: list[str] | None = None) -> int:
       nas_root=args.nas_root,
       device_mesh_path=args.device_mesh,
       device_client_checklist_path=args.device_client_checklist,
+      allow_write=args.allow_write,
    )
    server = build_server(host=args.host, port=args.port, config=config)
    print(f"Serving Aria PC at http://{args.host}:{server.server_port}/")

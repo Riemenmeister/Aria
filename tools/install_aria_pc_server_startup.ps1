@@ -23,7 +23,7 @@ $startupFile = Join-Path $startupDirectory $StartupFileName
 $cmd = @"
 @echo off
 cd /d "$RepoRoot"
-"$python" -B "$serverScript" --host $HostAddress --port $Port --nas-root "$RepoRoot"
+"$python" -B "$serverScript" --host $HostAddress --port $Port --nas-root "$RepoRoot" --allow-write
 "@
 Set-Content -Path $startupFile -Value $cmd -Encoding ASCII
 

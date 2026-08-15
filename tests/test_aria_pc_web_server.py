@@ -178,6 +178,41 @@ class AriaPcWebServerTests(unittest.TestCase):
       self.assertTrue(receipt["startup_file_exists"])
       self.assertIn("denied_by_windows_policy", receipt["scheduled_task_attempt"]["status"])
 
+   def test_lan_probe_script_exists_and_checks_local_ip(self):
+      script = ROOT / "tools" / "aria_pc_server_lan_check.ps1"
+      source = script.read_text(encoding="utf-8") if script.exists() else ""
+
+      self.assertTrue(script.exists())
+      self.assertIn("ipconfig", source)
+      self.assertIn("Invoke-RestMethod", source)
+      self.assertIn("http://", source)
+      self.assertIn("api/health", source)
+
+   def test_write_endpoint_allows_local_full_access_when_enabled(self):
+      config = AriaPcServerConfig(allow_write=True)
+      payload = {"project": "Aria PC", "status": "full_local_write_access_enabled"}
+      target_path = ROOT / "reports" / "local_write_test.json"
+      if target_path.exists():
+         target_path.unlink()
+
+      request = urllib.request.Request(
+         f"{self.base_url}/api/write",
+         data=json.dumps({"path": "reports/local_write_test.json", "content": payload}).encode("utf-8"),
+         headers={"Content-Type": "application/json"},
+         method="POST",
+      )
+      with urllib.request.urlopen(request, timeout=5) as response:
+         body = json.loads(response.read().decode("utf-8"))
+         self.assertEqual(response.status, 200)
+         self.assertEqual(body["ok"], True)
+         self.assertEqual(body["path"], "reports/local_write_test.json")
+
+      self.assertTrue(target_path.exists())
+      written = json.loads(target_path.read_text(encoding="utf-8"))
+      self.assertEqual(written["project"], "Aria PC")
+      self.assertEqual(written["status"], "full_local_write_access_enabled")
+      target_path.unlink()
+
 if __name__ == "__main__":
    unittest.main()
 
