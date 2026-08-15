@@ -10,6 +10,9 @@ REPORT_PATH = ROOT / "reports" / "external_readiness.json"
 
 def run_command(args):
    try:
+      resolved = shutil.which(args[0]) if args else None
+      if resolved:
+          args = [resolved, *args[1:]]
       result = subprocess.run(
          args,
          cwd=ROOT,
