@@ -213,6 +213,64 @@ class AriaPcWebServerTests(unittest.TestCase):
       self.assertEqual(written["status"], "full_local_write_access_enabled")
       target_path.unlink()
 
+   def test_write_endpoint_rejects_paths_outside_whitelist(self):
+      """Verify that POST /api/write rejects paths outside the configured whitelist."""
+      config = AriaPcServerConfig(allow_write=True)
+      server = build_server(port=0, config=config)
+      thread = threading.Thread(target=server.serve_forever, daemon=True)
+      thread.start()
+      host, port = server.server_address
+      base_url = f"http://{host}:{port}"
+
+      try:
+         # Attempt to write to a path outside the whitelist (e.g., Aria/ directory)
+         request = urllib.request.Request(
+            f"{base_url}/api/write",
+            data=json.dumps({"path": "Aria/unauthorized_write.json", "content": {"blocked": True}}).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+         )
+         
+         with self.assertRaises(urllib.error.HTTPError) as caught:
+            urllib.request.urlopen(request, timeout=5)
+
+         self.assertEqual(caught.exception.code, 400)
+         response_body = json.loads(caught.exception.read().decode("utf-8"))
+         self.assertEqual(response_body["error"], "path_outside_whitelist")
+         self.assertIn("whitelist", response_body["detail"].lower())
+      finally:
+         server.shutdown()
+         server.server_close()
+         thread.join(timeout=2)
+
+   def test_write_endpoint_accepts_docs_directory(self):
+      """Verify that POST /api/write accepts paths in the docs/ whitelist directory."""
+      config = AriaPcServerConfig(allow_write=True)
+      target_path = ROOT / "docs" / "write_test.txt"
+      if target_path.exists():
+         target_path.unlink()
+      
+      # Ensure docs directory exists
+      target_path.parent.mkdir(parents=True, exist_ok=True)
+
+      try:
+         request = urllib.request.Request(
+            f"{self.base_url}/api/write",
+            data=json.dumps({"path": "docs/write_test.txt", "content": "whitelisted write"}).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+         )
+         with urllib.request.urlopen(request, timeout=5) as response:
+            body = json.loads(response.read().decode("utf-8"))
+            self.assertEqual(response.status, 200)
+            self.assertEqual(body["ok"], True)
+
+         self.assertTrue(target_path.exists())
+         self.assertEqual(target_path.read_text(), "whitelisted write")
+      finally:
+         if target_path.exists():
+            target_path.unlink()
+
 if __name__ == "__main__":
    unittest.main()
 

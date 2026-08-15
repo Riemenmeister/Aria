@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import datetime, timezone
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -29,6 +30,7 @@ DEFAULT_REPORT_PATH = ROOT / "reports" / "aria_pc_status.html"
 DEFAULT_LAUNCHER_PATH = ROOT / "AEGIS" / "Guts&Gigaflopps" / "Aria_Start.html"
 DEFAULT_NAS_ROOT = ROOT
 DEFAULT_DEVICE_CLIENT_CHECKLIST_PATH = ROOT / "reports" / "device_mesh_client_checklist.json"
+DEFAULT_AUDIT_LOG_PATH = ROOT / "reports" / "aria_pc_audit.jsonl"
 
 STATIC_REPORTS = {
    "/reports/aria_pc_status.html": DEFAULT_REPORT_PATH,
@@ -55,6 +57,7 @@ class AriaPcServerConfig:
       device_client_checklist_path: Path = DEFAULT_DEVICE_CLIENT_CHECKLIST_PATH,
       allow_write: bool = True,
       write_whitelist: list[Path] | None = None,
+      audit_log_path: Path = DEFAULT_AUDIT_LOG_PATH,
    ) -> None:
       self.report_path = report_path
       self.status_path = status_path
@@ -68,6 +71,7 @@ class AriaPcServerConfig:
           (nas_root / "reports").resolve(strict=False),
           (nas_root / "docs").resolve(strict=False),
       ] if write_whitelist is None else write_whitelist
+      self.audit_log_path = audit_log_path
 
 
 
@@ -93,6 +97,24 @@ def classify_nas_access_error(message: str) -> str:
    if any(marker in normalized for marker in NAS_SESSION_ERROR_MARKERS):
       return "fritz_nas_session_or_auth_expired"
    return "nas_access_error"
+
+
+def _log_write_audit(config: AriaPcServerConfig, target_path: str, error: str | None, bytes_written: int | None) -> None:
+   """Log a write operation to the audit trail (JSONL format)."""
+   try:
+      log_entry = {
+          "timestamp": datetime.now(timezone.utc).isoformat(),
+          "operation": "write",
+          "path": target_path,
+          "status": "success" if error is None else "failure",
+          "error": error,
+          "bytes": bytes_written,
+      }
+      config.audit_log_path.parent.mkdir(parents=True, exist_ok=True)
+      with open(config.audit_log_path, "a", encoding="utf-8") as f:
+          f.write(json.dumps(log_entry, default=_json_default) + "\n")
+   except Exception:
+      pass
 
 
 def _path_probe(path: Path) -> dict[str, Any]:
@@ -306,16 +328,22 @@ def make_handler(config: AriaPcServerConfig) -> type[BaseHTTPRequestHandler]:
             if isinstance(content, (dict, list, int, float, bool)) or content is None:
                body = json.dumps(content, indent=2, ensure_ascii=False).encode("utf-8")
                resolved.write_bytes(body)
-               self._send_json({"ok": True, "path": target, "written": True, "bytes": len(body)})
+               bytes_written = len(body)
+               _log_write_audit(config, target, None, bytes_written)
+               self._send_json({"ok": True, "path": target, "written": True, "bytes": bytes_written})
                return
             text = str(content)
             resolved.write_text(text, encoding="utf-8")
-            self._send_json({"ok": True, "path": target, "written": True, "bytes": len(text.encode("utf-8"))})
+            bytes_written = len(text.encode("utf-8"))
+            _log_write_audit(config, target, None, bytes_written)
+            self._send_json({"ok": True, "path": target, "written": True, "bytes": bytes_written})
             return
          except ValueError as exc:
-            self._send_json({"error": "path_outside_workspace", "detail": str(exc)}, status=HTTPStatus.BAD_REQUEST)
+            _log_write_audit(config, target, "path_outside_whitelist", None)
+            self._send_json({"error": "path_outside_whitelist", "detail": str(exc)}, status=HTTPStatus.BAD_REQUEST)
             return
          except OSError as exc:
+            _log_write_audit(config, target, "write_failed", None)
             self._send_json({"error": "write_failed", "detail": str(exc)}, status=HTTPStatus.INTERNAL_SERVER_ERROR)
             return
 
@@ -392,6 +420,7 @@ def main(argv: list[str] | None = None) -> int:
       device_mesh_path=args.device_mesh,
       device_client_checklist_path=args.device_client_checklist,
       allow_write=args.allow_write,
+      audit_log_path=args.nas_root / "reports" / "aria_pc_audit.jsonl",
    )
    server = build_server(host=args.host, port=args.port, config=config)
    print(f"Serving Aria PC at http://{args.host}:{server.server_port}/")

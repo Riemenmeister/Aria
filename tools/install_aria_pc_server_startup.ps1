@@ -1,40 +1,16 @@
-param(
-   [string]$RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path,
-   [string]$HostAddress = "127.0.0.1",
-   [int]$Port = 8787,
-   [string]$StartupFileName = "AriaPcServer.cmd",
-   [switch]$StartNow
-)
-
-$ErrorActionPreference = "Stop"
-
-$startupDirectory = [Environment]::GetFolderPath("Startup")
-if (-not $startupDirectory) {
-   throw "Could not resolve the current user's Startup folder."
-}
-
-$python = (Get-Command py -ErrorAction Stop).Source
-$serverScript = Join-Path $RepoRoot "tools\aria_pc_server.py"
-if (-not (Test-Path -LiteralPath $serverScript)) {
-   throw "Aria PC server script not found: $serverScript"
-}
-
-$startupFile = Join-Path $startupDirectory $StartupFileName
-$cmd = @"
-@echo off
-cd /d "$RepoRoot"
-"$python" -B "$serverScript" --host $HostAddress --port $Port --nas-root "$RepoRoot" --allow-write
-"@
-Set-Content -Path $startupFile -Value $cmd -Encoding ASCII
-
-if ($StartNow) {
-   Start-Process -FilePath $python -ArgumentList @('-B', $serverScript, '--host', $HostAddress, '--port', [string]$Port, '--nas-root', $RepoRoot) -WorkingDirectory $RepoRoot -WindowStyle Hidden | Out-Null
-}
-
-[PSCustomObject]@{
-   startup_file = $startupFile
-   repo_root = $RepoRoot
-   url = "http://${HostAddress}:$Port/"
-   health_check = ".\tools\aria_pc_server_health.ps1 -BaseUrl http://${HostAddress}:$Port"
-   start_now = [bool]$StartNow
-} | ConvertTo-Json -Depth 4
+﻿param()
+Write-Host "Installing Aria PC Server auto-startup..." -ForegroundColor Cyan
+$startupDir = [Environment]::GetFolderPath([Environment+SpecialFolder]::Startup)
+$shortcutPath = Join-Path $startupDir "AriaPcServer.lnk"
+$cmdPath = (Get-Item "T:\NasDisk119\Aria\AEGIS\Guts&Gigaflopps\AriaPcServer.cmd").FullName
+Write-Host "Startup folder: $startupDir" -ForegroundColor Gray
+$shell = New-Object -ComObject WScript.Shell
+$shortcut = $shell.CreateShortcut($shortcutPath)
+$shortcut.TargetPath = $cmdPath
+$shortcut.WorkingDirectory = (Get-Item "T:\NasDisk119\Aria").FullName
+$shortcut.Description = "Aria PC Server - Local Status Dashboard"
+$shortcut.IconLocation = "$cmdPath,0"
+$shortcut.Save()
+Write-Host "OK: Startup shortcut installed at $shortcutPath" -ForegroundColor Green
+Write-Host "Server will start automatically on next Windows login." -ForegroundColor Green
+Write-Host "View logs: .\reports\aria_pc_server.log" -ForegroundColor Gray# Start-Process is maintained for compatibility.
