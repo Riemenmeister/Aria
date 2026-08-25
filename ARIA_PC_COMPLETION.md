@@ -26,7 +26,7 @@ Evidence:
 - Root `.gitignore` ignores the private NAS contents by default.
 - Local commits are tracked on `master` through the latest local checkpoint.
 - GitHub Actions workflow exists at `.github/workflows/ci.yml` and runs compile, unittest, status-report freshness, export freshness, static-site build, and editable-install dry-run checks on Windows.
-- `reports/external_readiness.json` currently records `git_remote`, `github_auth`, `vercel_cli`, `node`, and `npm` as local blockers; GitHub CLI itself is now installed but not authenticated.
+- `reports/external_readiness.json` now records `vercel_cli` as the remaining local blocker; GitHub CLI, Git remote, GitHub auth, Node.js, and npm are available and verified.
 
 Remaining external proof needed:
 
@@ -72,7 +72,7 @@ Evidence:
 - Source commit deployed: `a4ffd0c5aa8f9c35e208d74f6f37cb114aff37f4`.
 - `vercel.json` rewrites `/` to the static build index and uses `dist` as output directory.
 - `package.json` and `tools/build_static_site.js` produce the deployable Sites build.
-- `reports/external_readiness.json` still confirms that Vercel CLI and local node/npm are not available in PATH.
+- `reports/external_readiness.json` confirms that GitHub auth, Node.js, and npm are now available; only Vercel CLI remains unverified in PATH.
 
 Remaining external proof needed:
 
